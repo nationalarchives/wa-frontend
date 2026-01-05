@@ -1,0 +1,20 @@
+name: Run Python tests
+
+runs:
+  using: "composite"
+  steps:
+    - name: Start app container
+      run: docker compose up --detach --wait --wait-timeout 300 app || docker compose logs app
+      shell: bash
+    - name: Collect statics assets
+      run: docker compose exec app poetry run python manage.py collectstatic --no-input --clear
+      shell: bash
+    - name: Run tests
+      run: docker compose exec app poetry run pytest --ds=config.settings.test
+      shell: bash
+    - name: Check Django checks
+      run: docker compose exec app poetry run python manage.py check
+      shell: bash
+    - name: Check for missing migrations
+      run: docker compose exec app poetry run python manage.py makemigrations --check --noinput
+      shell: bash

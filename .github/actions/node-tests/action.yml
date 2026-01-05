@@ -1,0 +1,11 @@
+name: Run Node tests
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Node dependencies
+      run: npm install
+      shell: bash
+    - name: Audit Node dependencies
+      run: npm audit
+      shell: bash
