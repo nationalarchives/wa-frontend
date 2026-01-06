@@ -1,26 +1,29 @@
-from django.test import TestCase
+import unittest
+
+from app import create_app
 
 
-class MainTestCase(TestCase):
+class MainBlueprintTestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app("config.Test").test_client()
+        self.domain = "http://localhost"
+
     def test_healthcheck_live(self):
-        rv = self.client.get("/healthcheck/live/")
-        self.assertContains(rv, "ok", status_code=200)
+        rv = self.app.get("/healthcheck/live/")
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn("ok", rv.text)
 
     def test_trailing_slash_redirects(self):
-        rv = self.client.get("/healthcheck/live")
-        self.assertEqual(rv.status_code, 301)
-        self.assertEqual(rv.url, "/healthcheck/live/")
+        rv = self.app.get("/healthcheck/live")
+        self.assertEqual(rv.status_code, 308)
+        self.assertEqual(rv.location, f"{self.domain}/healthcheck/live/")
 
     def test_homepage(self):
-        rv = self.client.get("/")
-        self.assertContains(
-            rv,
-            '<h1 class="tna-heading-xl">TNA Django application</h1>',
-            status_code=200,
-        )
+        rv = self.app.get("/")
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn('<h1 class="tna-heading-xl">TNA Flask application</h1>', rv.text)
 
     def test_cookies(self):
-        rv = self.client.get("/cookies/")
-        self.assertContains(
-            rv, '<h1 class="tna-heading-xl">Cookies</h1>', status_code=200
-        )
+        rv = self.app.get("/cookies/")
+        self.assertEqual(rv.status_code, 200)
+        self.assertIn('<h1 class="tna-heading-xl">Cookies</h1>', rv.text)

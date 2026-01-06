@@ -1,14 +1,10 @@
-{%- extends 'layouts/base.html' -%}
+{%- extends "layouts/base.html" -%}
 
-{%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
-{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/cookie-banner/macro.html' import tnaCookieBanner -%}
 {%- from 'components/footer/macro.html' import tnaFooter -%}
-{%- from 'components/global-header/macro.html' import tnaGlobalHeader -%}
 {%- from 'components/header/macro.html' import tnaHeader -%}
-{%- from 'components/phase-banner/macro.html' import tnaPhaseBanner -%}
 
-{%- set theme = request.COOKIES['theme'] or 'system' -%}
+{%- set theme = request.cookies.get('theme') or 'system' -%}
 {%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
 {%- set htmlAttributes = {
 'data-ga4id': app_config.GA4_ID or '',
@@ -18,47 +14,47 @@
 {% block headIcons %}
   <link rel="shortcut icon"
         sizes="16x16 32x32 48x48"
-        href="{{ static('assets/images/favicon.ico') }}"
+        href="{{ url_for('static', filename='assets/images/favicon.ico') }}"
         type="image/x-icon">
   <link rel="mask-icon"
-        href="{{ static('assets/images/mask-icon.svg') }}"
+        href="{{ url_for('static', filename='assets/images/mask-icon.svg') }}"
         color="{{ themeColor | default('#010101') }}">
   <link rel="apple-touch-icon"
         sizes="48x48"
-        href="{{ static('assets/images/icon-48x48.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-48x48.png') }}">
   <link rel="apple-touch-icon"
         sizes="72x72"
-        href="{{ static('assets/images/icon-72x72.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-72x72.png') }}">
   <link rel="apple-touch-icon"
         sizes="96x96"
-        href="{{ static('assets/images/icon-96x96.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-96x96.png') }}">
   <link rel="apple-touch-icon"
         sizes="120x120"
-        href="{{ static('assets/images/icon-120x120.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-120x120.png') }}">
   <link rel="apple-touch-icon"
         sizes="144x144"
-        href="{{ static('assets/images/icon-144x144.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-144x144.png') }}">
   <link rel="apple-touch-icon"
         sizes="152x152"
-        href="{{ static('assets/images/icon-152x152.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-152x152.png') }}">
   <link rel="apple-touch-icon"
         sizes="167x167"
-        href="{{ static('assets/images/icon-167x167.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-167x167.png') }}">
   <link rel="apple-touch-icon"
         sizes="180x180"
-        href="{{ static('assets/images/icon-180x180.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-180x180.png') }}">
   <link rel="apple-touch-icon"
         sizes="192x192"
-        href="{{ static('assets/images/icon-192x192.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-192x192.png') }}">
   <link rel="apple-touch-icon"
         sizes="256x256"
-        href="{{ static('assets/images/icon-256x256.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-256x256.png') }}">
   <link rel="apple-touch-icon"
         sizes="512x512"
-        href="{{ static('assets/images/icon-512x512.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-512x512.png') }}">
   <link rel="apple-touch-icon"
         sizes="1024x1024"
-        href="{{ static('assets/images/icon-1024x1024.png') }}">
+        href="{{ url_for('static', filename='assets/images/icon-1024x1024.png') }}">
 {% endblock headIcons %}
 
 {% block head %}
@@ -88,24 +84,24 @@
         href="https://use.typekit.net/kaq6qqh.css"
         media="screen,print">
   <link rel="stylesheet"
-        href="{{ static('main.css', v=app_config.BUILD_VERSION) }}"
+        href="{{ url_for('static', filename='main.css', v=app_config.BUILD_VERSION) }}"
         media="screen,print">
   <link rel="stylesheet"
-        href="{{ static('font-awesome.css', v=app_config.BUILD_VERSION) }}"
+        href="{{ url_for('static', filename='font-awesome.css', v=app_config.BUILD_VERSION) }}"
         media="screen,print">
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap"
         media="screen,print">
   <link rel="stylesheet"
-        href="{{ static('ie.css', v=app_config.BUILD_VERSION) }}"
+        href="{{ url_for('static', filename='ie.css', v=app_config.BUILD_VERSION) }}"
         media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
 {% endblock stylesheets %}
 
 {% block cookies %}
-  {% if 'cookie_preferences_set' not in request.COOKIES or not request.COOKIES['cookie_preferences_set'] %}
+  {% if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %}
     {{ tnaCookieBanner({
     'serviceName': 'The National Archives',
-    'cookiesUrl': url_for('main:cookies') ,
+    'cookiesUrl': url_for('main.cookies') ,
     'cookiesDomain': app_config.COOKIE_DOMAIN
     }) | indent(6) }}
   {% endif %}
@@ -114,24 +110,11 @@
 {% block header %}
   {{ tnaHeader({
   'logo': {
-  'href': url_for('main:index') ,
+  'href': url_for('main.index') ,
   'title': 'Service home page'
   }
   }) | indent(6) }}
 {% endblock header %}
-
-{% block beforeContent %}
-  {% if breadcrumbs and breadcrumbs | length > 0 %}
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        {{ tnaBreadcrumbs({
-        'items': breadcrumbs,
-        'structuredData': True
-        }) }}
-      </div>
-    </div>
-  {% endif %}
-{% endblock beforeContent %}
 
 {% block footer %}
   {{ tnaFooter({
@@ -142,8 +125,8 @@
 {% endblock footer %}
 
 {% block bodyEnd %}
-  <script src="{{ static('main.min.js', v=app_config.BUILD_VERSION) }}"
+  <script src="{{ url_for('static', filename='main.min.js', v=app_config.BUILD_VERSION) }}"
           defer></script>
-  <script src="{{ static('analytics.min.js', v=app_config.BUILD_VERSION) }}"
+  <script src="{{ url_for('static', filename='analytics.min.js', v=app_config.BUILD_VERSION) }}"
           defer></script>
 {% endblock bodyEnd %}

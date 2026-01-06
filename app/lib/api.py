@@ -14,9 +14,9 @@ class JSONAPIClient:
     api_url = ""
     params = {}
 
-    def __init__(self, api_url, params={}):
+    def __init__(self, api_url, params=None):
         self.api_url = api_url
-        self.params = params
+        self.params = {} if params is None else params
 
     def add_parameter(self, key, value):
         self.params[key] = value
