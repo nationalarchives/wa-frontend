@@ -13,6 +13,7 @@ requests = "^2.31.0"
 flask-caching = "^2.1.0"
 tna-frontend-jinja = "0.30.0"
 flask-talisman = "^1.1.0"
+pydash = "^8.0.3"
 redis = "^6.0.0"
 
 [tool.poetry.group.dev]

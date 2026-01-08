@@ -7,7 +7,10 @@ from app.lib.context_processor import (
 )
 from app.lib.navigation import build_footer_navigation, build_header_navigation
 from app.lib.talisman import talisman
-from app.lib.template_filters import slugify
+from app.lib.template_filters import (
+    slugify,
+    tna_html,
+)
 from app.wagtail.api import navigation_settings
 from flask import Flask
 from jinja2 import ChoiceLoader, PackageLoader
@@ -82,6 +85,7 @@ def create_app(config_class):
     )
 
     app.add_template_filter(slugify)
+    app.add_template_filter(tna_html)
 
     @app.context_processor
     def context_processor():
@@ -110,8 +114,10 @@ def create_app(config_class):
 
     from .healthcheck import bp as healthcheck_bp
     from .main import bp as site_bp
+    from .wagtail import bp as wagtail_bp
 
     app.register_blueprint(site_bp)
     app.register_blueprint(healthcheck_bp, url_prefix="/healthcheck")
+    app.register_blueprint(wagtail_bp)
 
     return app
