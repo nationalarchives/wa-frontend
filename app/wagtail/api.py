@@ -1,3 +1,5 @@
+from urllib.parse import unquote
+
 from app.lib.api import JSONAPIClient
 from app.lib.cache import cache
 from flask import current_app
@@ -15,6 +17,37 @@ def wagtail_request_handler(uri, params={}):
     client.add_parameters(params)
     data = client.get(uri)
     return data
+
+
+def page_details(page_id, params={}):
+    uri = f"pages/{page_id}/"
+    params = params | {
+        "include_aliases": "",
+    }
+    return wagtail_request_handler(uri, params)
+
+
+def page_details_by_uri(page_uri, params={}):
+    uri = "pages/find/"
+    params = params | {
+        "html_path": page_uri,
+        "include_aliases": "",
+    }
+    return wagtail_request_handler(uri, params)
+
+
+def page_preview(content_type, token, params={}):
+    uri = "page_preview/1/"
+    params = params | {"content_type": content_type, "token": token}
+    return wagtail_request_handler(uri, params)
+
+
+def redirect_by_uri(path, params={}):
+    uri = "redirects/find/"
+    params = params | {
+        "html_path": unquote(path),
+    }
+    return wagtail_request_handler(uri, params)
 
 
 def navigation_settings():
