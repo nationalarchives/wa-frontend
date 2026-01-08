@@ -61,7 +61,10 @@ class Production(Features):
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "False"))
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 
-    CACHE_TYPE: str = os.environ.get("CACHE_TYPE", "RedisCache" if os.environ.get("CACHE_REDIS_URL") else "FileSystemCache")
+    CACHE_TYPE: str = os.environ.get(
+        "CACHE_TYPE",
+        "RedisCache" if os.environ.get("CACHE_REDIS_URL") else "FileSystemCache",
+    )
     CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "900"))
     CACHE_IGNORE_ERRORS: bool = True
     CACHE_DIR: str = os.environ.get("CACHE_DIR", "/tmp")

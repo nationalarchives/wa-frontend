@@ -13,9 +13,9 @@ def build_navigation_items(nav_data):
         {'text': 'External Link', 'href': 'https://...', 'external': True}
     ]
 
-    Note: External links (is_page=False) include 'external': True flag, which triggers 
+    Note: External links (is_page=False) include 'external': True flag, which triggers
     rel="noreferrer nofollow noopener" in templates.
-    
+
     Some components don't support this attribute.
 
     Args:
@@ -35,7 +35,7 @@ def build_navigation_items(nav_data):
                 "text": link_value.get("text", ""),
                 "href": link_value.get("url", "#"),
             }
-            # Add external flag for external links (TNA macro renders rel attribute) 
+            # Add external flag for external links (TNA macro renders rel attribute)
             if not link_value.get("is_page"):
                 link_dict["external"] = True
             items.append(link_dict)
