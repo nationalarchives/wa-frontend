@@ -33,6 +33,9 @@ class Production(Features):
 
     DEBUG: bool = False
 
+    WAGTAIL_API_URL: str = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
+    WAGTAIL_SITE_HOSTNAME: str = os.environ.get("WAGTAIL_SITE_HOSTNAME", "")
+
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
 
     CSP_IMG_SRC: list[str] = os.environ.get("CSP_IMG_SRC", "'self'").split(",")
@@ -58,7 +61,7 @@ class Production(Features):
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "False"))
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 
-    CACHE_TYPE: str = "FileSystemCache"
+    CACHE_TYPE: str = os.environ.get("CACHE_TYPE", "RedisCache" if os.environ.get("CACHE_REDIS_URL") else "FileSystemCache")
     CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "900"))
     CACHE_IGNORE_ERRORS: bool = True
     CACHE_DIR: str = os.environ.get("CACHE_DIR", "/tmp")
