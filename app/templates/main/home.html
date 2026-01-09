@@ -27,14 +27,16 @@
 
   <section class="tna-section tna-container">
     <div class="tna-column tna-column--full">
-      <h2>{{ page_data.featured_links_heading }}</h2>
-      <ul>
-        {% for link in page_data.featured_links %}
-          <li>
-            <a href="{{ link.value.url }}">{{ link.value.text }}</a>
-          </li>
-        {% endfor %}
-      </ul>
+      {% for section in page_data.featured_links_sections %}
+        <h2>{{ section.heading }}</h2>
+        <ul>
+          {% for link in section.links %}
+            <li>
+              <a href="{{ link.value.url }}">{{ link.value.text }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
     </div>
   </section>
 {% endblock content %}
