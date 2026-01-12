@@ -1,23 +1,42 @@
-import re
+from bs4 import BeautifulSoup
 
 
 def b_to_strong(html):
-    html = html.replace("<b>", "<strong>")
-    html = html.replace("<b ", "<strong ")
-    html = html.replace("</b>", "</strong>")
-    return html
+    """Convert all <b> tags to <strong> tags."""
+    soup = BeautifulSoup(html, "html.parser")
+    for tag in soup.find_all("b"):
+        tag.name = "strong"
+    return str(soup)
 
 
 def lists_to_tna_lists(html):
-    html = html.replace("<ul>", '<ul class="tna-ul">')
-    # html = re.sub(r'<ul( class="([^"]*)")?>', r'<ul class="tna-ul \g<2>">', html)
-    html = html.replace("<ol>", '<ol class="tna-ol">')
-    return html
+    """Add TNA CSS classes to <ul> and <ol> tags."""
+    soup = BeautifulSoup(html, "html.parser")
+
+    for ul in soup.find_all("ul"):
+        if "class" in ul.attrs:
+            ul["class"].append("tna-ul")
+        else:
+            ul["class"] = ["tna-ul"]
+
+    for ol in soup.find_all("ol"):
+        if "class" in ol.attrs:
+            ol["class"].append("tna-ol")
+        else:
+            ol["class"] = ["tna-ol"]
+
+    return str(soup)
 
 
 def strip_wagtail_attributes(html):
-    html = re.sub(r' data-block-key="([^"]*)"', "", html)
-    return html
+    """Remove Wagtail-specific data attributes."""
+    soup = BeautifulSoup(html, "html.parser")
+
+    # Remove data-block-key attribute from all tags
+    for tag in soup.find_all(attrs={"data-block-key": True}):
+        del tag["data-block-key"]
+
+    return str(soup)
 
 
 def replace_line_breaks(html):
@@ -28,18 +47,24 @@ def replace_line_breaks(html):
 
 
 def add_rel_to_external_links(html):
-    html = re.sub(
-        r'<a href="(?!https:\/\/(www|discovery|webarchive)\.nationalarchives\.gov\.uk\/)',
-        '<a rel="noreferrer nofollow noopener" href="',
-        html,
-    )
-    return html
+    """Add rel attributes to external links (not nationalarchives.gov.uk domains)."""
+    soup = BeautifulSoup(html, "html.parser")
 
+    internal_domains = [
+        "www.nationalarchives.gov.uk",
+        "discovery.nationalarchives.gov.uk",
+        "webarchive.nationalarchives.gov.uk",
+    ]
 
-def replace_footnotes(html):
-    html = re.sub(
-        r'<footnote[^>]*id="([\w\d\-]+)"[^>]*>\s*\[([\w\d]+)\]\s*</footnote>',
-        r'<sup data-footnoteid="\g<1>"><a href="#footnote-\g<1>" class="tna-footnote" title="Footnote \g<2>">[\g<2>]</a></sup>',
-        html,
-    )
-    return html
+    for link in soup.find_all("a", href=True):
+        href = link["href"]
+
+        # Check if it's an external link
+        is_external = href.startswith("http") and not any(
+            domain in href for domain in internal_domains
+        )
+
+        if is_external:
+            link["rel"] = "noreferrer nofollow noopener"
+
+    return str(soup)
