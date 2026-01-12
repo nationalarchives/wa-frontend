@@ -6,7 +6,7 @@ from .pages.section_index_page import section_index_page
 
 page_type_templates = {
     "ukgwa.UKGWAHomePage": home_page,
-    "ukgwa.SectionIndexPage": section_index_page
+    "ukgwa.SectionIndexPage": section_index_page,
 }
 
 
