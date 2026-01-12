@@ -58,6 +58,15 @@ def navigation_settings():
     Falls back to direct API call if cache is unavailable.
     """
     cache_key = "navigation_settings:v1"
+    ttl = current_app.config.get("NAVIGATION_CACHE_TTL", None)
+
+    if ttl is None:
+        current_app.logger.debug("Navigation caching disabled")
+        try:
+            return wagtail_request_handler("globals/navigation/")
+        except Exception as e:
+            current_app.logger.error(f"Failed to get navigation settings: {e}")
+            return {}
 
     # Try to get from cache
     cached_data = cache.get(cache_key)
@@ -70,7 +79,6 @@ def navigation_settings():
         navigation_data = wagtail_request_handler("globals/navigation/")
 
         # Cache the result with custom TTL
-        ttl = current_app.config.get("NAVIGATION_CACHE_TTL", 900)
         cache.set(cache_key, navigation_data, timeout=ttl)
         current_app.logger.debug(f"Navigation settings cached for {ttl} seconds")
 
