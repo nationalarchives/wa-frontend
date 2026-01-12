@@ -89,7 +89,6 @@ def create_app(config_class):
 
     @app.context_processor
     def context_processor():
-        # Fetch navigation settings (from API or cache)
         nav_settings = navigation_settings()
 
         # Build navigation structures for templates
