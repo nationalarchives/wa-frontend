@@ -113,8 +113,8 @@
   'href': '/' ,
   'title': 'UK Government Web Archive'
   },
-  'navigation': header_navigation.primary if header_navigation.primary else None,
-  'topNavigation': header_navigation.secondary if header_navigation.secondary else None,
+  'navigation': header_navigation.primary or None,
+  'topNavigation': header_navigation.secondary or None,
   }) | indent(6) }}
 {% endblock header %}
 
@@ -122,8 +122,8 @@
   {{ tnaFooter({
   'themeSelector': True,
   'currentTheme': theme,
-  'navigation': footer_navigation.columns if footer_navigation.columns else None,
-  'legal': footer_navigation.legal if footer_navigation.legal else None,
+  'navigation': footer_navigation.columns or None,
+  'legal': footer_navigation.legal or None,
   'classes': 'tna-!--margin-top-l'
   }) | indent(4) }}
 {% endblock footer %}
