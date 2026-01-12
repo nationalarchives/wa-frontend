@@ -1,6 +1,6 @@
 import re
 
-from .content_parser import (  # add_abbreviations,; replace_footnotes,
+from .content_parser import (
     add_rel_to_external_links,
     b_to_strong,
     lists_to_tna_lists,
