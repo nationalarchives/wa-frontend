@@ -31,6 +31,8 @@
   {%- endif -%}
 {%- endset %}
 {{ tnaHero({
+  'title': page_data.title,
+  'text': page_data.intro | tna_html | safe,
   'imageSrc': page_data.hero_image.jpeg.full_url,
   'imageAlt': page_data.hero_image.description,
   'imageWidth': page_data.hero_image.jpeg.width,
@@ -59,7 +61,7 @@
     }
   ],
   'narrow': True
-}, page_data.hero_image.uuid, page_data.hero_image.title) }}
+}) }}
 {%- else %}
 <div class="tna-section tna-background-accent-light">
   {{ top_content }}
