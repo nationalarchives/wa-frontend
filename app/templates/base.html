@@ -94,19 +94,11 @@
     {% endif %}
 {% endblock cookies %}
 {% block header %}
-    {{ tnaHeader({
-        'logo': {
-        'href': url_for('main.index') ,
-    'title': 'Service home page'
-    }
-    }) | indent(6) }}
+    {% include "components/skip_link.html" %}
+    {% include "components/header.html" %}
 {% endblock header %}
 {% block footer %}
-    {{ tnaFooter({
-        'themeSelector': True,
-        'currentTheme': theme,
-        'classes': 'tna-!--margin-top-l'
-        }) | indent(4) }}
+    {% include "components/footer.html" %}
 {% endblock footer %}
 {% block bodyEnd %}
     <script src="{{ url_for('static', filename='main.min.js', v=app_config.BUILD_VERSION) }}"

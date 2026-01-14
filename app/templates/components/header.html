@@ -24,7 +24,7 @@
              aria-label="Primary"
              aria-hidden="false">
             {% if navigation.primary %}
-                {{ primary_nav(navigation.primary, current_page=page, ancestor_ids=ancestor_ids) }}
+                {{ primary_nav(navigation.primary, current_page=page|default(None), ancestor_ids=ancestor_ids|default([])) }}
             {% endif %}
             {% if navigation.secondary %}{{ secondary_nav(navigation.secondary) }}{% endif %}
         </nav>
