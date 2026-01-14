@@ -1,0 +1,4 @@
+services:
+  app:
+    environment:
+      - WAGTAIL_SITE_HOSTNAME=localhost:65500
