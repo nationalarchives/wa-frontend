@@ -42,6 +42,11 @@ def page_preview(content_type, token, params={}):
     return wagtail_request_handler(uri, params)
 
 
+def image(image_uuid, params={}):
+    uri = f"images/{image_uuid}/"
+    return wagtail_request_handler(uri, params)
+
+
 def redirect_by_uri(path, params={}):
     uri = "redirects/find/"
     params = params | {
