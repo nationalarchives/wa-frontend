@@ -4,6 +4,7 @@
 {%- from 'components/cookie-banner/macro.html' import tnaCookieBanner -%}
 {%- from 'components/footer/macro.html' import tnaFooter -%}
 {%- from 'components/header/macro.html' import tnaHeader -%}
+{%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
 {%- set theme = request.cookies.get('theme') or 'system' -%}
 {%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
@@ -117,6 +118,10 @@
   'navigation': header_navigation.primary or None,
   'topNavigation': header_navigation.secondary or None,
   }) | indent(6) }}
+
+  <div class="tna-background-accent-light">
+    {{ global_alert_banners(page_data.global_alert, page_data.mourning_notice) }}
+  </div>
 {% endblock header %}
 
 {% block beforeContent %}

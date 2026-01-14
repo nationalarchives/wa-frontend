@@ -1,0 +1,29 @@
+{%- from 'components/button/macro.html' import tnaButton -%}
+
+{% macro global_alert_banners(global_alert, mourning_notice, padding_top, padding_bottom) %}
+  {%- if global_alert %}
+  <div class="etna-global-alert-wrapper tna-container{%- if padding_top %} tna-!--padding-top-{{ padding_top }}{%- endif %}{%- if padding_bottom %} tna-!--padding-bottom-{{ padding_bottom }}{%- endif %} tna-!--hide-on-print">
+    <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
+      <section class="etna-global-alert{%- if global_alert.theme == 'red' %} etna-global-alert--high{% elif global_alert.theme == 'yellow' %} etna-global-alert--medium{% elif global_alert.theme == 'green' %} etna-global-alert--low{%- endif %} tna-background-base">
+        <h2 class="tna-heading-s etna-global-alert__heading">{{ global_alert.title }}</h2>
+        <div class="etna-global-alert__body">
+          {{ global_alert.message | tna_html | safe }}
+        </div>
+        <div class="tna-button-group tna-!--no-margin-top">
+          {{ tnaButton({
+            'text': 'Dismiss notification',
+            'small': True,
+            'plain': True,
+            'buttonElement': True,
+            'classes': 'etna-global-alert__dismiss tna-!--margin-top-xs tna-!--no-margin-top-large tna-!--no-margin-top-medium',
+            'attributes': {
+              'hidden': '',
+              'value': global_alert.uid
+            }
+          }) }}
+        </div>
+      </section>
+      {%- endif %}
+    </div>
+  </div>
+{% endmacro %}
