@@ -1,0 +1,113 @@
+@use '../config' as *;
+
+.accordion {
+    $root: &;
+    border-top: 1px solid var(--theme-border);
+
+    &:last-child {
+        border-bottom: 1px solid var(--theme-border);
+    }
+
+    &[open] {
+        #{$root}__icon {
+            transform: rotate(180deg);
+        }
+
+        #{$root}__toggle-text {
+            &::before {
+                content: attr(data-hide);
+            }
+        }
+
+        #{$root}__content {
+            display: block;
+        }
+    }
+
+    &__container {
+        max-width: 100%;
+    }
+
+    &__summary {
+        display: block;
+        padding: $grid-s 0;
+        transition: color 0.2s ease;
+
+        // Remove default arrow in webkit browsers
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            #{$root}__toggle {
+                color: var(--theme-link-hover);
+            }
+
+            #{$root}__icon {
+                border-color: var(--theme-link-hover);
+            }
+        }
+    }
+
+    &__header {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: inherit;
+        font-weight: $weight--bold;
+    }
+
+    &__title {
+        margin: 0;
+        padding: 0;
+        color: var(--theme-text-default);
+    }
+
+    &__toggle {
+        display: flex;
+        align-items: center;
+        gap: $grid-xxs;
+        color: var(--theme-text-default);
+        font-family: $font--secondary;
+        font-weight: $weight--normal;
+        transition: color 0.2s ease;
+    }
+
+    &__toggle-text {
+        // Hide the actual text content, show via ::before
+        font-size: 0;
+
+        &::before {
+            content: attr(data-show);
+            font-size: map-get($large-font-sizes, supporting);
+        }
+    }
+
+    &__icon {
+        width: 24px;
+        height: 24px;
+        padding: 2px;
+        border: 1px solid currentColor;
+        border-radius: 50%;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+        fill: currentColor;
+    }
+
+    &__content {
+        padding-bottom: $grid-s;
+        padding-top: $grid-s;
+        margin-top: 0;
+
+        > *:first-child {
+            margin-top: 0;
+        }
+
+        > *:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

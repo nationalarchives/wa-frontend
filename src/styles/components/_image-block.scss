@@ -1,0 +1,19 @@
+@use '../config' as *;
+
+.image-block {
+    &__image {
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    &__caption {
+        @include font-size(supporting) {
+            margin: 0;
+            padding: $grid-xs 0;
+            color: var(--theme-text-meta);
+        }
+    }
+}

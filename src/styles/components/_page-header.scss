@@ -1,0 +1,37 @@
+@use '../config' as *;
+
+.page-header {
+    background-color: var(--theme-primary);
+    color: var(--theme-text-invert);
+    margin-bottom: $grid-m;
+
+    @include media-query(medium) {
+        margin-bottom: $grid-l;
+    }
+
+    // Flush variant - no bottom margin (e.g. when followed by featured search)
+    &--flush {
+        margin-bottom: 0;
+    }
+
+    &__container {
+        padding-top: $grid-l;
+        padding-bottom: $grid-m;
+
+        @include media-query(medium) {
+            padding-top: $grid-xl;
+            padding-bottom: $grid-l;
+        }
+    }
+
+    &__title {
+        font-weight: $weight--bold;
+        margin: 0;
+        max-width: 800px;
+    }
+
+    &__introduction {
+        margin: $grid-s 0 0;
+        max-width: 48rem;
+    }
+}

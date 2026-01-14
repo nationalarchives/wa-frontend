@@ -1,0 +1,14 @@
+@use '../config' as *;
+
+.skip-link {
+    position: absolute;
+    top: -200px;
+    left: 0;
+    color: var(--theme-text-default);
+    background-color: var(--theme-primary-background);
+    padding: $grid;
+
+    &:focus {
+        top: 0;
+    }
+}

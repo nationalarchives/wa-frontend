@@ -1,0 +1,69 @@
+@use '../config' as *;
+
+.hero {
+    $root: &;
+    background-color: var(--theme-primary);
+    color: var(--theme-text-invert);
+    border-bottom: 1px solid var(--theme-border);
+
+    @include media-query(medium) {
+        @include z-index(base);
+        position: relative;
+        border-bottom: 0;
+    }
+
+    &__background {
+        overflow: hidden;
+
+        @include media-query(medium) {
+            @include z-index(under);
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    &__background-image {
+        width: 100%;
+        height: auto;
+        display: block;
+
+        @include media-query(medium) {
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    &__container {
+        padding-top: $grid-m;
+        padding-bottom: $grid-m;
+
+        @include media-query(medium) {
+            @include z-index(base);
+            position: relative;
+            padding-top: 200px;
+            padding-bottom: $grid-m;
+        }
+
+        @include media-query(large) {
+            padding-top: $grid-xl;
+            padding-bottom: $grid-l;
+        }
+    }
+
+    &__content {
+        @include media-query(medium) {
+            padding: $grid-m;
+            background-color: var(--theme-primary-background);
+            color: var(--theme-text-default);
+        }
+    }
+
+    &__title {
+        margin: 0 0 $grid-s;
+        max-width: 500px;
+    }
+
+    &__strapline {
+        margin: 0;
+    }
+}

@@ -1,0 +1,48 @@
+@use '../config' as *;
+
+.related-content {
+    background-color: var(--theme-secondary);
+
+    &--recently-archived {
+        background-color: var(--theme-primary-background);
+    }
+
+    &__container {
+        padding: $grid-m 0 $grid-l;
+
+        @include media-query(large) {
+            padding: $grid-l 0 $grid-xl;
+        }
+    }
+
+    &__heading {
+        margin-bottom: $grid-s;
+
+        &--tight {
+            margin-bottom: $grid-xxs;
+        }
+    }
+
+    &__intro {
+        margin-top: 0;
+        margin-bottom: $grid-m;
+        color: var(--theme-text-80);
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: $grid-s;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        @include media-query(medium) {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        @include media-query(large) {
+            gap: $grid-m;
+        }
+    }
+}

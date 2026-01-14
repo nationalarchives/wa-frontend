@@ -1,0 +1,53 @@
+@use '../config' as *;
+
+.stat-block {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $grid-m;
+    padding: $grid-m 0;
+
+    &__item {
+        display: flex;
+        flex-direction: column;
+        padding: $grid-s;
+        border-left: 4px solid var(--theme-primary);
+        background-color: var(--theme-secondary-background);
+    }
+
+    &__number {
+        font-family: $font--primary;
+        font-size: map-get($large-font-sizes, heading-one);
+        font-weight: $weight--bold;
+        line-height: 1.1;
+        color: var(--theme-primary);
+
+        @media #{nth(nth($breakpoints, 2), 2)} {
+            font-size: map-get($medium-font-sizes, heading-one);
+        }
+
+        @media #{nth(nth($breakpoints, 1), 2)} {
+            font-size: map-get($small-font-sizes, heading-one);
+        }
+    }
+
+    &__sentence {
+        margin: $grid-xs 0 0;
+        font-family: $font--secondary;
+        font-size: map-get($large-font-sizes, body);
+        color: var(--theme-text-default);
+    }
+
+    &__link {
+        margin-top: auto;
+        padding-top: $grid-xs;
+        font-size: map-get($large-font-sizes, supporting);
+        color: var(--theme-link);
+        text-decoration: underline;
+
+        &:hover,
+        &:focus {
+            color: var(--theme-link-hover);
+        }
+    }
+}
+

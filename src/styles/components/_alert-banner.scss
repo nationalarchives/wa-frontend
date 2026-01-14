@@ -1,0 +1,46 @@
+@use '../config' as *;
+
+.alert-banner {
+    &__alert {
+        display: flex;
+        align-items: center;
+        gap: $grid-xs;
+        padding-top: $grid-xs;
+        padding-bottom: $grid-xs;
+    }
+
+    &__icon {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .icon {
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    &__message {
+        margin: 0;
+        font-size: map-get($small-font-sizes, 'supporting');
+    }
+
+    // Warning modifier (default)
+    &--warning {
+        background-color: var(--theme-primary);
+        color: var(--theme-text-invert);
+    }
+
+    // Info modifier
+    &--info {
+        background-color: var(--color-cream);
+        color: var(--theme-text-default);
+    }
+
+    // Positive modifier
+    &--positive {
+        background-color: var(--color-forest);
+        color: var(--theme-text-invert);
+    }
+}

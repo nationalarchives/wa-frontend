@@ -1,0 +1,135 @@
+@use '../config' as *;
+
+.featured-search {
+    $root: &;
+    background-color: var(--theme-primary);
+    padding: $grid-m 0;
+
+    &__content {
+        color: var(--theme-text-invert);
+    }
+
+    &__label {
+        flex-basis: 100%;
+        color: var(--theme-text-invert);
+        margin: 0 0 $grid-xxs;
+    }
+
+    &__options {
+        flex-basis: 100%;
+        display: flex;
+        gap: $grid-m;
+        margin-bottom: $grid-xxs;
+        border: 0;
+        padding: 0;
+    }
+
+    &__radio {
+        display: flex;
+        align-items: center;
+        gap: $grid-xs;
+        color: var(--theme-text-invert);
+        font-family: $font--secondary;
+        cursor: pointer;
+
+        input[type='radio'] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--theme-text-invert);
+            border-radius: 50%;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+
+            &:checked::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 8px;
+                height: 8px;
+                background: var(--theme-text-invert);
+                border-radius: 50%;
+            }
+
+            &:focus {
+                outline: $focus-width solid $focus-bg;
+            }
+        }
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: $grid-xs;
+
+        @include media-query(medium) {
+            flex-direction: row;
+        }
+    }
+
+    &__input {
+        max-width: 800px;
+        padding: $grid-xs $grid-s;
+        border: 2px solid transparent;
+        font-family: $font--secondary;
+
+        @include media-query(medium) {
+            flex-basis: 75%;
+        }
+
+        &:focus {
+            outline: $focus-width solid $focus-bg;
+            border-color: $focus-color;
+        }
+    }
+
+    &__input-container {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: $grid-xs;
+    }
+
+    &__help {
+        color: var(--theme-text-invert);
+        margin: $grid-xs 0 0;
+    }
+
+    // Secondary theme variant
+    &--secondary {
+        margin-bottom: $grid-m;
+        background-color: var(--theme-secondary);
+
+        @include media-query(medium) {
+            margin-bottom: $grid-l;
+        }
+
+        #{$root}__content {
+            color: var(--theme-text-default);
+        }
+
+        #{$root}__label {
+            color: var(--theme-primary);
+        }
+
+        #{$root}__radio {
+            color: var(--theme-text-default);
+
+            input[type='radio'] {
+                border-color: var(--theme-text-default);
+
+                &:checked::after {
+                    background: var(--theme-text-default);
+                }
+            }
+        }
+
+        #{$root}__help {
+            color: var(--theme-text-default);
+        }
+    }
+}

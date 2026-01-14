@@ -1,0 +1,156 @@
+@use '../config' as *;
+@use 'sass:color';
+
+.card {
+    $root: &;
+    list-style: none;
+    padding: $grid-s;
+    border-top: 5px solid var(--theme-primary);
+    background-color: var(--theme-primary-background);
+
+    &--clickable {
+        position: relative;
+
+        #{$root}__link {
+            &::before {
+                content: '';
+                position: absolute;
+                display: block;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                top: 0;
+            }
+
+            // Apply focus styles to the ::before pseudo-element to wrap the entire card
+            &:focus::before,
+            &:focus-visible::before {
+                outline: 3px #000 solid;
+                outline-offset: 3px;
+                box-shadow: 0 0 0 3px #fc0;
+            }
+        }
+    }
+
+    // Override TNA frontend focus styles - !important needed to override vendor CSS
+    // Focus indicator is moved to ::before pseudo-element to wrap entire card
+    &#{$root}--clickable #{$root}__link {
+        &:focus,
+        &:focus-visible {
+            /* stylelint-disable-next-line declaration-no-important */
+            outline: 0 !important;
+            /* stylelint-disable-next-line declaration-no-important */
+            box-shadow: none !important;
+        }
+    }
+
+    // Listing variant - simpler style for index pages
+    &--listing {
+        padding: $grid-s 0;
+        border-top: 1px solid var(--theme-border);
+        background-color: transparent;
+
+        #{$root}__link {
+            text-decoration: none;
+
+            &:hover,
+            &:focus {
+                #{$root}__heading {
+                    text-decoration-thickness: 3px;
+                }
+            }
+        }
+
+        #{$root}__heading {
+            font-family: $font--primary;
+            font-weight: $weight--normal;
+            text-underline-offset: 3px;
+            margin-bottom: 0;
+        }
+
+        #{$root}__summary {
+            margin-top: $grid-xxs;
+        }
+    }
+
+    // Override TNA frontend focus styles - !important needed to override vendor CSS
+    // Focus indicator is moved to ::before pseudo-element to wrap entire card
+    &#{$root}--clickable #{$root}__link {
+        &:focus,
+        &:focus-visible {
+            /* stylelint-disable-next-line declaration-no-important */
+            outline: 0 !important;
+            /* stylelint-disable-next-line declaration-no-important */
+            box-shadow: none !important;
+        }
+    }
+
+    // Listing variant - simpler style for index pages
+    &--listing {
+        padding: $grid-s 0;
+        border-top: 1px solid var(--theme-border);
+        background-color: transparent;
+
+        #{$root}__link {
+            text-decoration: none;
+
+            &:hover,
+            &:focus {
+                #{$root}__heading {
+                    text-decoration-thickness: 3px;
+                }
+            }
+        }
+
+        #{$root}__heading {
+            font-family: $font--primary;
+            font-weight: $weight--normal;
+            text-underline-offset: 3px;
+            margin-bottom: 0;
+        }
+
+        #{$root}__summary {
+            margin-top: $grid-xxs;
+        }
+    }
+
+    &--recently-archived {
+        border-left: 1px solid var(--theme-border);
+        border-right: 1px solid var(--theme-border);
+        border-bottom: 1px solid var(--theme-border);
+    }
+
+    &__link {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    &__category {
+        display: block;
+        font-family: $font--tertiary;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--theme-primary);
+        margin-bottom: $grid-xs;
+    }
+
+    &__heading {
+        font-family: $font--tertiary;
+        font-weight: $weight--medium;
+        margin-bottom: $grid-xs;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        color: var(--theme-link);
+    }
+
+    &__summary {
+        margin: 0;
+        color: var(--theme-text-meta);
+    }
+
+    &__source {
+        margin: $grid-xs 0 0;
+        color: var(--theme-text-meta);
+        font-family: $font--tertiary;
+    }
+}

@@ -1,0 +1,16 @@
+@use '../config' as *;
+
+.icon {
+    &--back-arrow,
+    &--search {
+        height: 24px;
+        width: 24px;
+    }
+
+    &--logo {
+        .footer & {
+            width: 85px;
+            height: 85px;
+        }
+    }
+}

@@ -1,0 +1,46 @@
+@use '../config' as *;
+
+.call-to-action {
+    $root: &;
+    background-color: var(--theme-secondary);
+    border-left: 4px solid var(--theme-primary);
+
+    &--sidebar {
+        border-left: 0;
+        border-top: 4px solid var(--theme-primary);
+
+        #{$root}__content {
+            padding: $grid-s $grid-m $grid-l;
+        }
+    }
+
+    &__content {
+        padding: $grid-s $grid-m $grid-m;
+
+        @include media-query(large) {
+            padding: $grid-m $grid-l $grid-l;
+        }
+    }
+
+    &__title {
+        margin: 0 0 $grid-xs;
+    }
+
+    &__summary {
+        margin-bottom: $grid-s;
+        color: var(--theme-text-meta);
+        p {
+            margin: 0;
+        }
+    }
+
+    &__image {
+        margin-bottom: $grid-s;
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+}
