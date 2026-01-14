@@ -189,7 +189,10 @@ def page(path):
 
 def try_external_redirect(path):
     """
-    Renders a video details page.
+    Attempts to fetch and apply a redirect for the given path.
+
+    Returns a redirect response if found, or a 404/502 error page if not found or
+    failed.
     """
 
     # Normalise the path to ensure it starts with a slash and does not end with one
