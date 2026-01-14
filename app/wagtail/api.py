@@ -52,7 +52,7 @@ def redirect_by_uri(path, params={}):
 
 def _get_navigation_cache_key():
     """Generate cache key for navigation settings."""
-    site = current_app.config.get('WAGTAIL_SITE_HOSTNAME', 'default')
+    site = current_app.config.get("WAGTAIL_SITE_HOSTNAME", "default")
     return f"navigation_settings:{site}:v1"
 
 
