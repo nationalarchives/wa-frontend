@@ -1,0 +1,20 @@
+{# Pagination component #}
+{% macro pagination(paginator_page) %}
+{% if paginator_page.pages > 1 %}
+    <nav aria-label="Pagination">
+        <ul class="pagination">
+            {% if paginator_page.has_prev %}
+                <li><a href="?page={{ paginator_page.prev_num }}" class="previous">Previous <span class="sr-only">page</span></a></li>
+            {% endif %}
+
+            <li class="current" aria-current="page">
+                {{ paginator_page.page }}/{{ paginator_page.pages }}
+            </li>
+
+            {% if paginator_page.has_next %}
+                <li><a href="?page={{ paginator_page.next_num }}" class="next">Next <span class="sr-only">page</span></a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endmacro %}

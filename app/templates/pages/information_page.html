@@ -1,0 +1,41 @@
+{% extends "layouts/base_page.html" %}
+{% from "components/page_header.html" import page_header %}
+{% from "components/navigation.html" import sidebar %}
+{% from "components/related_content.html" import related_content %}
+{% from "components/breadcrumbs.html" import breadcrumbs %}
+
+{% block content %}
+    <div class="page">
+        {% block breadcrumbs %}
+            {% if ancestors %}
+                {{ breadcrumbs(ancestors, page.title) }}
+            {% endif %}
+        {% endblock %}
+
+        {{ page_header(page.title) }}
+
+        <div class="u-layout">
+            <div class="u-layout__primary-col col-span-full md:col-span-8">
+                {% if page.introduction %}
+                    <div class="introduction">
+                        <p>{{ page.introduction }}</p>
+                    </div>
+                {% endif %}
+
+                <div class="sf">
+                    {{ page.body|safe }}
+                </div>
+            </div>
+
+            <div class="u-layout__secondary-col col-span-full md:col-span-4">
+                {% if siblings %}
+                    {{ sidebar(siblings, parent, page, ancestor_ids, sidebar_cta) }}
+                {% endif %}
+            </div>
+        </div>
+
+        {% if page.related_pages %}
+            {{ related_content(page.related_pages) }}
+        {% endif %}
+    </div>
+{% endblock %}
