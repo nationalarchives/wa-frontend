@@ -1,16 +1,12 @@
 {# Listing item component - displays a single item in a listing page. #}
 {% macro listing_item(item, url='') %}
-<li class="listing-item">
-    <article>
-        {% if item.category %}
-            <span class="listing-item__category supporting">{{ item.category }}</span>
-        {% endif %}
-        <a class="listing-item__link" href="{{ url or item.url or '#' }}">
-            <h2 class="listing-item__title heading heading--three">{{ item.listing_title or item.title }}</h2>
-        </a>
-        {% if item.posted_date %}
-            <p class="listing-item__date supporting">Posted {{ item.posted_date }}</p>
-        {% endif %}
-    </article>
-</li>
+    <li class="listing-item">
+        <article>
+            {% if item.category %}<span class="listing-item__category supporting">{{ item.category }}</span>{% endif %}
+            <a class="listing-item__link" href="{{ url or item.url or '#' }}">
+                <h2 class="listing-item__title heading heading--three">{{ item.listing_title or item.title }}</h2>
+            </a>
+            {% if item.posted_date %}<p class="listing-item__date supporting">Posted {{ item.posted_date }}</p>{% endif %}
+        </article>
+    </li>
 {% endmacro %}

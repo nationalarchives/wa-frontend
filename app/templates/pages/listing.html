@@ -4,30 +4,21 @@
 {% from "components/pagination.html" import pagination %}
 {% from "components/navigation.html" import sidebar %}
 {% from "components/related_content.html" import related_content %}
-
 {% block content %}
     {{ page_header(page.title, page.introduction, True, "flush") }}
-
     <div class="listing-page u-layout">
         <div class="listing-page__main col-span-full md:col-span-8">
             {% if subpages %}
                 <ul class="listing-page__list">
-                    {% for subpage in subpages.items %}
-                        {{ listing_item(subpage, subpage.url) }}
-                    {% endfor %}
+                    {% for subpage in subpages.items %}{{ listing_item(subpage, subpage.url) }}{% endfor %}
                 </ul>
-
                 {{ pagination(subpages) }}
             {% endif %}
         </div>
-
         <aside class="listing-page__sidebar col-span-full md:col-span-4">
-            {% if siblings %}
-                {{ sidebar(siblings, parent, page, ancestor_ids, sidebar_cta) }}
-            {% endif %}
+            {% if siblings %}{{ sidebar(siblings, parent, page, ancestor_ids, sidebar_cta) }}{% endif %}
         </aside>
     </div>
-
     {% if related_pages %}
         {{ related_content(related_pages, heading="Also of interest", modifier="archive-highlights") }}
     {% endif %}

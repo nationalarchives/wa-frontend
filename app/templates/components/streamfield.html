@@ -1,137 +1,112 @@
 {% from "components/icon.html" import icon %}
 {% from "components/responsive_image.html" import responsive_image %}
-
 {# Streamfield content blocks - macros for rendering rich content #}
-
 {# Accordion Block #}
 {% macro accordion(accordions) %}
-<div class="accordion__container">
-    {% for accordion in accordions %}
-        <details class="accordion">
-            <summary class="accordion__summary">
-                <h2 class="accordion__header">
-                    <span class="accordion__title heading heading--four">
-                        {{ accordion.title }}
-                    </span>
-                    <span class="accordion__toggle" aria-hidden="true">
-                        <span class="accordion__toggle-text" data-show="Show" data-hide="Hide">Show</span>
-                        {{ icon("accordion-arrow", classname="accordion__icon") }}
-                    </span>
-                </h2>
-            </summary>
-            <div class="accordion__content">
-                {{ accordion.content|safe }}
-            </div>
-        </details>
-    {% endfor %}
-</div>
+    <div class="accordion__container">
+        {% for accordion in accordions %}
+            <details class="accordion">
+                <summary class="accordion__summary">
+                    <h2 class="accordion__header">
+                        <span class="accordion__title heading heading--four">{{ accordion.title }}</span>
+                        <span class="accordion__toggle" aria-hidden="true">
+                            <span class="accordion__toggle-text" data-show="Show" data-hide="Hide">Show</span>
+                            {{ icon("accordion-arrow", classname="accordion__icon") }}
+                        </span>
+                    </h2>
+                </summary>
+                <div class="accordion__content">{{ accordion.content|safe }}</div>
+            </details>
+        {% endfor %}
+    </div>
 {% endmacro %}
-
 {# Blockquote/Quote Block #}
 {% macro blockquote(quote, attribution='', link_url='', link_text='') %}
-<blockquote class="blockquote">
-    <p class="blockquote__quote">{{ quote }}</p>
-    {% if attribution %}<p class="blockquote__attribution">{{ attribution }}</p>{% endif %}
-    {% if link_url and link_text %}
-        <p class="blockquote__link rich-text"><a href="{{ link_url }}">{{ link_text }}</a></p>
-    {% endif %}
-</blockquote>
+    <blockquote class="blockquote">
+        <p class="blockquote__quote">{{ quote }}</p>
+        {% if attribution %}<p class="blockquote__attribution">{{ attribution }}</p>{% endif %}
+        {% if link_url and link_text %}
+            <p class="blockquote__link rich-text">
+                <a href="{{ link_url }}">{{ link_text }}</a>
+            </p>
+        {% endif %}
+    </blockquote>
 {% endmacro %}
-
 {# Image Block #}
 {% macro image_block(image_url, image_url_2x='', alt_text='', caption='', webp_url='', webp_url_2x='') %}
-<div class="image-block">
-    <div class="image-block__image">
-        {{ responsive_image(image_url, image_url_2x, webp_url, webp_url_2x, alt_text) }}
+    <div class="image-block">
+        <div class="image-block__image">{{ responsive_image(image_url, image_url_2x, webp_url, webp_url_2x, alt_text) }}</div>
+        {% if caption %}<p class="image-block__caption">{{ caption }}</p>{% endif %}
     </div>
-    {% if caption %}
-        <p class="image-block__caption">{{ caption }}</p>
-    {% endif %}
-</div>
 {% endmacro %}
-
 {# Video Embed Block #}
 {% macro video_embed(video_url, title='Video', provider='youtube') %}
-<div class="video-embed">
-    <div class="video-embed__container">
-        {% if provider == 'youtube' %}
-            <lite-youtube videoid="{{ video_url }}" playlabel="{{ title }}"></lite-youtube>
-        {% else %}
-            <iframe 
-                src="{{ video_url }}" 
-                title="{{ title }}"
-                class="video-embed__iframe"
-                allowfullscreen
-            ></iframe>
-        {% endif %}
+    <div class="video-embed">
+        <div class="video-embed__container">
+            {% if provider == 'youtube' %}
+                <lite-youtube videoid="{{ video_url }}" playlabel="{{ title }}"></lite-youtube>
+            {% else %}
+                <iframe src="{{ video_url }}"
+                        title="{{ title }}"
+                        class="video-embed__iframe"
+                        allowfullscreen></iframe>
+            {% endif %}
+        </div>
     </div>
-</div>
 {% endmacro %}
-
 {# Table Block #}
 {% macro table(headers, rows, caption='', first_col_header=False, first_row_header=True) %}
-<div class="table-container">
-    <table class="table" data-table-hint>
-        {% if caption %}
-            <caption>{{ caption }}</caption>
-        {% endif %}
-        {% if first_row_header and headers %}
-            <thead>
-                <tr>
-                    {% for header in headers %}
-                        <th scope="col">{{ header }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-        {% endif %}
-        <tbody>
-            {% for row in rows %}
-                <tr>
-                    {% for cell in row %}
-                        {% if first_col_header and loop.index == 1 %}
-                            <th scope="row">{{ cell }}</th>
-                        {% else %}
-                            <td>{{ cell }}</td>
-                        {% endif %}
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+    <div class="table-container">
+        <table class="table" data-table-hint>
+            {% if caption %}<caption>{{ caption }}</caption>{% endif %}
+            {% if first_row_header and headers %}
+                <thead>
+                    <tr>
+                        {% for header in headers %}<th scope="col">{{ header }}</th>{% endfor %}
+                    </tr>
+                </thead>
+            {% endif %}
+            <tbody>
+                {% for row in rows %}
+                    <tr>
+                        {% for cell in row %}
+                            {% if first_col_header and loop.index == 1 %}
+                                <th scope="row">{{ cell }}</th>
+                            {% else %}
+                                <td>{{ cell }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endmacro %}
-
 {# Stat Block #}
 {% macro stat_block(stat, label, description='') %}
-<div class="stat-block">
-    <p class="stat-block__stat">{{ stat }}</p>
-    <p class="stat-block__label">{{ label }}</p>
-    {% if description %}
-        <p class="stat-block__description">{{ description }}</p>
-    {% endif %}
-</div>
+    <div class="stat-block">
+        <p class="stat-block__stat">{{ stat }}</p>
+        <p class="stat-block__label">{{ label }}</p>
+        {% if description %}<p class="stat-block__description">{{ description }}</p>{% endif %}
+    </div>
 {% endmacro %}
-
 {# Rich Text Block - simple wrapper for HTML content #}
 {% macro richtext(content) %}
-<div class="rich-text">
-    {{ content|safe }}
-</div>
+    <div class="rich-text">{{ content|safe }}</div>
 {% endmacro %}
-
 {# Heading Block #}
 {% macro heading(text, level=2, size='two') %}
-{% if level == 1 %}
-    <h1 class="heading heading--{{ size }}">{{ text }}</h1>
-{% elif level == 2 %}
-    <h2 class="heading heading--{{ size }}">{{ text }}</h2>
-{% elif level == 3 %}
-    <h3 class="heading heading--{{ size }}">{{ text }}</h3>
-{% elif level == 4 %}
-    <h4 class="heading heading--{{ size }}">{{ text }}</h4>
-{% elif level == 5 %}
-    <h5 class="heading heading--{{ size }}">{{ text }}</h5>
-{% else %}
-    <h6 class="heading heading--{{ size }}">{{ text }}</h6>
-{% endif %}
+    {% if level == 1 %}
+        <h1 class="heading heading--{{ size }}">{{ text }}</h1>
+    {% elif level == 2 %}
+        <h2 class="heading heading--{{ size }}">{{ text }}</h2>
+    {% elif level == 3 %}
+        <h3 class="heading heading--{{ size }}">{{ text }}</h3>
+    {% elif level == 4 %}
+        <h4 class="heading heading--{{ size }}">{{ text }}</h4>
+    {% elif level == 5 %}
+        <h5 class="heading heading--{{ size }}">{{ text }}</h5>
+    {% else %}
+        <h6 class="heading heading--{{ size }}">{{ text }}</h6>
+    {% endif %}
 {% endmacro %}

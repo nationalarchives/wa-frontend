@@ -1,5 +1,4 @@
 {% extends "layouts/base.html" %}
-
 {% block meta_tags %}
     {% if config.GOOGLE_TAG_MANAGER_ID %}
         {# Google Tag Manager #}
@@ -7,32 +6,41 @@
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
                                                       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','{{ config.GOOGLE_TAG_MANAGER_ID|e }}');</script>
+        })(window,document,'script','dataLayer','{{ config.GOOGLE_TAG_MANAGER_ID|e }}');
+        </script>
     {% endif %}
-
     {# Favicons #}
-    <link rel="shortcut icon" sizes="16x16 32x32 48x48" 
-          href="{{ url_for('static', filename='assets/images/favicon.ico') }}" type="image/x-icon" />
+    <link rel="shortcut icon"
+          sizes="16x16 32x32 48x48"
+          href="{{ url_for('static', filename='assets/images/favicon.ico') }}"
+          type="image/x-icon" />
     <link rel="mask-icon"
           href="{{ url_for('static', filename='assets/images/mask-icon.svg') }}"
           color="#010101">
-    <link rel="apple-touch-icon" sizes="48x48"
+    <link rel="apple-touch-icon"
+          sizes="48x48"
           href="{{ url_for('static', filename='assets/images/icon-48x48.png') }}">
-    <link rel="apple-touch-icon" sizes="72x72"
+    <link rel="apple-touch-icon"
+          sizes="72x72"
           href="{{ url_for('static', filename='assets/images/icon-72x72.png') }}">
-    <link rel="apple-touch-icon" sizes="96x96"
+    <link rel="apple-touch-icon"
+          sizes="96x96"
           href="{{ url_for('static', filename='assets/images/icon-96x96.png') }}">
-    <link rel="apple-touch-icon" sizes="120x120"
+    <link rel="apple-touch-icon"
+          sizes="120x120"
           href="{{ url_for('static', filename='assets/images/icon-120x120.png') }}">
-    <link rel="apple-touch-icon" sizes="144x144"
+    <link rel="apple-touch-icon"
+          sizes="144x144"
           href="{{ url_for('static', filename='assets/images/icon-144x144.png') }}">
-    <link rel="apple-touch-icon" sizes="152x152"
+    <link rel="apple-touch-icon"
+          sizes="152x152"
           href="{{ url_for('static', filename='assets/images/icon-152x152.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180"
+    <link rel="apple-touch-icon"
+          sizes="180x180"
           href="{{ url_for('static', filename='assets/images/icon-180x180.png') }}">
-    <link rel="apple-touch-icon" sizes="192x192"
+    <link rel="apple-touch-icon"
+          sizes="192x192"
           href="{{ url_for('static', filename='assets/images/icon-192x192.png') }}">
-
     {% if page %}
         {# Twitter Card #}
         <meta name="twitter:card" content="summary" />
@@ -40,42 +48,31 @@
             <meta name="twitter:site" content="@{{ social_media.twitter_handle }}" />
         {% endif %}
         <meta name="twitter:title" content="{{ page.title }}" />
-        {% if page.description %}
-            <meta name="twitter:description" content="{{ page.description }}">
-        {% endif %}
-        {% if page.social_image %}
-            <meta name="twitter:image" content="{{ page.social_image }}">
-        {% endif %}
-
+        {% if page.description %}<meta name="twitter:description" content="{{ page.description }}">{% endif %}
+        {% if page.social_image %}<meta name="twitter:image" content="{{ page.social_image }}">{% endif %}
         {# Open Graph #}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="{{ request.url }}" />
         <meta property="og:title" content="{{ page.title }}" />
-        {% if page.description %}
-            <meta property="og:description" content="{{ page.description }}" />
-        {% endif %}
-        {% if config.SITE_NAME %}
-            <meta property="og:site_name" content="{{ config.SITE_NAME }}" />
-        {% endif %}
-        {% if page.social_image %}
-            <meta property="og:image" content="{{ page.social_image }}" />
-        {% endif %}
-
+        {% if page.description %}<meta property="og:description" content="{{ page.description }}" />{% endif %}
+        {% if config.SITE_NAME %}<meta property="og:site_name" content="{{ config.SITE_NAME }}" />{% endif %}
+        {% if page.social_image %}<meta property="og:image" content="{{ page.social_image }}" />{% endif %}
         {# Facebook App ID #}
         {% if social_media.facebook_app_id %}
             <meta property="fb:app_id" content="{{ social_media.facebook_app_id }}" />
         {% endif %}
     {% endif %}
 {% endblock meta_tags %}
-
 {% block body_top %}
     {% if config.GOOGLE_TAG_MANAGER_ID %}
         {# Google Tag Manager (noscript) #}
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ config.GOOGLE_TAG_MANAGER_ID|urlencode }}"
-                          height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        height="0"
+        width="0"
+        style="display:none;
+               visibility:hidden"></iframe></noscript>
     {% endif %}
 {% endblock body_top %}
-
 {% block header %}
     {% include "components/skip_link.html" %}
     {% include "components/header.html" %}
@@ -83,7 +80,6 @@
         {% include "components/alert_banner.html" %}
     {% endif %}
 {% endblock header %}
-
 {% block footer %}
     {% include "components/footer.html" %}
 {% endblock footer %}

@@ -1,18 +1,17 @@
 {# Responsive Image component with WebP support #}
 {% macro responsive_image(src_1x, src_2x='', src_1x_webp='', src_2x_webp='', alt='', class_name='', img_class='', lazy_loading=True, width='', height='', focal_point='') %}
-<picture class="{{ class_name }}">
-    {% if src_1x_webp %}
-    <source srcset="{{ src_1x_webp }} 1x{% if src_2x_webp %}, {{ src_2x_webp }} 2x{% endif %}" type="image/webp">
-    {% endif %}
-    <img
-        class="{{ img_class }}"
-        src="{{ src_1x }}"
-        {% if src_2x %}srcset="{{ src_1x }} 1x, {{ src_2x }} 2x"{% endif %}
-        {% if width %}width="{{ width }}"{% endif %}
-        {% if height %}height="{{ height }}"{% endif %}
-        alt="{{ alt }}"
-        {% if lazy_loading %}loading="lazy"{% endif %}
-        {% if focal_point %}style="object-position: {{ focal_point }}"{% endif %}
-    />
-</picture>
+    <picture class="{{ class_name }}">
+        {% if src_1x_webp %}
+            <source srcset="{{ src_1x_webp }} 1x{% if src_2x_webp %}, {{ src_2x_webp }} 2x{% endif %}"
+                    type="image/webp">
+        {% endif %}
+        <img class="{{ img_class }}"
+             src="{{ src_1x }}"
+             {% if src_2x %}srcset="{{ src_1x }} 1x, {{ src_2x }} 2x"{% endif %}
+             {% if width %}width="{{ width }}"{% endif %}
+             {% if height %}height="{{ height }}"{% endif %}
+             alt="{{ alt }}"
+             {% if lazy_loading %}loading="lazy"{% endif %}
+             {% if focal_point %}style="object-position: {{ focal_point }}"{% endif %} />
+    </picture>
 {% endmacro %}

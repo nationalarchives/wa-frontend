@@ -3,14 +3,11 @@
 {% from "components/featured_search.html" import featured_search %}
 {% from "components/card.html" import card %}
 {% from "components/pagination.html" import pagination %}
-
 {% block content %}
     {{ page_header(page.title, page.introduction, True, "flush") }}
-
     {% if page.search_heading %}
         {{ featured_search(page.search_heading, page.search_button_text, page.search_help_text, "secondary") }}
     {% endif %}
-
     {% if subpages %}
         <section class="card-listing">
             <ul class="card-listing__grid u-layout">
@@ -21,7 +18,6 @@
                 {% endfor %}
             </ul>
         </section>
-
         {{ pagination(subpages) }}
     {% endif %}
 {% endblock %}

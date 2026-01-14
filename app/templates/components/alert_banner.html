@@ -1,8 +1,8 @@
 {% from "components/icon.html" import icon %}
-
 {% if alert_banner %}
     {% set modifier = alert_banner.modifier|default("warning") %}
-    <div class="alert-banner alert-banner--{{ modifier }}" {% if modifier == "warning" %}role="alert"{% else %}role="status" aria-live="polite"{% endif %}>
+    <div class="alert-banner alert-banner--{{ modifier }}"
+         {% if modifier == "warning" %}role="alert"{% else %}role="status" aria-live="polite"{% endif %}>
         <div class="alert-banner__container u-layout">
             <div class="alert-banner__alert col-span-full">
                 <span class="alert-banner__icon" aria-hidden="true">

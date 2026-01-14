@@ -1,29 +1,28 @@
 {% from "components/icon.html" import icon %}
-
 {# Breadcrumbs component #}
 {% macro breadcrumbs(ancestors, current_page_title) %}
-{% if ancestors and ancestors|length > 0 %}
-<nav aria-label="breadcrumb" class="breadcrumb">
-    <div class="u-layout breadcrumb__container">
-        <ul class="breadcrumb__list col-span-12 supporting">
-            {% for ancestor in ancestors %}
-                {% if ancestor.depth > 2 %}
-                    <li class="breadcrumb__item">
-                        {{ icon("arrow-back", classname="breadcrumb__icon") }}
-                        <a class="breadcrumb__link" href="{{ ancestor.url }}">{{ ancestor.title }}</a>
-                        <span class="breadcrumb__separator" aria-hidden="true"> ></span>
-                    </li>
-                {% else %}
-                    <li class="breadcrumb__item breadcrumb__item--home">
-                        {{ icon("arrow-back", classname="breadcrumb__icon") }}
-                        <a class="breadcrumb__link" href="/">Home</a>
-                        <span class="breadcrumb__separator" aria-hidden="true"> ></span>
-                    </li>
-                {% endif %}
-            {% endfor %}
-            <li class="breadcrumb__item">{{ current_page_title }}</li>
-        </ul>
-    </div>
-</nav>
-{% endif %}
+    {% if ancestors and ancestors|length > 0 %}
+        <nav aria-label="breadcrumb" class="breadcrumb">
+            <div class="u-layout breadcrumb__container">
+                <ul class="breadcrumb__list col-span-12 supporting">
+                    {% for ancestor in ancestors %}
+                        {% if ancestor.depth > 2 %}
+                            <li class="breadcrumb__item">
+                                {{ icon("arrow-back", classname="breadcrumb__icon") }}
+                                <a class="breadcrumb__link" href="{{ ancestor.url }}">{{ ancestor.title }}</a>
+                                <span class="breadcrumb__separator" aria-hidden="true">></span>
+                            </li>
+                        {% else %}
+                            <li class="breadcrumb__item breadcrumb__item--home">
+                                {{ icon("arrow-back", classname="breadcrumb__icon") }}
+                                <a class="breadcrumb__link" href="/">Home</a>
+                                <span class="breadcrumb__separator" aria-hidden="true">></span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    <li class="breadcrumb__item">{{ current_page_title }}</li>
+                </ul>
+            </div>
+        </nav>
+    {% endif %}
 {% endmacro %}

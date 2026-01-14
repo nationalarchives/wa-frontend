@@ -1,20 +1,16 @@
 {# Call to Action component #}
 {% macro call_to_action(title, summary, link_url, link_text, image_url='') %}
-<div class="call-to-action">
-    <div class="call-to-action__content">
-        <h2 class="call-to-action__title heading heading--two">{{ title }}</h2>
-
-        <div class="call-to-action__summary">
-            {{ summary|safe }}
+    <div class="call-to-action">
+        <div class="call-to-action__content">
+            <h2 class="call-to-action__title heading heading--two">{{ title }}</h2>
+            <div class="call-to-action__summary">{{ summary|safe }}</div>
+            {% if image_url %}
+                <div class="call-to-action__image">
+                    <img src="{{ image_url }}" alt="">
+                </div>
+            {% endif %}
+            <a href="{{ link_url }}"
+               class="button button--primary call-to-action__button">{{ link_text }}</a>
         </div>
-
-        {% if image_url %}
-            <div class="call-to-action__image">
-                <img src="{{ image_url }}" alt="">
-            </div>
-        {% endif %}
-
-        <a href="{{ link_url }}" class="button button--primary call-to-action__button">{{ link_text }}</a>
     </div>
-</div>
 {% endmacro %}
