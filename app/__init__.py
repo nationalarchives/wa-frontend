@@ -1,7 +1,7 @@
 import logging
 
 from app.lib.cache import cache
-from app.lib.context_processor import cookie_preference, now_iso_8601
+from app.lib.context_processor import cookie_preference, now_iso_8601, inject_global_context
 from app.lib.talisman import talisman
 from app.lib.template_filters import slugify
 from flask import Flask
@@ -80,10 +80,10 @@ def create_app(config_class):
 
     @app.context_processor
     def context_processor():
-        return dict(
-            cookie_preference=cookie_preference,
-            now_iso_8601=now_iso_8601,
-            app_config={
+        context = {
+            'cookie_preference': cookie_preference,
+            'now_iso_8601': now_iso_8601,
+            'app_config': {
                 "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),
                 "CONTAINER_IMAGE": app.config.get("CONTAINER_IMAGE"),
                 "BUILD_VERSION": app.config.get("BUILD_VERSION"),
@@ -91,8 +91,11 @@ def create_app(config_class):
                 "COOKIE_DOMAIN": app.config.get("COOKIE_DOMAIN"),
                 "GA4_ID": app.config.get("GA4_ID"),
             },
-            feature={},
-        )
+            'feature': {},
+        }
+        # Merge in global context (navigation, social_media, config, etc.)
+        context.update(inject_global_context())
+        return context
 
     from .healthcheck import bp as healthcheck_bp
     from .main import bp as site_bp
