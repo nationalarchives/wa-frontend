@@ -84,12 +84,25 @@ This guide covers setting up both the backend (ds-wagtail) and frontend (wa-fron
 
 ## Quickstart
 
+### Clone the repo locally
+
 ```sh
-# Build and start the container
+git clone git@github.com:nationalarchives/ds-wagtail.git
+```
+
+### Within the project folder, build the container
+
+```sh
 docker compose up -d
 ```
 
-### Add the static assets
+### Copy the example .env file
+
+```sh
+cp docker-compose.override.yml.example docker-compose.override.yml
+```
+
+## Static assets
 
 During the first time install, your `app/static/assets` directory will be empty.
 
@@ -101,13 +114,13 @@ To add back in the static assets, run:
 docker compose exec app cp -r /app/node_modules/@nationalarchives/frontend/nationalarchives/assets /app/app/static
 ```
 
-### Run tests
+## Running tests
 
 ```sh
 docker compose exec app poetry run python -m pytest
 ```
 
-### Format and lint code
+## Formatting and lint code
 
 ```sh
 docker compose exec app format
