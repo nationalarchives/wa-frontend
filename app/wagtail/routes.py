@@ -51,7 +51,7 @@ def preview_protected_page(page_id):
     """
 
     try:
-        # Get the page details from Wagtail by its and include the provided password
+        # Get the page details from Wagtail by its id and include the provided password
         password = objects.get(request.form, "password", "")
         params = {"password": password}
         page_data = page_details(
