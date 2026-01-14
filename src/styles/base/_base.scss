@@ -47,6 +47,11 @@ img {
     max-width: 100%;
 }
 
+// Hide SVG sprite definitions
+.tna-sprites {
+    display: none;
+}
+
 button,
 input,
 select,

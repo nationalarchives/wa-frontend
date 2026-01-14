@@ -11,6 +11,10 @@ from jinja2 import ChoiceLoader, PackageLoader
 def create_app(config_class):
     app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_class)
+    
+    # Enable template auto-reload in debug mode
+    if app.config.get("DEBUG"):
+        app.config["TEMPLATES_AUTO_RELOAD"] = True
 
     gunicorn_error_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers.extend(gunicorn_error_logger.handlers)
