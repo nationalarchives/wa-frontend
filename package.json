@@ -1,4 +1,7 @@
 {
+  "name": "wa-frontend",
+  "version": "1.0.0",
+  "private": true,
   "scripts": {
     "compile:css": "sass --style=compressed --load-path=node_modules --embed-sources src/styles:app/static",
     "compile:js": "webpack --mode=production",
