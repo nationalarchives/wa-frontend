@@ -96,7 +96,7 @@ git clone git@github.com:nationalarchives/ds-wagtail.git
 docker compose up -d
 ```
 
-### Copy the example .env file
+### Copy the example docker compose override file
 
 ```sh
 cp docker-compose.override.yml.example docker-compose.override.yml
