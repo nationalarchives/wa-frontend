@@ -1,0 +1,75 @@
+{% from "components/icon.html" import icon %}
+{% from "components/navigation.html" import footer_nav, footer_links %}
+
+<footer class="footer u-dark-bg tna-footer" data-module="tna-footer">
+  <div class="footer__container tna-footer__inner">
+    <div class="tna-container">
+      <div class="tna-column tna-column--flex-1" itemscope itemtype="https://schema.org/Organization">
+        {{ icon("logo", classname="tna-logo", viewbox="0 0 160 160") }}
+        <h2 class="tna-heading-m tna-footer__title footer__strapline" itemprop="name" translate="no">UK Government<br> Web Archive</h2>
+        <b>The National Archives</b>
+        <address class="tna-footer__address" translate="no" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+          <meta itemprop="streetAddress" content="Bessant Drive">
+          <span itemprop="addressLocality">Kew</span>, <span itemprop="addressRegion">Richmond</span><br>
+          <span itemprop="postalCode">TW9 4DU</span>
+          <meta itemprop="addressCountry" content="GB">
+        </address>
+        <meta itemprop="foundingDate" content="2003-04">
+        <div itemprop="parentOrganization" itemscope itemtype="https://schema.org/Organization">
+          <meta itemprop="name" content="Department for Culture, Media and Sport">
+          <meta itemprop="url" content="https://gov.uk/dcms">
+        </div>
+      </div>
+      {% if navigation.footer %}
+          {{ footer_nav(navigation.footer) }}
+      {% endif %}
+      <div class="tna-column tna-column--flex-1">
+        {% if social_media.twitter_handle or social_media.facebook_url %}
+        <h3 class="tna-!--visually-hidden">
+            Follow us on social media
+          </h3>
+        <ul class="footer__social tna-ul tna-ul--plain tna-footer__social-items">
+          {% if social_media.twitter_handle %}
+            <li class="tna-footer__social-item">
+                <a class="tna-footer__social-item-link" 
+                   href="https://twitter.com/{{ social_media.twitter_handle }}" 
+                   aria-label="Follow us on X (formerly Twitter)">
+                    {{ icon("twitter", classname="icon--footer-social", viewbox="0 0 512 512") }}
+                </a>
+            </li>
+          {% endif %}
+          {% if social_media.facebook_url %}
+            <li class="tna-footer__social-item">
+                <a class="tna-footer__social-item-link" 
+                   href="{{ social_media.facebook_url }}" 
+                   aria-label="Follow us on Facebook">
+                    {{ icon("facebook", classname="icon--footer-social", viewbox="0 0 26 23") }}
+                </a>
+            </li>
+          {% endif %}
+        </ul>
+      {% endif %}
+      </div>
+    </div>
+    {% if navigation.footer_links %}
+        {{ footer_links(navigation.footer_links) }}
+    {% endif %}
+    <div class="tna-container tna-footer__licence">
+      <div class="tna-column tna-column--full-tiny">
+        <svg class="tna-footer__licence-logo" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" viewBox="0 0 483.2 195.7" width="60" height="24">
+          <title>Open Government Licence</title>
+          <path fill="currentColor" d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145" />
+        </svg>
+      </div>
+      <div class="tna-column tna-column--flex-1">
+        <p>All content is available under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" class="tna-footer__link">Open Government Licence v3.0</a>, except where otherwise stated</p>
+      </div>
+      <div class="tna-column tna-column--full-small tna-column--full-tiny tna-footer__govuk">
+        <a href="https://www.gov.uk/" class="tna-footer__govuk-link">
+            {{ icon("govuk-logotype-crown", classname="tna-footer__govuk-logotype-crown", viewbox="0 0 32 30") }}
+          GOV.UK
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
