@@ -1,11 +1,11 @@
-@use '../config' as *;
+@use "../config" as *;
 
 .introduction {
-    @include font-size(body-feature) {
-        margin-bottom: $grid-m;
-    }
+  @include font-size(body-feature) {
+    margin-bottom: $grid-m;
+  }
 
-    @include media-query(medium) {
-        margin-bottom: $grid-l;
-    }
+  @include media-query(medium) {
+    margin-bottom: $grid-l;
+  }
 }

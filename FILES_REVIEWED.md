@@ -10,6 +10,7 @@
 All files from the wa-wagtail → wa-frontend merge have been reviewed and are ready for use.
 
 ### Templates (24 files) ✅
+
 - `app/templates/layouts/base.html`
 - `app/templates/layouts/base_page.html`
 - `app/templates/components/alert_banner.html`
@@ -39,6 +40,7 @@ All files from the wa-wagtail → wa-frontend merge have been reviewed and are r
 - `app/templates/errors/500.html`
 
 ### SCSS Files (39 files) ✅
+
 - `src/styles/main.scss` (updated)
 - `src/styles/config.scss`
 - `src/styles/config/_functions.scss`
@@ -80,6 +82,7 @@ All files from the wa-wagtail → wa-frontend merge have been reviewed and are r
 - `src/styles/ie.scss` (pre-existing)
 
 ### JavaScript Files (5 files) ✅
+
 - `src/scripts/main.js` (updated)
 - `src/scripts/components/header.js`
 - `src/scripts/components/skip-link.js`
@@ -87,15 +90,18 @@ All files from the wa-wagtail → wa-frontend merge have been reviewed and are r
 - `src/scripts/components/youtube-consent-manager.js`
 
 ### Python Files (2 files) ✅
+
 - `app/__init__.py` (updated)
 - `app/lib/context_processor.py` (updated)
 
 ### Configuration Files (3 files) ✅
+
 - `package.json` (updated)
 - `webpack.config.js` (updated)
 - `.env` (created)
 
 ### Documentation Files (5 files) ✅
+
 - `MERGE_PLAN.md`
 - `PHASE1_COMPLETE.md`
 - `PHASE2_COMPLETE.md`
@@ -132,6 +138,7 @@ All files from the wa-wagtail → wa-frontend merge have been reviewed and are r
 ## Ready for Production
 
 All files have been reviewed, tested, and approved. The front-end merge is 100% complete and ready for:
+
 - ✅ Local development
 - ✅ Route implementation
 - ✅ Content integration

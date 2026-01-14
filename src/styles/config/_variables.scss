@@ -1,139 +1,139 @@
-@use 'sass:color';
-@use 'sass:map';
+@use "sass:color";
+@use "sass:map";
 
 // Import TNA Frontend brand colour palette
 $tna-colours: (
-    'black': #010101,
-    'dark-grey': #26262a,
-    'grey': #8c9694,
-    'light-grey': #d9d9d6,
-    'white': #fff,
-    'yellow': #fc0,
-    'pink': #fe1d57,
-    'orange': #fd3f03,
-    'green': #86bc25,
-    'blue': #00b0ff,
-    'brown': #654e37,
-    'maroon': #9c193a,
-    'chestnut': #8f3415,
-    'forest': #00623b,
-    'navy': #004c7e,
-    'cream': #f9f7e2,
-    'pastel-pink': #fad3d4,
-    'pastel-orange': #f9e1bc,
-    'pastel-green': #dde5d5,
-    'pastel-blue': #d4e5ef,
+  "black": #010101,
+  "dark-grey": #26262a,
+  "grey": #8c9694,
+  "light-grey": #d9d9d6,
+  "white": #fff,
+  "yellow": #fc0,
+  "pink": #fe1d57,
+  "orange": #fd3f03,
+  "green": #86bc25,
+  "blue": #00b0ff,
+  "brown": #654e37,
+  "maroon": #9c193a,
+  "chestnut": #8f3415,
+  "forest": #00623b,
+  "navy": #004c7e,
+  "cream": #f9f7e2,
+  "pastel-pink": #fad3d4,
+  "pastel-orange": #f9e1bc,
+  "pastel-green": #dde5d5,
+  "pastel-blue": #d4e5ef,
 );
 
 // --------------------------------- Colors ------------------------------------
 
 :root {
-    // Base colours (from TNA Frontend brand palette)
-    --color-white: #{map.get($tna-colours, 'white')};
-    --color-black: #{map.get($tna-colours, 'black')};
-    --color-not-black: #1e1e1e;
+  // Base colours (from TNA Frontend brand palette)
+  --color-white: #{map.get($tna-colours, "white")};
+  --color-black: #{map.get($tna-colours, "black")};
+  --color-not-black: #1e1e1e;
 
-    // Dark colours
-    --color-maroon: #{map.get($tna-colours, 'maroon')};
-    --color-forest: #{map.get($tna-colours, 'forest')};
-    --color-navy: #{map.get($tna-colours, 'navy')};
-    --color-chestnut: #{map.get($tna-colours, 'chestnut')};
-    --color-brown: #{map.get($tna-colours, 'brown')};
+  // Dark colours
+  --color-maroon: #{map.get($tna-colours, "maroon")};
+  --color-forest: #{map.get($tna-colours, "forest")};
+  --color-navy: #{map.get($tna-colours, "navy")};
+  --color-chestnut: #{map.get($tna-colours, "chestnut")};
+  --color-brown: #{map.get($tna-colours, "brown")};
 
-    // Light colours
-    --color-pastel-green: #{map.get($tna-colours, 'pastel-green')};
-    --color-pastel-pink: #{map.get($tna-colours, 'pastel-pink')};
-    --color-pastel-blue: #{map.get($tna-colours, 'pastel-blue')};
-    --color-cream: #{map.get($tna-colours, 'cream')};
-    --color-pastel-orange: #{map.get($tna-colours, 'pastel-orange')};
+  // Light colours
+  --color-pastel-green: #{map.get($tna-colours, "pastel-green")};
+  --color-pastel-pink: #{map.get($tna-colours, "pastel-pink")};
+  --color-pastel-blue: #{map.get($tna-colours, "pastel-blue")};
+  --color-cream: #{map.get($tna-colours, "cream")};
+  --color-pastel-orange: #{map.get($tna-colours, "pastel-orange")};
 
-    // Grey scale
-    --color-grey-100: #fafafa;
-    --color-grey-200: #f4f4f4;
-    --color-grey-300: #{map.get($tna-colours, 'light-grey')};
-    --color-grey-400: #ccc;
-    --color-grey-500: #{map.get($tna-colours, 'grey')};
-    --color-grey-600: #747474;
-    --color-grey-700: #343338;
-    --color-grey-800: #{map.get($tna-colours, 'dark-grey')};
-    --color-grey-900: #0f1517;
+  // Grey scale
+  --color-grey-100: #fafafa;
+  --color-grey-200: #f4f4f4;
+  --color-grey-300: #{map.get($tna-colours, "light-grey")};
+  --color-grey-400: #ccc;
+  --color-grey-500: #{map.get($tna-colours, "grey")};
+  --color-grey-600: #747474;
+  --color-grey-700: #343338;
+  --color-grey-800: #{map.get($tna-colours, "dark-grey")};
+  --color-grey-900: #0f1517;
 
-    // Mid (accent) colours
-    --color-yellow: #{map.get($tna-colours, 'yellow')};
-    --color-pink: #{map.get($tna-colours, 'pink')};
-    --color-orange: #{map.get($tna-colours, 'orange')};
-    --color-green: #{map.get($tna-colours, 'green')};
-    --color-blue: #{map.get($tna-colours, 'blue')};
+  // Mid (accent) colours
+  --color-yellow: #{map.get($tna-colours, "yellow")};
+  --color-pink: #{map.get($tna-colours, "pink")};
+  --color-orange: #{map.get($tna-colours, "orange")};
+  --color-green: #{map.get($tna-colours, "green")};
+  --color-blue: #{map.get($tna-colours, "blue")};
 
-    // Additional colours
-    --color-red: #d4351c;
+  // Additional colours
+  --color-red: #d4351c;
 
-    // Globals
-    --global-header-background: var(--color-not-black);
-    --global-footer-background: var(--color-grey-800);
+  // Globals
+  --global-header-background: var(--color-not-black);
+  --global-footer-background: var(--color-grey-800);
 
-    // Theme colours
-    --theme-primary: var(--color-maroon);
-    --theme-secondary: var(--color-pastel-pink);
-    --theme-primary-background: var(--color-white);
-    --theme-secondary-background: var(--color-grey-200);
-    --theme-inverted-background: var(--color-black);
-    --theme-hero-background: var(--color-pastel-pink);
-    --theme-dropdown-background: var(--color-black);
-    --theme-dropdown-text: var(--color-white);
-    --theme-button-background: var(--color-black);
-    --theme-button-text: var(--color-white);
-    --theme-button-hover: var(--color-not-black);
-    --theme-border: var(--color-grey-300);
-    --theme-border-inverted: var(--color-grey-600);
-    --theme-icon: var(--color-grey-500);
-    --theme-link: var(--color-black);
-    --theme-link-visited: var(--color-not-black);
-    --theme-link-hover: var(--theme-primary);
-    --theme-link-focus: var(--theme-primary);
-    --theme-link-invert: var(--color-white);
-    --theme-link-invert-hover: var(--color-grey-200);
-    --theme-link-invert-focus: var(--color-grey-200);
+  // Theme colours
+  --theme-primary: var(--color-maroon);
+  --theme-secondary: var(--color-pastel-pink);
+  --theme-primary-background: var(--color-white);
+  --theme-secondary-background: var(--color-grey-200);
+  --theme-inverted-background: var(--color-black);
+  --theme-hero-background: var(--color-pastel-pink);
+  --theme-dropdown-background: var(--color-black);
+  --theme-dropdown-text: var(--color-white);
+  --theme-button-background: var(--color-black);
+  --theme-button-text: var(--color-white);
+  --theme-button-hover: var(--color-not-black);
+  --theme-border: var(--color-grey-300);
+  --theme-border-inverted: var(--color-grey-600);
+  --theme-icon: var(--color-grey-500);
+  --theme-link: var(--color-black);
+  --theme-link-visited: var(--color-not-black);
+  --theme-link-hover: var(--theme-primary);
+  --theme-link-focus: var(--theme-primary);
+  --theme-link-invert: var(--color-white);
+  --theme-link-invert-hover: var(--color-grey-200);
+  --theme-link-invert-focus: var(--color-grey-200);
 
-    // Theme text colours
-    --theme-text-default: var(--color-black);
-    --theme-text-80: var(--color-grey-800);
-    --theme-text-70: var(--color-grey-700);
-    --theme-text-60: var(--color-grey-600);
-    --theme-text-invert: var(--color-white);
-    --theme-text-meta: var(--color-grey-700);
-    --theme-text-primary: var(--theme-primary);
+  // Theme text colours
+  --theme-text-default: var(--color-black);
+  --theme-text-80: var(--color-grey-800);
+  --theme-text-70: var(--color-grey-700);
+  --theme-text-60: var(--color-grey-600);
+  --theme-text-invert: var(--color-white);
+  --theme-text-meta: var(--color-grey-700);
+  --theme-text-primary: var(--theme-primary);
 
-    // Banner colours
-    --banner-background-default: var(--color-yellow);
-    --banner-background-warning: var(--color-red);
-    --banner-background-positive: var(--color-forest);
-    --banner-text: var(--theme-text-invert);
+  // Banner colours
+  --banner-background-default: var(--color-yellow);
+  --banner-background-warning: var(--color-red);
+  --banner-background-positive: var(--color-forest);
+  --banner-text: var(--theme-text-invert);
 
-    // Vars from TNA not included in design system
-    --contrast-font-light: var(--theme-text-invert);
-    --contrast-font-base: var(--theme-text-invert);
-    --contrast-background: var(--global-footer-background);
-    --contrast-font-dark: var(--color-white);
-    --contrast-link: var(--color-white);
-    --contrast-link-visited: var(--color-white);
-    --contrast-keyline: var(--theme-border-inverted);
-    --link: var(--theme-link);
-    --link-visited: var(--theme-link-visited);
+  // Vars from TNA not included in design system
+  --contrast-font-light: var(--theme-text-invert);
+  --contrast-font-base: var(--theme-text-invert);
+  --contrast-background: var(--global-footer-background);
+  --contrast-font-dark: var(--color-white);
+  --contrast-link: var(--color-white);
+  --contrast-link-visited: var(--color-white);
+  --contrast-keyline: var(--theme-border-inverted);
+  --link: var(--theme-link);
+  --link-visited: var(--theme-link-visited);
 }
 
 // --------------------------------- Fonts -------------------------------------
 
-$font--primary: 'supria-sans-condensed', 'Arial Narrow', sans-serif;
-$font--secondary: 'Open Sans', sans-serif;
-$font--tertiary: 'Roboto Mono', monospace;
+$font-primary: "supria-sans-condensed", "Arial Narrow", sans-serif;
+$font-secondary: "Open Sans", sans-serif;
+$font-tertiary: "Roboto Mono", monospace;
 
 // Font weights
-$weight--bold: 700;
-$weight--semibold: 600;
-$weight--medium: 500;
-$weight--normal: 400;
-$weight--light: 200;
+$weight-bold: 700;
+$weight-semibold: 600;
+$weight-medium: 500;
+$weight-normal: 400;
+$weight-light: 200;
 
 // Font sizes
 $base-font-size: 16px;
@@ -141,41 +141,41 @@ $base-line-height: 1.6;
 
 // Font sizes
 $large-font-sizes: (
-    heading-one: 64px,
-    heading-two: 30px,
-    heading-three: 20px,
-    heading-four: 18px,
-    heading-five: 16px,
-    body-feature: 21px,
-    body: 16px,
-    supporting: 14px,
+  heading-one: 64px,
+  heading-two: 30px,
+  heading-three: 20px,
+  heading-four: 18px,
+  heading-five: 16px,
+  body-feature: 21px,
+  body: 16px,
+  supporting: 14px,
 );
 
 $medium-font-sizes: (
-    heading-one: 42px,
-    heading-two: 26px,
-    heading-three: 20px,
-    heading-four: 18px,
-    heading-five: 16px,
-    body-feature: 18px,
-    body: 16px,
-    supporting: 14px,
+  heading-one: 42px,
+  heading-two: 26px,
+  heading-three: 20px,
+  heading-four: 18px,
+  heading-five: 16px,
+  body-feature: 18px,
+  body: 16px,
+  supporting: 14px,
 );
 
 $small-font-sizes: (
-    heading-one: 36px,
-    heading-two: 24px,
-    heading-three: 18px,
-    heading-four: 18px,
-    heading-five: 16px,
-    body-feature: 18px,
-    body: 16px,
-    supporting: 14px,
+  heading-one: 36px,
+  heading-two: 24px,
+  heading-three: 18px,
+  heading-four: 18px,
+  heading-five: 16px,
+  body-feature: 18px,
+  body: 16px,
+  supporting: 14px,
 );
 
 // --------------------------------- Sizing ------------------------------------
 
-$breakpoints: ('medium' '(min-width: 599px)', 'large' '(min-width: 1023px)');
+$breakpoints: ("medium" "(min-width: 599px)", "large" "(min-width: 1023px)");
 
 // Custom breakpoint for mobile navigation
 // TNA Frontend default is 48em (768px), we want it to kick in sooner at larger screens
@@ -198,15 +198,15 @@ $grid-xxl: ($grid * 12); // 96px
 
 $transition: 0.25s ease-out;
 $z-index: (
-    under: -1,
-    base: 10,
-    overlap: 20,
-    header: 30,
-    footer: 40,
-    nav: 50,
-    cookie-message: 100,
-    modal: 110,
-    modal-controls: 120,
+  under: -1,
+  base: 10,
+  overlap: 20,
+  header: 30,
+  footer: 40,
+  nav: 50,
+  cookie-message: 100,
+  modal: 110,
+  modal-controls: 120,
 );
 
 // --------------------------------- Accessibility -----------------------------

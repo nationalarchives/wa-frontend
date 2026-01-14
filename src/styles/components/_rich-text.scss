@@ -1,47 +1,47 @@
-@use '../config' as *;
+@use "../config" as *;
 
 .rich-text {
-    h3 {
-        @include font-size(heading-three);
-    }
+  h3 {
+    @include font-size(heading-three);
+  }
 
-    h4 {
-        @include font-size(heading-four);
-    }
+  h4 {
+    @include font-size(heading-four);
+  }
 
-    h5,
-    h6 {
-        @include font-size(heading-five);
-    }
+  h5,
+  h6 {
+    @include font-size(heading-five);
+  }
 
-    small {
-        @include font-size(supporting);
-    }
+  small {
+    @include font-size(supporting);
+  }
 
-    a {
-        text-decoration: underline;
-    }
+  a {
+    text-decoration: underline;
+  }
 
-    ul,
-    ol {
-        padding-left: 1.5em;
-    }
+  ul,
+  ol {
+    padding-left: 1.5em;
+  }
 
-    ul {
-        list-style: outside disc;
-    }
+  ul {
+    list-style: outside disc;
+  }
 
-    ol {
-        list-style: outside decimal;
-    }
+  ol {
+    list-style: outside decimal;
+  }
 
-    p {
-        margin: 0;
-    }
+  p {
+    margin: 0;
+  }
 
-    p,
-    ul,
-    ol {
-        margin-bottom: $grid-s;
-    }
+  p,
+  ul,
+  ol {
+    margin-bottom: $grid-s;
+  }
 }

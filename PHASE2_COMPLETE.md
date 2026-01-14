@@ -1,16 +1,19 @@
 # Phase 2 Complete: Template Migration & Integration
 
 ## Overview
+
 Successfully merged the front-end templates, components, CSS, and JavaScript from `wa-wagtail` (Django/Wagtail) into `wa-frontend` (Flask/Jinja2). All Django templates have been refactored to Jinja2 syntax and integrated with the Flask build system.
 
 ## What Was Completed
 
 ### 1. Base Template System (✓ Complete)
+
 - **Created**: `app/templates/layouts/base.html` - Main base template with HTML structure, meta tags, CSS/JS includes
 - **Created**: `app/templates/layouts/base_page.html` - Page template extending base, includes header/footer, social meta tags, GTM
 - **Converted from Django to Jinja2**: All template tags, static file references, and template logic
 
 ### 2. Component Templates (✓ Complete)
+
 Created Jinja2 versions of all major components as macros:
 
 - **skip_link.html** - Skip to main content link
@@ -30,6 +33,7 @@ Created Jinja2 versions of all major components as macros:
 - **sprites/sprites.html** - SVG sprite sheet with all icons
 
 ### 3. Page Templates (✓ Complete)
+
 Created Jinja2 versions of all page templates:
 
 - **pages/home.html** - Homepage with hero, search, highlights, recent archives
@@ -41,14 +45,17 @@ Created Jinja2 versions of all page templates:
 - **errors/500.html** - Server error (standalone HTML)
 
 ### 4. SCSS Structure (✓ Complete from Phase 1)
+
 Copied and integrated all SCSS from `wa-wagtail`:
 
 **Base Styles:**
+
 - `_base.scss` - Base HTML element styles
 - `_typography.scss` - Typography system
 - `_fonts.scss` - Font-face declarations
 
 **Component Styles:**
+
 - All 22 component stylesheets (accordion, alert-banner, card, hero, etc.)
 - All global styles (header, footer)
 - Config files (variables, mixins, functions)
@@ -56,6 +63,7 @@ Copied and integrated all SCSS from `wa-wagtail`:
 **Updated**: `src/styles/main.scss` to import all new SCSS modules
 
 ### 5. JavaScript Components (✓ Complete from Phase 1)
+
 Copied and integrated custom JavaScript:
 
 - `header.js` - Extended mobile breakpoint header
@@ -68,6 +76,7 @@ Copied and integrated custom JavaScript:
 ### 6. Build System Updates (✓ Complete from Phase 1)
 
 **webpack.config.js**:
+
 - Added TypeScript support (ts-loader)
 - Added Sass processing (sass-loader, postcss-loader)
 - Added Tailwind CSS support
@@ -77,6 +86,7 @@ Copied and integrated custom JavaScript:
 - Configured dev server
 
 **package.json**:
+
 - Added all required dependencies from wa-wagtail
 - Added build scripts for CSS and JS
 - Added linting and formatting scripts
@@ -86,11 +96,13 @@ Copied and integrated custom JavaScript:
 ### 7. Flask Integration (✓ Complete)
 
 **Context Processor Updates** (`app/lib/context_processor.py`):
+
 - Created `get_navigation_data()` - Returns navigation structure (primary, secondary, footer, footer_links)
 - Created `get_social_media_data()` - Returns social media settings
 - Created `inject_global_context()` - Provides global context variables to all templates
 
 **Context Variables Available in Templates**:
+
 - `navigation` - Primary/secondary nav, footer nav, footer links
 - `social_media` - Twitter handle, Facebook URL, site name
 - `config` - Site name, language, SEO settings, GTM ID, build version
@@ -101,11 +113,14 @@ Copied and integrated custom JavaScript:
 - `alert_banner` - Alert banner data (when needed)
 
 **App Registration** (`app/__init__.py`):
+
 - Registered `inject_global_context()` in Flask context processor
 - All templates now have access to navigation and settings
 
 ### 8. Static Assets (✓ Complete from Phase 1)
+
 Copied all static assets:
+
 - Fonts from `wa-wagtail/ukgwa/static_src/fonts/` → `wa-frontend/src/fonts/`
 - Images from `wa-wagtail/ukgwa/static_src/images/` → `wa-frontend/src/images/`
 - SVG sprite sheet integrated into base template
@@ -140,21 +155,25 @@ Copied all static assets:
 ## Key Architectural Changes
 
 ### 1. Navigation System
+
 - **Before**: Django template tags with Wagtail settings (`{% primary_nav %}`)
 - **After**: Jinja2 macros with Flask context processor (`{{ primary_nav(items) }}`)
 - **Data Source**: `get_navigation_data()` in context processor (to be configured via config/database)
 
 ### 2. Settings/Configuration
+
 - **Before**: Wagtail settings (`{{ settings.core.SocialMediaSettings }}`)
 - **After**: Flask config (`{{ config }}` and `{{ social_media }}`)
 - **Access**: Available globally via context processor
 
 ### 3. Page Context
+
 - **Before**: Wagtail page model with methods (`.get_ancestors()`, `.live()`, `.public()`)
 - **After**: Dictionary/object with URLs and metadata (to be provided by Flask routes)
 - **Structure**: Must provide `page`, `siblings`, `parent`, `ancestor_ids` in route handlers
 
 ### 4. Static Files
+
 - **Before**: `{% static 'path' %}`
 - **After**: `{{ url_for('static', filename='path') }}`
 - **Versioning**: Supports `v=` parameter for cache busting
@@ -162,6 +181,7 @@ Copied all static assets:
 ## What Still Needs Implementation
 
 ### 1. Route Handlers
+
 Create Flask route handlers that provide the expected context for each page template:
 
 ```python
@@ -179,38 +199,50 @@ def home():
 ```
 
 ### 2. Navigation Configuration
+
 Replace hardcoded navigation in `get_navigation_data()` with:
+
 - Database-driven navigation
 - Configuration file (JSON/YAML)
 - Or Flask-Admin interface
 
 ### 3. Content Management
+
 Decide on content management approach:
+
 - Flat file content (Markdown/YAML)
 - Database models (SQLAlchemy)
 - Headless CMS integration
 - Static site generation
 
 ### 4. Image Handling
+
 Implement image processing equivalent to Wagtail's image filters:
+
 - Create image resizing utility
 - Or use CDN with image transformation
 - Update templates to use processed images
 
 ### 5. Rich Text Rendering
+
 Implement rich text rendering for body content:
+
 - Markdown processor
 - Or HTML sanitizer for user content
 - Update `{{ page.body|safe }}` usage
 
 ### 6. Breadcrumbs
+
 Create breadcrumb generation:
+
 - Context processor or template filter
 - Based on page hierarchy
 - Update `{% block breadcrumbs %}` in templates
 
 ### 7. Configuration Settings
+
 Add to `config.py`:
+
 ```python
 SITE_NAME = 'UK Government Web Archive'
 TWITTER_HANDLE = 'ukgovarchive'
@@ -219,6 +251,7 @@ GOOGLE_TAG_MANAGER_ID = 'GTM-XXXXXXX'
 ```
 
 ### 8. Testing
+
 - Test all templates render correctly
 - Test navigation links work
 - Test responsive behavior
@@ -284,6 +317,7 @@ wa-frontend/
 ## Testing the Integration
 
 ### 1. Compile Assets
+
 ```bash
 cd /Users/nicklee/Sites/wa-frontend
 npm install  # If not already done
@@ -291,6 +325,7 @@ npm run compile  # Compile both CSS and JS
 ```
 
 ### 2. Run Flask App
+
 ```bash
 python main.py
 # or
@@ -298,7 +333,9 @@ flask run
 ```
 
 ### 3. Test Templates
+
 Create a test route to verify template rendering:
+
 ```python
 @bp.route('/test-home')
 def test_home():
@@ -313,15 +350,17 @@ def test_home():
 
 ✅ **100% Complete**: All templates, components, and assets have been successfully converted from Django/Wagtail to Flask/Jinja2.
 
-🎯 **Next Steps**: 
+🎯 **Next Steps**:
+
 1. Create Flask route handlers with proper context
 2. Configure navigation data source
 3. Implement content management approach
 4. Test rendering and functionality
 
-📊 **Files Changed**: 
+📊 **Files Changed**:
+
 - 3 layout templates
-- 15 component templates  
+- 15 component templates
 - 7 page templates
 - 1 sprite sheet
 - 2 Python files (context processor, app init)

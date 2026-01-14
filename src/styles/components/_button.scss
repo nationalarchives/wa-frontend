@@ -1,37 +1,44 @@
-@use '../config' as *;
+@use "../config" as *;
 
 .button {
-    background-color: transparent;
-    background-image: none;
-    border: 0;
-    box-shadow: none;
-    transition: background-color $transition;
+  background-color: transparent;
+  background-image: none;
 
-    &:hover {
-        cursor: pointer;
+  border: 0;
+
+  box-shadow: none;
+  transition: background-color $transition;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: $focus-width solid $focus-bg;
+
+    &:not(:active, :hover) {
+      color: $focus-color;
+
+      background-color: $focus-bg;
+
+      border-color: $focus-bg;
     }
+  }
 
-    &:focus {
-        outline: $focus-width solid $focus-bg;
+  &--primary {
+    padding: $grid-xs $grid-s;
 
-        &:not(:active):not(:hover) {
-            border-color: $focus-bg;
-            background-color: $focus-bg;
-            color: $focus-color;
-        }
+    color: var(--theme-button-text);
+    font-weight: $weight-bold;
+
+    background-color: var(--theme-button-background);
+
+    &:hover,
+    &:focus,
+    &:visited {
+      color: var(--theme-button-text);
+
+      background-color: var(--theme-button-hover);
     }
-
-    &--primary {
-        background-color: var(--theme-button-background);
-        color: var(--theme-button-text);
-        padding: $grid-xs $grid-s;
-        font-weight: $weight--bold;
-
-        &:hover,
-        &:focus,
-        &:visited {
-            background-color: var(--theme-button-hover);
-            color: var(--theme-button-text);
-        }
-    }
+  }
 }

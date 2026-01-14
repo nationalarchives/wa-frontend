@@ -1,19 +1,21 @@
-@use '../config' as *;
+@use "../config" as *;
 
 .blockquote {
-    text-align: center;
-    padding: $grid-m;
-    background: var(--color-background-primary);
-    border-bottom: 1px solid var(--theme-border);
-    border-top: 1px solid var(--theme-border);
+  padding: $grid-m;
 
-    &__quote {
-        @include font-size(heading-four) {
-            font-weight: $weight--bold;
-        }
-    }
+  text-align: center;
 
-    &__attribution {
-        @include font-size(supporting);
+  background: var(--color-background-primary);
+  border-bottom: 1px solid var(--theme-border);
+  border-top: 1px solid var(--theme-border);
+
+  &__quote {
+    @include font-size(heading-four) {
+      font-weight: $weight-bold;
     }
+  }
+
+  &__attribution {
+    @include font-size(supporting);
+  }
 }

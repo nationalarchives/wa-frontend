@@ -1,31 +1,32 @@
-@use '../config' as *;
+@use "../config" as *;
 
 .listing-page {
-    padding-top: $grid-m;
-    padding-bottom: $grid-l;
+  padding-top: $grid-m;
+  padding-bottom: $grid-l;
+
+  @include media-query(medium) {
+    padding-top: $grid-l;
+    padding-bottom: $grid-xl;
+  }
+
+  &__main {
+    margin-bottom: $grid-l;
 
     @include media-query(medium) {
-        padding-top: $grid-l;
-        padding-bottom: $grid-xl;
+      margin-bottom: 0;
     }
+  }
 
-    &__main {
-        margin-bottom: $grid-l;
+  &__list {
+    margin: 0;
+    padding: 0;
 
-        @include media-query(medium) {
-            margin-bottom: 0;
-        }
+    list-style: none;
+  }
+
+  &__sidebar {
+    @include media-query(medium) {
+      padding-left: $grid-m;
     }
-
-    &__list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    &__sidebar {
-        @include media-query(medium) {
-            padding-left: $grid-m;
-        }
-    }
+  }
 }

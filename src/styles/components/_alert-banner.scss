@@ -1,46 +1,52 @@
-@use '../config' as *;
+@use "../config" as *;
 
 .alert-banner {
-    &__alert {
-        display: flex;
-        align-items: center;
-        gap: $grid-xs;
-        padding-top: $grid-xs;
-        padding-bottom: $grid-xs;
-    }
+  &__alert {
+    padding-top: $grid-xs;
+    padding-bottom: $grid-xs;
 
-    &__icon {
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: $grid-xs;
+  }
 
-        .icon {
-            width: 24px;
-            height: 24px;
-        }
-    }
+  &__icon {
+    flex-shrink: 0;
 
-    &__message {
-        margin: 0;
-        font-size: map-get($small-font-sizes, 'supporting');
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    // Warning modifier (default)
-    &--warning {
-        background-color: var(--theme-primary);
-        color: var(--theme-text-invert);
+    .icon {
+      width: 24px;
+      height: 24px;
     }
+  }
 
-    // Info modifier
-    &--info {
-        background-color: var(--color-cream);
-        color: var(--theme-text-default);
-    }
+  &__message {
+    margin: 0;
 
-    // Positive modifier
-    &--positive {
-        background-color: var(--color-forest);
-        color: var(--theme-text-invert);
-    }
+    font-size: map-get($small-font-sizes, "supporting");
+  }
+
+  // Warning modifier (default)
+  &--warning {
+    color: var(--theme-text-invert);
+
+    background-color: var(--theme-primary);
+  }
+
+  // Info modifier
+  &--info {
+    color: var(--theme-text-default);
+
+    background-color: var(--color-cream);
+  }
+
+  // Positive modifier
+  &--positive {
+    color: var(--theme-text-invert);
+
+    background-color: var(--color-forest);
+  }
 }

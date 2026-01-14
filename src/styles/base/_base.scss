@@ -1,86 +1,89 @@
-@use '../config' as *;
-@use 'sass:color';
+@use "../config" as *;
+@use "sass:color";
 
 // Box Sizing
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 // Prevent text size change on orientation change.
 html {
-    font-family: $font--secondary;
-    text-size-adjust: 100%;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    scroll-behavior: smooth;
+  font-family: $font-secondary;
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
 
-    @media (prefers-reduced-motion: reduce) {
-        scroll-behavior: auto;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
 
-    // Fix for Chrome which doesn't correctly scroll to form validation messages when this is set to smooth
-    &.no-scroll-behaviour {
-        scroll-behavior: auto;
-    }
+  // Fix for Chrome which doesn't correctly scroll to form validation messages when this is set to smooth
+  &.no-scroll-behaviour {
+    scroll-behavior: auto;
+  }
 }
 
 body {
-    overflow-x: hidden;
-    background-color: var(--theme-primary-background);
+  overflow-x: hidden;
 
-    &.no-scroll {
-        overflow-y: hidden;
-    }
+  background-color: var(--theme-primary-background);
+
+  &.no-scroll {
+    overflow-y: hidden;
+  }
 }
 
 // Prevent empty space below images appearing
 img,
 svg {
-    vertical-align: top;
+  vertical-align: top;
 }
 
 // Responsive images
 img {
-    height: auto;
-    max-width: 100%;
+  max-width: 100%;
+  height: auto;
 }
 
 // Hide SVG sprite definitions
 .tna-sprites {
-    display: none;
+  display: none;
 }
 
 button,
 input,
 select,
 textarea {
-    font-family: inherit;
+  font-family: inherit;
 }
 
 a {
-    color: var(--theme-link);
-    text-decoration: none;
-    transition: color $transition;
+  color: var(--theme-link);
+  text-decoration: none;
+  transition: color $transition;
+
+  &:hover {
+    color: var(--theme-link-hover);
+
+    cursor: pointer;
+  }
+
+  .u-dark-bg & {
+    color: var(--theme-link-invert);
 
     &:hover {
-        color: var(--theme-link-hover);
-        cursor: pointer;
+      color: var(--theme-link-invert-hover);
     }
-
-    .u-dark-bg & {
-        color: var(--theme-link-invert);
-
-        &:hover {
-            color: var(--theme-link-invert-hover);
-        }
-    }
+  }
 }
 
 ul,
 ol {
-    padding: 0;
-    margin: 0;
-    list-style: none;
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
 }

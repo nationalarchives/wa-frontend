@@ -1,7 +1,9 @@
 # Front-End Merge Plan: wa-wagtail → wa-frontend
 
 ## Overview
+
 Merging front-end assets from the Django/Wagtail wa-wagtail project into the Flask wa-frontend project. This involves:
+
 - Copying templates and converting from Django to Jinja2
 - Copying SCSS/CSS and JavaScript components
 - Excluding Django Pattern Library
@@ -10,6 +12,7 @@ Merging front-end assets from the Django/Wagtail wa-wagtail project into the Fla
 ## Source Repository Analysis
 
 ### wa-wagtail Structure
+
 ```
 ukgwa/
 ├── static_src/                    # Source assets
@@ -45,6 +48,7 @@ Build System:
 ```
 
 ### wa-frontend Current Structure
+
 ```
 app/
 ├── static/                        # Built assets only
@@ -83,6 +87,7 @@ Build System:
 ### 1. SCSS/CSS Migration
 
 #### Structure to Create
+
 ```
 src/styles/
 ├── config/
@@ -128,6 +133,7 @@ src/styles/
 ```
 
 #### Actions
+
 - Copy entire `ukgwa/static_src/sass/` directory structure to `src/styles/`
 - Update `main.scss` to import all components
 - **EXCLUDE** Tailwind CSS directives (not needed for Flask app)
@@ -136,6 +142,7 @@ src/styles/
 ### 2. JavaScript Migration
 
 #### Structure to Create
+
 ```
 src/scripts/
 ├── components/
@@ -148,67 +155,75 @@ src/scripts/
 ```
 
 #### Actions
+
 - Copy `ukgwa/static_src/javascript/components/` to `src/scripts/components/`
 - Update `main.js` to initialize custom components:
+
   ```javascript
-  import { initAll, Cookies } from '@nationalarchives/frontend/nationalarchives/all.mjs';
-  import Header from './components/header.js';
-  import SkipLink from './components/skip-link.js';
-  import YouTubeConsentManager from './components/youtube-consent-manager.js';
-  import TableHint from './components/table-hint.js';
-  
+  import {
+    initAll,
+    Cookies,
+  } from "@nationalarchives/frontend/nationalarchives/all.mjs";
+  import Header from "./components/header.js";
+  import SkipLink from "./components/skip-link.js";
+  import YouTubeConsentManager from "./components/youtube-consent-manager.js";
+  import TableHint from "./components/table-hint.js";
+
   function initComponent(ComponentClass) {
-      const items = document.querySelectorAll(ComponentClass.selector());
-      items.forEach((item) => new ComponentClass(item));
+    const items = document.querySelectorAll(ComponentClass.selector());
+    items.forEach((item) => new ComponentClass(item));
   }
-  
-  document.addEventListener('DOMContentLoaded', () => {
-      // Cookie domain setup
-      const cookiesDomain = document.documentElement.getAttribute("data-cookiesdomain");
-      if (cookiesDomain) {
-          new Cookies({ domain: cookiesDomain });
-      }
-  
-      // Init custom components
-      initComponent(SkipLink);
-      initComponent(YouTubeConsentManager);
-      initComponent(TableHint);
-      initComponent(Header);
-  
-      // Init TNA Frontend
-      initAll();
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Cookie domain setup
+    const cookiesDomain =
+      document.documentElement.getAttribute("data-cookiesdomain");
+    if (cookiesDomain) {
+      new Cookies({ domain: cookiesDomain });
+    }
+
+    // Init custom components
+    initComponent(SkipLink);
+    initComponent(YouTubeConsentManager);
+    initComponent(TableHint);
+    initComponent(Header);
+
+    // Init TNA Frontend
+    initAll();
   });
   ```
+
 - **Note**: TypeScript files (.ts) will need to be converted to JavaScript (.js) or TypeScript support added to build
 
 ### 3. Template Migration (Django → Jinja2)
 
 #### Django to Jinja2 Conversion Rules
 
-| Django Syntax | Jinja2 Syntax | Notes |
-|---------------|---------------|-------|
-| `{% load static %}` | Remove (use `url_for('static', filename='...')`) | Flask built-in |
-| `{% load wagtailcore_tags %}` | Remove | Wagtail-specific |
-| `{% load navigation_tags %}` | Remove or convert to macros | Custom tags need reimplementation |
-| `{% static 'path' %}` | `url_for('static', filename='path')` | Flask URL generation |
-| `{% include "template.html" %}` | `{% include "template.html" %}` | Same syntax ✓ |
-| `{% extends "base.html" %}` | `{% extends "base.html" %}` | Same syntax ✓ |
-| `{% block name %}` | `{% block name %}` | Same syntax ✓ |
-| `{{ page.title }}` | `{{ page.title }}` | Same syntax ✓ |
-| `{% if condition %}` | `{% if condition %}` | Same syntax ✓ |
-| `{% for item in items %}` | `{% for item in items %}` | Same syntax ✓ |
-| `{% url 'view_name' %}` | `{{ url_for('blueprint.view_name') }}` | Different URL generation |
-| `{% trans "text" %}` | `{{ _('text') }}` | Translation (if using Flask-Babel) |
-| `{% wagtailcore_tags %}` | Remove | Wagtail userbar not needed |
-| `{% image page.image width-400 %}` | Custom macro needed | Wagtail-specific image handling |
-| `{{ page|social_text }}` | Custom filter needed | Custom template filters |
-| `{% firstof var1 var2 %}` | `{{ var1 or var2 }}` | Different syntax |
-| `{% spaceless %}` | Remove or use Jinja2 whitespace control | Different approach |
-| `{{ value|title }}` | `{{ value|title }}` | Most filters same ✓ |
+| Django Syntax                      | Jinja2 Syntax                                    | Notes                              |
+| ---------------------------------- | ------------------------------------------------ | ---------------------------------- | ----------------------- | ------------------- |
+| `{% load static %}`                | Remove (use `url_for('static', filename='...')`) | Flask built-in                     |
+| `{% load wagtailcore_tags %}`      | Remove                                           | Wagtail-specific                   |
+| `{% load navigation_tags %}`       | Remove or convert to macros                      | Custom tags need reimplementation  |
+| `{% static 'path' %}`              | `url_for('static', filename='path')`             | Flask URL generation               |
+| `{% include "template.html" %}`    | `{% include "template.html" %}`                  | Same syntax ✓                      |
+| `{% extends "base.html" %}`        | `{% extends "base.html" %}`                      | Same syntax ✓                      |
+| `{% block name %}`                 | `{% block name %}`                               | Same syntax ✓                      |
+| `{{ page.title }}`                 | `{{ page.title }}`                               | Same syntax ✓                      |
+| `{% if condition %}`               | `{% if condition %}`                             | Same syntax ✓                      |
+| `{% for item in items %}`          | `{% for item in items %}`                        | Same syntax ✓                      |
+| `{% url 'view_name' %}`            | `{{ url_for('blueprint.view_name') }}`           | Different URL generation           |
+| `{% trans "text" %}`               | `{{ _('text') }}`                                | Translation (if using Flask-Babel) |
+| `{% wagtailcore_tags %}`           | Remove                                           | Wagtail userbar not needed         |
+| `{% image page.image width-400 %}` | Custom macro needed                              | Wagtail-specific image handling    |
+| `{{ page                           | social_text }}`                                  | Custom filter needed               | Custom template filters |
+| `{% firstof var1 var2 %}`          | `{{ var1 or var2 }}`                             | Different syntax                   |
+| `{% spaceless %}`                  | Remove or use Jinja2 whitespace control          | Different approach                 |
+| `{{ value                          | title }}`                                        | `{{ value                          | title }}`               | Most filters same ✓ |
 
 #### Templates to Convert
 
 ##### Base Templates
+
 ```
 project_styleguide/templates/
 ├── base.html → app/templates/layouts/base_page.html
@@ -216,6 +231,7 @@ project_styleguide/templates/
 ```
 
 ##### Component Templates
+
 ```
 components/ → app/templates/components/
 ├── header/header.html
@@ -265,6 +281,7 @@ components/ → app/templates/components/
 ```
 
 ##### Page Templates
+
 ```
 pages/ → app/templates/pages/
 ├── home/home_page.html
@@ -284,38 +301,50 @@ pages/ → app/templates/pages/
 #### Conversion Steps for Each Template
 
 1. **Remove Django-specific template tags**
+
    ```django
    {% load static wagtailcore_tags wagtailimages_tags navigation_tags %}
    {% wagtail_site as current_site %}
    ```
+
    → Remove entirely or convert to Jinja2 imports
 
 2. **Convert static file references**
+
    ```django
    <link rel="stylesheet" href="{% static 'css/main.css' %}">
    ```
+
    →
+
    ```jinja2
    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
    ```
 
 3. **Convert URL references**
+
    ```django
    <a href="{% url 'home' %}">
    ```
+
    →
+
    ```jinja2
    <a href="{{ url_for('main.index') }}">
    ```
 
 4. **Convert includes**
+
    ```django
    {% include "components/header/header.html" %}
    ```
+
    →
+
    ```jinja2
    {% include "components/header/header.html" %}
    ```
+
    (Usually no change, but check context passing)
 
 5. **Handle custom template tags**
@@ -344,12 +373,14 @@ pages/ → app/templates/pages/
 ### 4. Static Assets Migration
 
 #### Fonts
+
 ```
 Copy: ukgwa/static_src/fonts/Montserrat.woff2
 To: app/static/assets/fonts/Montserrat.woff2
 ```
 
 #### Images
+
 ```
 Copy: ukgwa/static_src/images/cssBackgrounds/
 To: src/images/cssBackgrounds/
@@ -359,12 +390,14 @@ To: app/static/assets/images/placeholder.webp
 ```
 
 #### Sprites (if used)
+
 - Review `sprites/sprites.html` to see if SVG sprites are needed
 - May be handled by TNA Frontend library
 
 ### 5. Build System Updates
 
 #### package.json Updates
+
 ```json
 {
   "dependencies": {
@@ -400,6 +433,7 @@ To: app/static/assets/images/placeholder.webp
 ```
 
 #### webpack.config.js Updates
+
 - Combine approaches from both repositories
 - Use webpack for both CSS and JS (unified build)
 - Add SCSS loader configuration
@@ -410,12 +444,14 @@ To: app/static/assets/images/placeholder.webp
 ### 6. Context Processors / Template Globals
 
 Create `app/lib/template_context.py` or similar to provide:
+
 - Navigation data (primary, secondary, footer)
 - Site settings (social media handles, etc.)
 - Config values (Google Analytics, cookie domain)
 - Helper functions previously in Django template tags
 
 Example:
+
 ```python
 @app.context_processor
 def inject_navigation():
@@ -440,6 +476,7 @@ def inject_settings():
 ### 7. Custom Jinja2 Macros Needed
 
 #### Icon Macro
+
 ```jinja2
 {# macros/icon.html #}
 {% macro icon(name, classname='', viewbox='0 0 24 24') %}
@@ -450,11 +487,12 @@ def inject_settings():
 ```
 
 #### Responsive Image Macro
+
 ```jinja2
 {# macros/responsive_image.html #}
 {% macro responsive_image(src, alt, sizes='100vw', loading='lazy') %}
-<img src="{{ src }}" 
-     alt="{{ alt }}" 
+<img src="{{ src }}"
+     alt="{{ alt }}"
      sizes="{{ sizes }}"
      loading="{{ loading }}"
      class="responsive-image">
@@ -464,6 +502,7 @@ def inject_settings():
 ## Implementation Order
 
 ### Phase 1: Setup & Assets (Day 1)
+
 1. ✅ Create merge plan document
 2. Copy SCSS structure and files
 3. Copy JavaScript components
@@ -471,17 +510,20 @@ def inject_settings():
 5. Update package.json with new dependencies
 
 ### Phase 2: Build System (Day 1-2)
+
 6. Update webpack.config.js
 7. Test CSS compilation
 8. Test JS compilation
 9. Verify asset paths in compiled files
 
 ### Phase 3: Base Templates (Day 2)
+
 10. Convert base.html and base_page.html
 11. Create context processors for common data
 12. Test base template rendering
 
 ### Phase 4: Core Components (Day 2-3)
+
 13. Convert header component
 14. Convert footer component
 15. Convert navigation components
@@ -489,6 +531,7 @@ def inject_settings():
 17. Test component rendering
 
 ### Phase 5: Content Components (Day 3-4)
+
 18. Convert card, hero, page header
 19. Convert listing and pagination
 20. Convert alert banners
@@ -496,12 +539,14 @@ def inject_settings():
 22. Create macros for reusable elements
 
 ### Phase 6: Page Templates (Day 4-5)
+
 23. Convert home page template
 24. Convert standard page templates
 25. Convert error pages
 26. Test all page templates
 
 ### Phase 7: Testing & Refinement (Day 5)
+
 27. Visual regression testing
 28. Cross-browser testing
 29. Accessibility testing
@@ -511,6 +556,7 @@ def inject_settings():
 ## Files to Exclude
 
 ### DO NOT Copy
+
 - `ukgwa/project_styleguide/templates/pattern_library/` - Pattern Library UI
 - `ukgwa/project_styleguide/templates/_pattern_library_only/` - Pattern Library specific
 - `*.yaml` files in template directories - Pattern Library data files
@@ -521,6 +567,7 @@ def inject_settings():
 ## Testing Checklist
 
 ### Visual
+
 - [ ] Header renders correctly
 - [ ] Footer renders correctly
 - [ ] Navigation menus work
@@ -531,6 +578,7 @@ def inject_settings():
 - [ ] Icons display properly
 
 ### Functional
+
 - [ ] Mobile menu works
 - [ ] Skip link functions
 - [ ] YouTube consent manager works
@@ -541,12 +589,14 @@ def inject_settings():
 - [ ] Links navigate correctly
 
 ### Cross-browser
+
 - [ ] Chrome/Edge
 - [ ] Firefox
 - [ ] Safari
 - [ ] Mobile browsers
 
 ### Accessibility
+
 - [ ] Keyboard navigation
 - [ ] Screen reader testing
 - [ ] ARIA attributes correct
@@ -554,6 +604,7 @@ def inject_settings():
 - [ ] Color contrast
 
 ### Performance
+
 - [ ] CSS file size reasonable
 - [ ] JS file size reasonable
 - [ ] Assets load quickly
@@ -562,30 +613,37 @@ def inject_settings():
 ## Potential Issues & Solutions
 
 ### Issue 1: Wagtail Image Tags
+
 **Problem**: `{% image page.image width-400 %}` won't work in Flask
 **Solution**: Create a Jinja2 filter or macro that generates responsive image HTML with srcset
 
 ### Issue 2: Navigation Template Tags
+
 **Problem**: `{% primary_nav %}` and similar custom tags don't exist
 **Solution**: Create context processors that pass navigation data, use macros to render
 
 ### Issue 3: Settings Access
+
 **Problem**: `{{ settings.core.SocialMediaSettings.twitter_handle }}`
 **Solution**: Move to Flask config or database, expose via context processor
 
 ### Issue 4: Wagtail UserBar
+
 **Problem**: `{% wagtailuserbar %}` for admin
 **Solution**: Remove - not needed in Flask app
 
 ### Issue 5: Social Image Tags
+
 **Problem**: Complex image processing in Django template
 **Solution**: Implement image processing in Python view, pass URLs to template
 
 ### Issue 6: TypeScript Components
+
 **Problem**: Some JS components are TypeScript
 **Solution**: Either add TypeScript support to webpack or convert to JavaScript
 
 ### Issue 7: Pattern Library Context
+
 **Problem**: Templates expect Pattern Library provided context
 **Solution**: Ensure all context is provided from Flask views
 

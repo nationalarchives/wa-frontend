@@ -1,27 +1,30 @@
-@use '../config' as *;
+@use "../config" as *;
 
 .u-layout {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    padding-left: $grid-s;
-    padding-right: $grid-s;
-    column-gap: $grid-s;
+  padding-right: $grid-s;
+  padding-left: $grid-s;
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  column-gap: $grid-s;
+
+  @include media-query(large) {
+    max-width: $site-width;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: $grid-m;
+    padding-left: $grid-m;
+
+    column-gap: $grid-l;
+  }
+
+  &__primary-col,
+  &__secondary-col {
+    margin-bottom: $grid-m;
 
     @include media-query(large) {
-        max-width: $site-width;
-        column-gap: $grid-l;
-        padding-left: $grid-m;
-        padding-right: $grid-m;
-        margin-left: auto;
-        margin-right: auto;
+      margin-bottom: $grid-l;
     }
-
-    &__primary-col,
-    &__secondary-col {
-        margin-bottom: $grid-m;
-
-        @include media-query(large) {
-            margin-bottom: $grid-l;
-        }
-    }
+  }
 }

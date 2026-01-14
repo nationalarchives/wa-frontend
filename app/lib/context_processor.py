@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 from urllib.parse import unquote
 
-from flask import request, current_app
+from flask import current_app, request
 
 
 def now_iso_8601():

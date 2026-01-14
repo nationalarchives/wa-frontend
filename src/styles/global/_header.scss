@@ -1,134 +1,149 @@
-@use '../config' as *;
+@use "../config" as *;
 
 // Uses https://design-system.nationalarchives.gov.uk/components/header/ as a base, these are just subtle overrides
 // Note: We have to override the breakpoint that the desktop nav kicks in due to the nav site
 
 .header {
-    background: var(
-        --global-header-background
-    ); // needs to be background to override TNA Frontend background
+  background: var(
+    --global-header-background
+  ); // needs to be background to override TNA Frontend background
 
-    &__strapline {
-        text-transform: none;
-        max-width: 140px;
-        font-family: $font--primary;
+  &__strapline {
+    max-width: 140px;
 
-        @include media-query(medium) {
-            position: relative;
-            top: 6px;
-        }
+    font-family: $font-primary;
+    text-transform: none;
+
+    @include media-query(medium) {
+      position: relative;
+      top: 6px;
     }
+  }
 
-    &__logo {
-        column-gap: $grid-xs;
-    }
+  &__logo {
+    column-gap: $grid-xs;
+  }
 
-    &__secondary-link {
-        @include font-size(supporting) {
-            display: flex;
-            height: 100%; // ensure items without icons fill whole height
-            align-items: center;
-            gap: $grid-xxs;
-            line-height: 1;
-        }
+  &__secondary-link {
+    @include font-size(supporting) {
+      height: 100%; // ensure items without icons fill whole height
+
+      display: flex;
+      align-items: center;
+      gap: $grid-xxs;
+
+      line-height: 1;
     }
+  }
 }
 
 // Active state for primary navigation
 .tna-header__navigation-item-link--active {
-    position: relative;
+  position: relative;
 
-    &::after {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        right: 0;
-        height: 4px;
-        background-color: var(--theme-primary-background);
-    }
+  &::after {
+    content: "";
+
+    height: 4px;
+
+    position: absolute;
+    right: 0;
+    bottom: -2px;
+    left: 0;
+
+    background-color: var(--theme-primary-background);
+  }
 }
 
 // Override TNA's mobile nav breakpoint from 48em to 64em
 // Apply mobile navigation styles in the range between TNA's breakpoint (48em) and ours
-@media (min-width: 48.0625em) and (max-width: #{$header-mobile-nav-breakpoint}) {
-    .tna-header.tna-header {
-        // Container needs to wrap so nav drops below logo/toggle
-        // Remove container padding so nav is flush with viewport
-        .tna-header__contents.tna-container {
-            flex-wrap: wrap;
-            padding-right: 0;
-            padding-left: 0;
-        }
+@media (width >= 48.0625em) and (max-width: #{$header-mobile-nav-breakpoint}) {
+  .tna-header.tna-header {
+    // Container needs to wrap so nav drops below logo/toggle
+    // Remove container padding so nav is flush with viewport
+    .tna-header__contents.tna-container {
+      padding-right: 0;
+      padding-left: 0;
 
-        // Restore padding to logo and toggle button
-        .tna-header__logo-wrapper,
-        .tna-header__navigation-button-wrapper {
-            padding-right: 1rem;
-        }
-
-        .tna-header__logo-wrapper {
-            padding-left: 1rem;
-        }
-
-        .tna-header__navigation-button-wrapper {
-            display: block;
-        }
-
-        // Navigation takes full width and drops below
-        .tna-header__navigation {
-            flex-basis: 100%;
-            flex-direction: column;
-            align-items: stretch;
-
-            &.tna-column {
-                padding-right: 0;
-                padding-left: 0;
-            }
-
-            &:not(.tna-header__navigation--open) {
-                display: none;
-            }
-        }
-
-        // Secondary nav (top navigation items)
-        .tna-header__top-navigation-items {
-            padding: 0.5rem 1rem;
-            justify-content: flex-start;
-            border-bottom: 1px solid var(--contrast-keyline);
-        }
-
-        // Primary nav items
-        .tna-header__navigation-items {
-            width: 100%;
-            flex-direction: column;
-            gap: 0;
-            background-color: rgb(255 255 255 / 10%);
-            border-top: 2px solid var(--contrast-keyline);
-            border-bottom: 2px solid var(--contrast-keyline);
-        }
-
-        .tna-header__navigation-item {
-            margin: 0;
-            display: block;
-            border-top: 1px solid var(--contrast-keyline);
-
-            &:first-child {
-                border-top: none;
-            }
-        }
-
-        .tna-header__navigation-item-link {
-            display: block;
-            padding: 0.5rem 1rem;
-            line-height: 1.75rem;
-
-            &::after {
-                width: 0;
-                height: auto;
-                top: 0;
-                right: auto;
-            }
-        }
+      flex-wrap: wrap;
     }
+
+    // Restore padding to logo and toggle button
+    .tna-header__logo-wrapper,
+    .tna-header__navigation-button-wrapper {
+      padding-right: 1rem;
+    }
+
+    .tna-header__logo-wrapper {
+      padding-left: 1rem;
+    }
+
+    .tna-header__navigation-button-wrapper {
+      display: block;
+    }
+
+    // Navigation takes full width and drops below
+    .tna-header__navigation {
+      flex-basis: 100%;
+
+      flex-direction: column;
+      align-items: stretch;
+
+      &.tna-column {
+        padding-right: 0;
+        padding-left: 0;
+      }
+
+      &:not(.tna-header__navigation--open) {
+        display: none;
+      }
+    }
+
+    // Secondary nav (top navigation items)
+    .tna-header__top-navigation-items {
+      padding: 0.5rem 1rem;
+
+      justify-content: flex-start;
+      border-bottom: 1px solid var(--contrast-keyline);
+    }
+
+    // Primary nav items
+    .tna-header__navigation-items {
+      width: 100%;
+
+      flex-direction: column;
+      gap: 0;
+
+      background-color: rgb(255 255 255 / 10%);
+      border-top: 2px solid var(--contrast-keyline);
+      border-bottom: 2px solid var(--contrast-keyline);
+    }
+
+    .tna-header__navigation-item {
+      margin: 0;
+
+      display: block;
+      border-top: 1px solid var(--contrast-keyline);
+
+      &:first-child {
+        border-top: none;
+      }
+    }
+
+    .tna-header__navigation-item-link {
+      padding: 0.5rem 1rem;
+
+      display: block;
+
+      line-height: 1.75rem;
+
+      &::after {
+        width: 0;
+        height: auto;
+
+        top: 0;
+        right: auto;
+      }
+    }
+  }
 }
