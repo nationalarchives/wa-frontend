@@ -1,6 +1,8 @@
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const sass = require("sass");
 
 const webpackConfig = (environment, argv) => {
   const isProduction = argv.mode === "production";
@@ -27,9 +29,49 @@ const webpackConfig = (environment, argv) => {
           },
         },
         {
-          // Handles fonts referenced in CSS
-          test: /\.(woff|woff2)$/,
-          include: path.resolve(__dirname, "src/images/"),
+          test: /\.(css|scss)$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                esModule: false,
+              },
+            },
+            {
+              loader: "css-loader",
+              options: {
+                sourceMap: true,
+              },
+            },
+            {
+              loader: "postcss-loader",
+              options: {
+                sourceMap: true,
+                postcssOptions: {
+                  plugins: [
+                    "tailwindcss",
+                    "autoprefixer",
+                    ["cssnano", { preset: "default" }],
+                  ],
+                },
+              },
+            },
+            {
+              loader: "sass-loader",
+              options: {
+                sourceMap: true,
+                implementation: sass,
+                sassOptions: {
+                  outputStyle: "compressed",
+                  includePaths: [path.resolve(__dirname, "node_modules")],
+                },
+              },
+            },
+          ],
+        },
+        {
+          // Handles fonts referenced in CSS/SCSS
+          test: /\.(woff|woff2|ttf|eot)$/,
           type: "asset/resource",
           generator: {
             filename: "assets/fonts/[name][ext]",
@@ -52,6 +94,9 @@ const webpackConfig = (environment, argv) => {
       ],
     },
     plugins: [
+      new MiniCssExtractPlugin({
+        filename: "[name].css",
+      }),
       new CopyPlugin({
         patterns: [
           {
