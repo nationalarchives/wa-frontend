@@ -1,0 +1,44 @@
+@use "../config" as *;
+
+.button {
+  background-color: transparent;
+  background-image: none;
+
+  border: 0;
+
+  box-shadow: none;
+  transition: background-color $transition;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:focus {
+    outline: $focus-width solid $focus-bg;
+
+    &:not(:active, :hover) {
+      color: $focus-color;
+
+      background-color: $focus-bg;
+
+      border-color: $focus-bg;
+    }
+  }
+
+  &--primary {
+    padding: $grid-xs $grid-s;
+
+    color: var(--theme-button-text);
+    font-weight: $weight-bold;
+
+    background-color: var(--theme-button-background);
+
+    &:hover,
+    &:focus,
+    &:visited {
+      color: var(--theme-button-text);
+
+      background-color: var(--theme-button-hover);
+    }
+  }
+}

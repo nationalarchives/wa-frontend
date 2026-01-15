@@ -1,0 +1,85 @@
+@use "../config" as *;
+
+// This is identical to typed-table.scss, but due to the limitations of the kit
+// features we need to duplicate it
+// If you have both table and typed-tables in your codebase, you can
+// rationalise these to a single file
+
+.table {
+  @include font-size(heading-five) {
+    min-width: 600px;
+    width: 100%;
+
+    border-collapse: collapse;
+  }
+
+  &__caption {
+    @include font-size(heading-three) {
+      margin-bottom: $grid;
+
+      font-weight: $weight-bold;
+    }
+  }
+
+  &__cell {
+    padding: $grid;
+
+    text-align: left;
+  }
+}
+
+.table-wrapper {
+  width: 100%;
+
+  overflow-x: scroll;
+
+  position: relative;
+
+  &__hint {
+    width: 300px;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    background: linear-gradient(to right, rgb(255 255 255 / 0%) -50%, var(--color-background-primary) 100%);
+
+    opacity: 1;
+    transition: opacity 0.25s ease;
+
+    .is-scrolling & {
+      opacity: 0;
+    }
+
+    @include media-query(medium) {
+      display: none;
+    }
+
+    // hide hint in high contrast mode as the gradient
+    // is not visible
+    @include high-contrast-mode {
+      display: none;
+    }
+
+    // hide hint if js is disabled
+    @media (scripting: none) {
+      display: none;
+    }
+
+    @include reduced-motion {
+      transition: none;
+    }
+  }
+
+  // Button to scroll right
+  &__button {
+    @include media-query(medium) {
+      display: none;
+    }
+  }
+}

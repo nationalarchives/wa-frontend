@@ -1,0 +1,30 @@
+@use "../config" as *;
+
+.u-layout {
+  padding-right: $grid-s;
+  padding-left: $grid-s;
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  column-gap: $grid-s;
+
+  @include media-query(large) {
+    max-width: $site-width;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: $grid-m;
+    padding-left: $grid-m;
+
+    column-gap: $grid-l;
+  }
+
+  &__primary-col,
+  &__secondary-col {
+    margin-bottom: $grid-m;
+
+    @include media-query(large) {
+      margin-bottom: $grid-l;
+    }
+  }
+}

@@ -1,1 +1,4 @@
 **/*.html
+app/static/
+node_modules/
+.git/

@@ -1,0 +1,163 @@
+@use "../config" as *;
+
+.video-embed {
+  $root: &;
+
+  &__title {
+    margin-bottom: $grid-xs;
+  }
+
+  &__description {
+    margin-bottom: $grid-s;
+
+    color: var(--theme-text-80);
+  }
+
+  &__container {
+    overflow: hidden;
+
+    position: relative;
+  }
+
+  &__placeholder {
+    background-color: var(--color-grey-200);
+  }
+
+  &__thumbnail {
+    width: 100%;
+    height: auto;
+
+    display: block;
+    object-fit: cover;
+  }
+
+  &__consent {
+    padding: $grid-s;
+
+    background-color: var(--color-grey-200);
+  }
+
+  &__consent-text {
+    margin: 0 0 $grid-s;
+
+    color: var(--theme-text-default);
+
+    a {
+      color: var(--theme-primary);
+      text-decoration: underline;
+
+      &:hover,
+      &:focus {
+        color: var(--theme-link-hover);
+      }
+    }
+  }
+
+  &__consent-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $grid-s;
+  }
+
+  &__accept-button {
+    min-width: 120px;
+    padding: $grid-xs $grid-s;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--color-white);
+    font-family: $font-primary;
+    font-weight: $weight-semibold;
+    text-decoration: none;
+
+    border: 2px solid transparent;
+    border-radius: 0;
+
+    cursor: pointer;
+    transition:
+      background-color $transition,
+      border-color $transition;
+  }
+
+  &__checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: $grid-xxs;
+  }
+
+  &__checkbox {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+
+    cursor: pointer;
+
+    &:focus {
+      outline: $focus-width solid $focus-bg;
+      outline-offset: 2px;
+    }
+  }
+
+  &__checkbox-label {
+    @include font-size(body) {
+      color: var(--theme-text-default);
+
+      cursor: pointer;
+      user-select: none;
+    }
+  }
+
+  &__embed-container {
+    height: 0;
+    padding-bottom: 56.25%; // 16:9 aspect ratio
+
+    overflow: hidden;
+
+    position: relative;
+
+    // Hidden by default until consent is given
+    &:not(.hidden) {
+      display: block;
+    }
+
+    iframe,
+    lite-youtube {
+      width: 100%;
+      height: 100%;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      border: 0;
+    }
+  }
+
+  &__placeholder.hidden {
+    display: none;
+  }
+
+  // Non-YouTube embeds
+  &__generic-embed {
+    height: 0;
+    padding-bottom: 56.25%;
+
+    overflow: hidden;
+
+    position: relative;
+
+    iframe {
+      width: 100%;
+      height: 100%;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      border: 0;
+    }
+  }
+}
