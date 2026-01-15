@@ -1,39 +1,10 @@
 {% extends "base.html" %}
-{%- set pageTitle = "Welcome" -%}
+{% from "components/hero.html" import hero %}
+{% from "components/featured_search.html" import featured_search %}
+{% from "components/related_content.html" import related_content %}
+{% from "components/call_to_action.html" import call_to_action %}
+{%- set pageTitle = "UK Government Web Archive" -%}
 {% block content %}
-    <div class="tna-section">
-        <div class="tna-container">
-            <div class="tna-column tna-column--width-2-3 tna-column--width-5-6-medium tna-column--full-small tna-column--full-tiny">
-                <h1 class="tna-heading-xl">TNA Flask application</h1>
-                <p class="tna-large-paragraph">Get started building a National Archives Flask application.</p>
-                <h2 class="tna-heading-l">Useful links</h2>
-                <ul class="tna-ul">
-                    <li>
-                        <a href="https://nationalarchives.github.io/engineering-handbook/">The National Archives Engineering Handbook</a>
-                    </li>
-                </ul>
-                <h3 class="tna-heading-m">Frontend resources</h3>
-                <ul class="tna-ul">
-                    <li>
-                        <a href="https://github.com/nationalarchives/tna-frontend">TNA Frontend</a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/nationalarchives/tna-frontend-jinja">TNA Frontend Jinja templates</a>
-                    </li>
-                    <li>
-                        <a href="https://design-system.nationalarchives.gov.uk/">The National Archives Design System</a>
-                    </li>
-                </ul>
-                <h3 class="tna-heading-m">Backend resources</h3>
-                <ul class="tna-ul">
-                    <li>
-                        <a href="https://github.com/nationalarchives/docker">The National Archives base Docker images</a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/nationalarchives/ds-docker-actions">Digital Services Docker build actions</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    {{ hero("UK Government Web Archive", "Discover archived UK government websites and documents from 1996 to the present day") }}
+    {{ featured_search("Search the archive", "Search", "Search across millions of archived web pages") }}
 {% endblock content %}
