@@ -1,0 +1,30 @@
+# EditorConfig for wa-frontend
+# https://editorconfig.org
+
+root = true
+
+# Default settings for all files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# JavaScript, TypeScript, JSON, CSS, SCSS, YAML, Markdown
+[*.{js,mjs,jsx,ts,tsx,json,css,scss,yaml,yml,md}]
+indent_style = space
+indent_size = 2
+
+# Python files (matches Black and PEP 8)
+[*.py]
+indent_style = space
+indent_size = 4
+
+# HTML templates (Jinja2)
+[*.html]
+indent_style = space
+indent_size = 2
+
+# Markdown files (don't trim trailing whitespace - needed for line breaks)
+[*.md]
+trim_trailing_whitespace = false
