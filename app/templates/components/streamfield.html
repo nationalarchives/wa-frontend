@@ -41,10 +41,35 @@
 {% endmacro %}
 {# Video Embed Block #}
 {% macro video_embed(video_url, title='Video', provider='youtube') %}
-    <div class="video-embed">
-        <div class="video-embed__container">
+    <div class="video-embed" data-youtube-embed>
+        {# Consent placeholder - shown before user accepts #}
+        <div class="video-embed__placeholder" data-youtube-placeholder-container>
+            <div class="video-embed__consent">
+                <h3 class="heading heading--three">Watch on YouTube</h3>
+                <p>This video is hosted on YouTube. By viewing it, you agree to YouTube's privacy policy and terms of service.</p>
+                <div class="video-embed__consent-controls">
+                    <label class="checkbox">
+                        <input type="checkbox" data-youtube-save-prefs>
+                        <span>Don't ask again for YouTube videos</span>
+                    </label>
+                    <button type="button" 
+                            class="button button--primary" 
+                            data-youtube-consent-button>
+                        Accept and watch video
+                    </button>
+                </div>
+            </div>
+        </div>
+        {# Video container - shown after consent #}
+        <div class="video-embed__container hidden" data-youtube-embed-container>
             {% if provider == 'youtube' %}
-                <lite-youtube videoid="{{ video_url }}" playlabel="{{ title }}"></lite-youtube>
+                <video class="video-js vjs-default-skin"
+                       controls
+                       preload="metadata"
+                       data-video-id="{{ video_url }}"
+                       data-video-title="{{ title }}"
+                       data-setup='{}'>
+                </video>
             {% else %}
                 <iframe src="{{ video_url }}"
                         title="{{ title }}"
