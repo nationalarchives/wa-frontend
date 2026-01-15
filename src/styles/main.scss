@@ -6,7 +6,6 @@
 // Base
 @use "base/base";
 @use "base/typography";
-@use "base/fonts";
 
 // Components
 @use "components/accordion";
@@ -40,3 +39,8 @@
 // Layout
 @use "global/header";
 @use "global/footer";
+
+// Tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

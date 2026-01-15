@@ -1,5 +1,7 @@
 import { initAll, Cookies } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 
+import "../styles/main.scss";
+
 import Header from "./components/header.js";
 import SkipLink from "./components/skip-link.js";
 import YouTubeConsentManager from "./components/youtube-consent-manager.js";
