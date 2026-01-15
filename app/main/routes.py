@@ -1,6 +1,7 @@
+from flask import render_template
+
 from app.lib.cache import cache, cache_key_prefix
 from app.main import bp
-from flask import render_template
 
 
 @bp.route("/")
@@ -16,7 +17,7 @@ def index():
                 "category": "HISTORICAL MOMENTS",
                 "listing_summary": "",
                 "introduction": "",
-                "source_url": "www.open.gov.uk"
+                "source_url": "www.open.gov.uk",
             },
             {
                 "title": "Archived tweets from No10 during COVID",
@@ -25,7 +26,7 @@ def index():
                 "category": "SURPRISING FINDS",
                 "listing_summary": "",
                 "introduction": "",
-                "source_url": "@10DowningStreet"
+                "source_url": "@10DowningStreet",
             },
             {
                 "title": "Historic HMRC Self Assessment Tax Return (SA100) forms",
@@ -34,8 +35,8 @@ def index():
                 "category": "DOCUMENTS & FORMS",
                 "listing_summary": "",
                 "introduction": "",
-                "source_url": "www.hmrc.gov.uk"
-            }
+                "source_url": "www.hmrc.gov.uk",
+            },
         ],
         "recently_archived": [
             {
@@ -45,7 +46,7 @@ def index():
                 "category": "",
                 "listing_summary": "",
                 "introduction": "",
-                "source_url": "www.open.gov.uk"
+                "source_url": "www.open.gov.uk",
             },
             {
                 "title": "Department for Children, Schools and Families (DCSF)",
@@ -54,7 +55,7 @@ def index():
                 "category": "",
                 "listing_summary": "",
                 "introduction": "",
-                "source_url": "www.open.gov.uk"
+                "source_url": "www.open.gov.uk",
             },
             {
                 "title": "Department for Children, Schools and Families (DCSF)",
@@ -63,8 +64,8 @@ def index():
                 "category": "",
                 "listing_summary": "",
                 "introduction": "",
-                "source_url": "www.open.gov.uk"
-            }
+                "source_url": "www.open.gov.uk",
+            },
         ],
         "recently_archived_intro": "The latest websites and social media channels added to the archive.",
         "call_to_action": {
@@ -72,8 +73,8 @@ def index():
             "summary": "<p>We capture, preserve and make accessible UK central government information published on the web. The Web Archive includes videos, tweets, images and websites dating from 1996 to the present day.</p>",
             "link_url": "/about/",
             "link_text": "Learn more about the archive",
-            "image_url": ""
-        }
+            "image_url": "",
+        },
     }
 
     return render_template("main/index.html", page=page)
