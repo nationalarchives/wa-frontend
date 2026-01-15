@@ -80,8 +80,22 @@ def get_social_media_data():
 
 def inject_global_context():
     """Inject global context variables into all templates."""
+    nav_data = get_navigation_data()
+
+    # Split navigation data to match feature/uwr-33-site-setup structure
+    header_navigation = {
+        "primary": nav_data.get("primary", []),
+        "secondary": nav_data.get("secondary", []),
+    }
+
+    footer_navigation = {
+        "columns": nav_data.get("footer", []),
+        "legal": nav_data.get("footer_links", []),
+    }
+
     return {
-        "header_navigation": get_navigation_data(),
+        "header_navigation": header_navigation,
+        "footer_navigation": footer_navigation,
         "social_media": get_social_media_data(),
         "config": {
             "SITE_NAME": current_app.config.get(

@@ -34,7 +34,7 @@
                     <meta itemprop="url" content="https://gov.uk/dcms">
                 </div>
             </div>
-            {% if navigation.footer %}{{ footer_nav(navigation.footer) }}{% endif %}
+            {% if footer_navigation.columns %}{{ footer_nav(footer_navigation.columns) }}{% endif %}
             <div class="tna-column tna-column--flex-1">
                 {% if social_media.twitter_handle or social_media.facebook_url %}
                     <h3 class="tna-!--visually-hidden">Follow us on social media</h3>
@@ -61,7 +61,7 @@
                 {% endif %}
             </div>
         </div>
-        {% if navigation.footer_links %}{{ footer_links(navigation.footer_links) }}{% endif %}
+        {% if footer_navigation.legal %}{{ footer_links(footer_navigation.legal) }}{% endif %}
         <div class="tna-container tna-footer__licence">
             <div class="tna-column tna-column--full-tiny">
                 <svg class="tna-footer__licence-logo"
