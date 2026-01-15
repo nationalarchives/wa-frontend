@@ -1,5 +1,79 @@
 # UK Web Archive Frontend
 
+## UKGWA Local Repository Setup
+
+This guide covers setting up both the backend (ds-wagtail) and frontend (wa-frontend) repositories for local development.
+
+### Backend - ds-wagtail
+
+1. Clone the repo locally:
+   ```sh
+   git clone git@github.com:nationalarchives/ds-wagtail.git
+   ```
+
+2. Within the project folder, rename the example env file `cp .env.example .env`, its not used for anything by us but the build checks for its existence
+
+3. In the root directory of the project create a new `docker-compose.override.yml` file, and add the following content:
+   ```yaml
+   services:
+     app:
+       environment:
+         - WAGTAILAPI_BASE_URL=http://host.docker.internal:8000
+         - WAGTAILAPI_IMAGES_BASE_URL=http://localhost:8000
+         - WAGTAILAPI_MEDIA_BASE_URL=http://localhost:8000
+   ```
+
+4. Build the container:
+   ```sh
+   docker compose up --build -d
+   ```
+
+5. Run migrations:
+   ```sh
+   docker compose exec app poetry run python manage.py migrate
+   ```
+
+6. Create a superuser:
+   ```sh
+   docker compose exec app python manage.py createsuperuser
+   ```
+
+7. Log in to the wagtail admin site (should be http://localhost:8000/admin)
+
+8. Create a new page at the root of type "UKGWA Home Page", this will be our new sites homepage
+
+9. Create a new site (Settings > Sites):
+   - Hostname: `localhost`
+   - Port: `65500`
+   - Site Name: `UK Gov Web Archive`
+   - Home page: The page created in step 8.
+
+10. Check the page is displayed when querying the site-specific page endpoint and its detail view can be accessed:
+    - http://localhost:8000/api/v2/pages/?site=localhost:65500
+    - http://localhost:8000/api/v2/pages/{PAGE_ID}/?site=localhost:65500
+
+### Frontend - wa-frontend
+
+1. Clone the repo locally:
+   ```sh
+   git clone git@github.com:nationalarchives/ds-wagtail.git
+   ```
+
+2. In the root directory of the project create a new `docker-compose.override.yml` file, and add the following content:
+   ```yaml
+   services:
+     app:
+       environment:
+         - WAGTAIL_SITE_HOSTNAME=localhost:65500
+   ```
+
+3. Within the project folder build the container:
+   ```sh
+   docker compose up --build -d
+   ```
+
+4. Visit http://localhost:65500/ to view the frontend site
+
 ## Quickstart
 
 ```sh
