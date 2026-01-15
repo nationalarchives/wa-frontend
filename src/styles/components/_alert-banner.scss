@@ -1,4 +1,5 @@
 @use "../config" as *;
+@use "sass:map";
 
 .alert-banner {
   &__alert {
@@ -26,7 +27,7 @@
   &__message {
     margin: 0;
 
-    font-size: map-get($small-font-sizes, "supporting");
+    font-size: map.get($small-font-sizes, "supporting");
   }
 
   // Warning modifier (default)

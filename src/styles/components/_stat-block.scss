@@ -1,4 +1,6 @@
 @use "../config" as *;
+@use "sass:map";
+@use "sass:list";
 
 .stat-block {
   padding: $grid-m 0;
@@ -20,16 +22,16 @@
   &__number {
     color: var(--theme-primary);
     font-family: $font-primary;
-    font-size: map-get($large-font-sizes, heading-one);
+    font-size: map.get($large-font-sizes, heading-one);
     font-weight: $weight-bold;
     line-height: 1.1;
 
-    @media #{nth(nth($breakpoints, 2), 2)} {
-      font-size: map-get($medium-font-sizes, heading-one);
+    @media #{list.nth(list.nth($breakpoints, 2), 2)} {
+      font-size: map.get($medium-font-sizes, heading-one);
     }
 
-    @media #{nth(nth($breakpoints, 1), 2)} {
-      font-size: map-get($small-font-sizes, heading-one);
+    @media #{list.nth(list.nth($breakpoints, 1), 2)} {
+      font-size: map.get($small-font-sizes, heading-one);
     }
   }
 
@@ -38,7 +40,7 @@
 
     color: var(--theme-text-default);
     font-family: $font-secondary;
-    font-size: map-get($large-font-sizes, body);
+    font-size: map.get($large-font-sizes, body);
   }
 
   &__link {
@@ -46,7 +48,7 @@
     padding-top: $grid-xs;
 
     color: var(--theme-link);
-    font-size: map-get($large-font-sizes, supporting);
+    font-size: map.get($large-font-sizes, supporting);
     text-decoration: underline;
 
     &:hover,

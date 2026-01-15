@@ -6,6 +6,12 @@ data.rules = {
   "scss/no-global-function-names": null,
   "no-duplicate-selectors": null,
   "order/properties-order": null,
+  "scss/at-rule-no-unknown": [
+    true,
+    {
+      ignoreAtRules: ["tailwind"],
+    },
+  ],
 };
 
 export default data;
