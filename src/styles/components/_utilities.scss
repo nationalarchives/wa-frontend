@@ -38,3 +38,12 @@
     grid-column: 3 / span 8;
   }
 }
+
+// Responsive visibility utilities
+.u-hide-until-lg {
+  display: none;
+
+  @include media-query(large) {
+    display: inline;
+  }
+}
