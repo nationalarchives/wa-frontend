@@ -48,11 +48,7 @@ const webpackConfig = (environment, argv) => {
               options: {
                 sourceMap: true,
                 postcssOptions: {
-                  plugins: [
-                    "tailwindcss",
-                    "autoprefixer",
-                    ["cssnano", { preset: "default" }],
-                  ],
+                  plugins: ["tailwindcss", "autoprefixer", ["cssnano", { preset: "default" }]],
                 },
               },
             },
