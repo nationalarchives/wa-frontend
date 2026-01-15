@@ -5,6 +5,8 @@
 {% from "components/call_to_action.html" import call_to_action %}
 {%- set pageTitle = "UK Government Web Archive" -%}
 {% block content %}
-    {{ hero("UK Government Web Archive", "Discover archived UK government websites and documents from 1996 to the present day") }}
-    {{ featured_search("Search the archive", "Search", "Search across millions of archived web pages") }}
+    {{ hero("UK Government Web Archive", "We capture, preserve and make accessible UK central government information published on the web. The Web Archive includes videos, tweets, images and websites dating from 1996 to the present day.") }}
+    {{ featured_search("Find archived government websites and documents", "Search", "Type keywords separated by commas, or a full phrase. You can also search by URL.") }}
+    {{ related_content(page.archive_highlights, heading="Editor's picks", heading_id="archive-highlights", modifier="archive-highlights") }}
+    {{ related_content(page.recently_archived, heading="Recently archived", heading_id="recently-archived", intro=page.recently_archived_intro, modifier="recently-archived") }}
 {% endblock content %}
