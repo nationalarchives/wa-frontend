@@ -41,11 +41,14 @@ class YouTubeConsentManager {
       const iframe = document.createElement("iframe");
       iframe.setAttribute("src", `https://www.youtube-nocookie.com/embed/${this.videoId}?rel=0`);
       iframe.setAttribute("frameborder", "0");
-      iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
+      iframe.setAttribute(
+        "allow",
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+      );
       iframe.setAttribute("allowfullscreen", "true");
       iframe.setAttribute("title", this.videoTitle);
       iframe.className = "video-embed__iframe";
-      
+
       this.embedContainer.appendChild(iframe);
     }
   }
@@ -55,7 +58,7 @@ class YouTubeConsentManager {
       this.handleDontAskAgainClick();
     }
     this.loadYouTubeEmbed();
-    
+
     // Focus on the embed container after accepting
     setTimeout(() => {
       const iframe = this.embedContainer.querySelector("iframe");
