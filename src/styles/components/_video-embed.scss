@@ -155,29 +155,6 @@
     &.hidden {
       display: none;
     }
-
-    iframe,
-    .video-js {
-      width: 100%;
-      height: 100%;
-
-      position: absolute;
-      top: 0;
-      left: 0;
-
-      border: 0;
-    }
-  }
-
-  // Ensure video.js player fills the container
-  .video-js {
-    &.vjs-fluid,
-    &.vjs-16-9,
-    &.vjs-4-3 {
-      width: 100%;
-      height: 100%;
-      padding-top: 0;
-    }
   }
 
   // Non-YouTube embeds (direct iframes)

@@ -1,9 +1,6 @@
-import videojs from "video.js";
-import "video.js/dist/video-js.css";
-
 /**
  * YouTubeConsentManager handles the consent for loading YouTube videos on a webpage.
- * Uses TNA Frontend Cookies library and video.js player.
+ * Uses TNA Frontend Cookies library and youtube-nocookie.com for privacy compliance.
  */
 class YouTubeConsentManager {
   static selector() {
@@ -19,8 +16,8 @@ class YouTubeConsentManager {
     this.dontAskAgainCheckbox = this.youtubeEmbedNode.querySelector("[data-youtube-save-prefs]");
     this.placeholderContainer = this.youtubeEmbedNode.querySelector("[data-youtube-placeholder-container]");
     this.embedContainer = this.youtubeEmbedNode.querySelector("[data-youtube-embed-container]");
-    this.videoElement = this.embedContainer.querySelector("video");
-    this.player = null;
+    this.videoId = this.embedContainer.getAttribute("data-video-id");
+    this.videoTitle = this.embedContainer.getAttribute("data-video-title") || "Video";
     this.cookies = window.TNAFrontendCookies;
     this.bindEvents();
   }
@@ -39,44 +36,17 @@ class YouTubeConsentManager {
     this.placeholderContainer.classList.add("hidden");
     this.embedContainer.classList.remove("hidden");
 
-    // Initialize video.js player if not already initialized
-    if (!this.player && this.videoElement) {
-      const videoId = this.videoElement.getAttribute("data-video-id");
+    // Create YouTube iframe embed using youtube-nocookie.com for privacy
+    if (this.videoId && this.embedContainer.children.length === 0) {
+      const iframe = document.createElement("iframe");
+      iframe.setAttribute("src", `https://www.youtube-nocookie.com/embed/${this.videoId}?rel=0`);
+      iframe.setAttribute("frameborder", "0");
+      iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
+      iframe.setAttribute("allowfullscreen", "true");
+      iframe.setAttribute("title", this.videoTitle);
+      iframe.className = "video-embed__iframe";
       
-      this.player = videojs(this.videoElement, {
-        controls: true,
-        preload: "metadata",
-        fluid: true,
-        responsive: true,
-        techOrder: ["html5"],
-        html5: {
-          vhs: {
-            overrideNative: true
-          }
-        }
-      });
-
-      // For YouTube videos, use iframe embed with youtube-nocookie.com
-      if (videoId) {
-        const iframe = document.createElement("iframe");
-        iframe.setAttribute("src", `https://www.youtube-nocookie.com/embed/${videoId}?rel=0`);
-        iframe.setAttribute("frameborder", "0");
-        iframe.setAttribute("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture");
-        iframe.setAttribute("allowfullscreen", "true");
-        iframe.setAttribute("title", this.videoElement.getAttribute("data-video-title") || "Video");
-        iframe.style.width = "100%";
-        iframe.style.height = "100%";
-        iframe.style.position = "absolute";
-        iframe.style.top = "0";
-        iframe.style.left = "0";
-        
-        // Replace video element with iframe
-        this.embedContainer.style.position = "relative";
-        this.embedContainer.style.paddingBottom = "56.25%"; // 16:9 aspect ratio
-        this.embedContainer.style.height = "0";
-        this.embedContainer.innerHTML = "";
-        this.embedContainer.appendChild(iframe);
-      }
+      this.embedContainer.appendChild(iframe);
     }
   }
 

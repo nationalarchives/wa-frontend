@@ -61,16 +61,13 @@
             </div>
         </div>
         {# Video container - shown after consent #}
-        <div class="video-embed__container hidden" data-youtube-embed-container>
-            {% if provider == 'youtube' %}
-                <video class="video-js vjs-default-skin"
-                       controls
-                       preload="metadata"
-                       data-video-id="{{ video_url }}"
-                       data-video-title="{{ title }}"
-                       data-setup='{}'>
-                </video>
-            {% else %}
+        <div class="video-embed__container hidden" 
+             data-youtube-embed-container
+             {% if provider == 'youtube' %}
+             data-video-id="{{ video_url }}"
+             data-video-title="{{ title }}"
+             {% endif %}>
+            {% if provider != 'youtube' %}
                 <iframe src="{{ video_url }}"
                         title="{{ title }}"
                         class="video-embed__iframe"
