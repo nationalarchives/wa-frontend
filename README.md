@@ -62,7 +62,7 @@ This guide covers setting up both the backend (ds-wagtail) and frontend (wa-fron
 1. Clone the repo locally:
 
    ```sh
-   git clone git@github.com:nationalarchives/ds-wagtail.git
+   git clone git@github.com:nationalarchives/wa-frontend.git
    ```
 
 2. In the root directory of the project create a new `docker-compose.override.yml` file, and add the following content:
