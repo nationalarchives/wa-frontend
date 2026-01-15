@@ -2,8 +2,8 @@
 {% macro featured_search(heading='Find archived government websites and documents', button_text='Search', help_text='', modifier='') %}
     <section class="featured-search{% if modifier %} featured-search--{{ modifier }}{% endif %}"
              aria-labelledby="featured-search-heading">
-        <div class="featured-search__container u-layout">
-            <div class="featured-search__content col-span-full">
+        <div class="featured-search__container tna-container">
+            <div class="featured-search__content tna-column tna-column--full">
                 <h2 id="featured-search-heading"
                     class="featured-search__heading heading heading--two">{{ heading }}</h2>
                 <form class="featured-search__form"

@@ -3,8 +3,8 @@
 {% macro breadcrumbs(ancestors, current_page_title) %}
     {% if ancestors and ancestors|length > 0 %}
         <nav aria-label="breadcrumb" class="breadcrumb">
-            <div class="u-layout breadcrumb__container">
-                <ul class="breadcrumb__list col-span-12 supporting">
+            <div class="tna-container breadcrumb__container">
+                <ul class="breadcrumb__list tna-column tna-column--full supporting">
                     {% for ancestor in ancestors %}
                         {% if ancestor.depth > 2 %}
                             <li class="breadcrumb__item">
