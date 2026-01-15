@@ -76,7 +76,11 @@ class JSONAPIClient:
 
         if response.status_code == 404:
             current_app.logger.warning("Resource not found")
-            raise ResourceNotFound("Resource not found")
+            try:
+                data = response.json()
+            except JSONDecodeError:
+                data = None
+            raise ResourceNotFound("Resource not found", data)
 
         # Handle all other error status codes
         current_app.logger.error(f"JSON API responded with {response.status_code}")

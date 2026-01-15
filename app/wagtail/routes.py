@@ -138,12 +138,12 @@ def page(path):
     try:
         # Get the page details from Wagtail by the requested URI
         page_data = page_details_by_uri(unquote(f"/{path}/"))
-    except ResourceNotFound:
+    except ResourceNotFound as e:
         # If no page is found, try to match the requested path with any of the external
         # redirects added in Wagtail
         if current_app.config.get("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"):
             return try_external_redirect(path)
-        return render_template("errors/page_not_found.html"), 404
+        return render_template("errors/page_not_found.html", error_data=e.data), 404
     except ResourceForbidden:
         # In the unlikely case that the API returns a 403, show a forbidden error page
         return render_template("errors/forbidden.html"), 403
