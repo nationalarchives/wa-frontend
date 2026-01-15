@@ -23,10 +23,10 @@
              id="tna-header__navigation"
              aria-label="Primary"
              aria-hidden="false">
-            {% if navigation.primary %}
-                {{ primary_nav(navigation.primary, current_page=page|default(None), ancestor_ids=ancestor_ids|default([])) }}
+            {% if header_navigation.primary %}
+                {{ primary_nav(header_navigation.primary, current_page=page|default(None), ancestor_ids=ancestor_ids|default([])) }}
             {% endif %}
-            {% if navigation.secondary %}{{ secondary_nav(navigation.secondary) }}{% endif %}
+            {% if header_navigation.secondary %}{{ secondary_nav(header_navigation.secondary) }}{% endif %}
         </nav>
     </div>
 </header>

@@ -81,7 +81,7 @@ def get_social_media_data():
 def inject_global_context():
     """Inject global context variables into all templates."""
     return {
-        "navigation": get_navigation_data(),
+        "header_navigation": get_navigation_data(),
         "social_media": get_social_media_data(),
         "config": {
             "SITE_NAME": current_app.config.get(
