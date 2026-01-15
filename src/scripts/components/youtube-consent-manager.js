@@ -14,18 +14,10 @@ class YouTubeConsentManager {
    */
   constructor(node) {
     this.youtubeEmbedNode = node;
-    this.consentButton = this.youtubeEmbedNode.querySelector(
-      "[data-youtube-consent-button]",
-    );
-    this.dontAskAgainCheckbox = this.youtubeEmbedNode.querySelector(
-      "[data-youtube-save-prefs]",
-    );
-    this.placeholderContainer = this.youtubeEmbedNode.querySelector(
-      "[data-youtube-placeholder-container]",
-    );
-    this.embedContainer = this.youtubeEmbedNode.querySelector(
-      "[data-youtube-embed-container]",
-    );
+    this.consentButton = this.youtubeEmbedNode.querySelector("[data-youtube-consent-button]");
+    this.dontAskAgainCheckbox = this.youtubeEmbedNode.querySelector("[data-youtube-save-prefs]");
+    this.placeholderContainer = this.youtubeEmbedNode.querySelector("[data-youtube-placeholder-container]");
+    this.embedContainer = this.youtubeEmbedNode.querySelector("[data-youtube-embed-container]");
     this.bindEvents();
   }
 
@@ -50,8 +42,7 @@ class YouTubeConsentManager {
     }
     this.loadYouTubeEmbed();
     // focus on the youtube play button after accepting the terms and conditions
-    const playButton =
-      this.youtubeEmbedNode.querySelector("button.lty-playbtn");
+    const playButton = this.youtubeEmbedNode.querySelector("button.lty-playbtn");
     if (playButton) {
       playButton.focus();
     } else {

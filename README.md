@@ -7,6 +7,7 @@ This guide covers setting up both the backend (ds-wagtail) and frontend (wa-fron
 ### Backend - ds-wagtail
 
 1. Clone the repo locally:
+
    ```sh
    git clone git@github.com:nationalarchives/ds-wagtail.git
    ```
@@ -14,6 +15,7 @@ This guide covers setting up both the backend (ds-wagtail) and frontend (wa-fron
 2. Within the project folder, rename the example env file `cp .env.example .env`, its not used for anything by us but the build checks for its existence
 
 3. In the root directory of the project create a new `docker-compose.override.yml` file, and add the following content:
+
    ```yaml
    services:
      app:
@@ -24,16 +26,19 @@ This guide covers setting up both the backend (ds-wagtail) and frontend (wa-fron
    ```
 
 4. Build the container:
+
    ```sh
    docker compose up --build -d
    ```
 
 5. Run migrations:
+
    ```sh
    docker compose exec app poetry run python manage.py migrate
    ```
 
 6. Create a superuser:
+
    ```sh
    docker compose exec app python manage.py createsuperuser
    ```
@@ -55,11 +60,13 @@ This guide covers setting up both the backend (ds-wagtail) and frontend (wa-fron
 ### Frontend - wa-frontend
 
 1. Clone the repo locally:
+
    ```sh
    git clone git@github.com:nationalarchives/ds-wagtail.git
    ```
 
 2. In the root directory of the project create a new `docker-compose.override.yml` file, and add the following content:
+
    ```yaml
    services:
      app:
@@ -68,6 +75,7 @@ This guide covers setting up both the backend (ds-wagtail) and frontend (wa-fron
    ```
 
 3. Within the project folder build the container:
+
    ```sh
    docker compose up --build -d
    ```

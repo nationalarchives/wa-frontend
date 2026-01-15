@@ -1,7 +1,4 @@
-import {
-  initAll,
-  Cookies,
-} from "@nationalarchives/frontend/nationalarchives/all.mjs";
+import { initAll, Cookies } from "@nationalarchives/frontend/nationalarchives/all.mjs";
 
 import Header from "./components/header.js";
 import SkipLink from "./components/skip-link.js";
@@ -15,8 +12,7 @@ function initComponent(ComponentClass) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Cookie domain setup
-  const cookiesDomain =
-    document.documentElement.getAttribute("data-cookiesdomain");
+  const cookiesDomain = document.documentElement.getAttribute("data-cookiesdomain");
   if (cookiesDomain) {
     new Cookies({ domain: cookiesDomain });
   }

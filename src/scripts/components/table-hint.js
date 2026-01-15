@@ -21,8 +21,7 @@ class TableHint {
     });
 
     // Check if the user prefers reduced motion - only use smooth scroll if they don't
-    const isReduced =
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches === true;
+    const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches === true;
 
     this.button.addEventListener("click", () => {
       this.node.scroll({
