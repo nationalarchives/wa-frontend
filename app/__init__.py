@@ -1,8 +1,5 @@
 import logging
 
-from flask import Flask
-from jinja2 import ChoiceLoader, PackageLoader
-
 from app.lib.cache import cache
 from app.lib.context_processor import (
     cookie_preference,
@@ -11,6 +8,8 @@ from app.lib.context_processor import (
 )
 from app.lib.talisman import talisman
 from app.lib.template_filters import slugify
+from flask import Flask
+from jinja2 import ChoiceLoader, PackageLoader
 
 
 def create_app(config_class):
