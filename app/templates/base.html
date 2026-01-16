@@ -1,5 +1,6 @@
 {%- extends "layouts/base.html" -%}
 
+{%- from 'components/breadcrumbs/macro.html' import tnaBreadcrumbs -%}
 {%- from 'components/cookie-banner/macro.html' import tnaCookieBanner -%}
 {%- from 'components/footer/macro.html' import tnaFooter -%}
 {%- from 'components/header/macro.html' import tnaHeader -%}
@@ -117,6 +118,25 @@
   'topNavigation': header_navigation.secondary or None,
   }) | indent(6) }}
 {% endblock header %}
+
+{% block beforeContent %}
+{%- if breadcrumbs or (page_data and page_data.meta and page_data.meta.breadcrumbs) %}
+  {%- if breadcrumbsStyle %}
+  <div class="tna-background-{{ breadcrumbsStyle }}">
+  {%- endif %}
+    <div class="tna-container">
+      <div class="tna-column tna-column--full tna-!--padding-vertical-s">
+        {{ tnaBreadcrumbs({
+          'items': breadcrumbs or page_data.meta.breadcrumbs,
+          'structuredData': True
+        }) }}
+      </div>
+    </div>
+  {%- if breadcrumbsStyle %}
+  </div>
+  {%- endif %}
+{%- endif %}
+{% endblock beforeContent %}
 
 {% block footer %}
   {{ tnaFooter({
