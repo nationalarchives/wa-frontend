@@ -10,11 +10,11 @@
     {% endif %}
     {% if subpages %}
         <section class="card-listing">
-            <ul class="card-listing__grid u-layout">
+            <ul class="card-listing__grid tna-container">
                 {% for subpage in subpages.items %}
                     {% set card_title = subpage.listing_title or subpage.title %}
                     {% set card_summary = subpage.listing_summary or subpage.introduction or '' %}
-                    {{ card(card_title, subpage.url, card_summary, modifier="listing", clickable=True, grid_classes="col-span-12 md:col-span-6") }}
+                    {{ card(card_title, subpage.url, card_summary, modifier="listing", clickable=True, grid_classes="tna-column tna-column--full tna-column--width-1-2-medium") }}
                 {% endfor %}
             </ul>
         </section>
