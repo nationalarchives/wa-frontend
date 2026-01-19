@@ -75,6 +75,7 @@
       } %}
 {%- elif og_image %}
     {% set og_image_twitter = og_image %}
+{%- endif %}
 
 {% if og_image_twitter %}
     <meta name="twitter:image" content="{{ og_image_twitter.src }}">
