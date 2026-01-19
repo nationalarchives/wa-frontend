@@ -1,12 +1,34 @@
 from flask import current_app
-from requests import JSONDecodeError, Timeout, TooManyRedirects, codes, get
+from requests import (
+    ConnectionError,
+    JSONDecodeError,
+    Timeout,
+    TooManyRedirects,
+    codes,
+    get,
+)
+
+
+class APIError(Exception):
+    """Raised when the API returns an error status code."""
+
+    def __init__(self, message, status_code, response=None):
+        super().__init__(message)
+        self.status_code = status_code
+        self.response = response
 
 
 class ResourceNotFound(Exception):
-    pass
+    """Raised when the API returns a 404 status code."""
+
+    def __init__(self, message, data=None):
+        super().__init__(message)
+        self.data = data
 
 
 class ResourceForbidden(Exception):
+    """Raised when the API returns a 403 status code."""
+
     pass
 
 
@@ -30,39 +52,36 @@ class JSONAPIClient:
             "Cache-Control": "no-cache",
             "Accept": "application/json",
         }
+
         try:
-            response = get(
-                url,
-                params=self.params,
-                headers=headers,
-            )
-        except ConnectionError:
-            current_app.logger.error("JSON API connection error")
-            raise Exception("A connection error occured")
-        except Timeout:
-            current_app.logger.error("JSON API timeout")
-            raise Exception("The request timed out")
-        except TooManyRedirects:
-            current_app.logger.error("JSON API had too many redirects")
-            raise Exception("Too many redirects")
-        except Exception as e:
-            current_app.logger.error(f"Unknown JSON API exception: {e}")
-            raise Exception(e)
+            response = get(url, params=self.params, headers=headers)
+        except (ConnectionError, Timeout, TooManyRedirects) as e:
+            current_app.logger.error(f"Network error calling {url}: {type(e).__name__}")
+            raise
+
         current_app.logger.debug(response.url)
+
         if response.status_code == codes.ok:
             try:
                 return response.json()
-            except JSONDecodeError:
+            except JSONDecodeError as e:
                 current_app.logger.error("JSON API provided non-JSON response")
-                raise Exception("Non-JSON response provided")
-        if response.status_code == 400:
-            current_app.logger.error(f"Bad request: {response.url}")
-            raise Exception("Bad request")
+                raise APIError(
+                    "Invalid JSON response", response.status_code, response
+                ) from e
+
         if response.status_code == 403:
             current_app.logger.warning("Forbidden")
             raise ResourceForbidden("Forbidden")
+
         if response.status_code == 404:
             current_app.logger.warning("Resource not found")
             raise ResourceNotFound("Resource not found")
+
+        # Handle all other error status codes
         current_app.logger.error(f"JSON API responded with {response.status_code}")
-        raise Exception("Request failed")
+        raise APIError(
+            f"API request failed with status {response.status_code}",
+            response.status_code,
+            response,
+        )
