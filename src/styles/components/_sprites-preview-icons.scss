@@ -1,0 +1,42 @@
+@use "../config" as *;
+
+.sprites-preview-icons {
+  padding: 40px;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  &__item {
+    margin-right: 0;
+    margin-bottom: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+
+    @include media-query(medium) {
+      margin-right: 20px;
+    }
+
+    &:last-child {
+      margin-right: 20px;
+    }
+  }
+
+  &__icon {
+    width: 30px;
+    height: 30px;
+
+    color: var(--theme-text-default);
+
+    fill: var(--theme-text-default);
+  }
+
+  &__name {
+    padding: $grid;
+
+    font-weight: $weight-bold;
+  }
+}

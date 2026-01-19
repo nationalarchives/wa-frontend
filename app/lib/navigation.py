@@ -38,6 +38,8 @@ def build_navigation_items(nav_data):
             # Add external flag for external links (TNA macro renders rel attribute)
             if not link_value.get("is_page"):
                 link_dict["external"] = True
+            else:
+                link_dict["page_id"] = link_value.get("page_id")
             items.append(link_dict)
 
     return items

@@ -1,0 +1,19 @@
+@use "../config" as *;
+
+// Uses https://design-system.nationalarchives.gov.uk/components/footer/ as a base, these are just subtle overrides
+
+.footer {
+  &__strapline {
+    margin-bottom: $grid-m;
+  }
+
+  &__heading {
+    text-transform: uppercase;
+  }
+
+  &__social {
+    @include media-query(medium) {
+      margin-top: $grid-l;
+    }
+  }
+}

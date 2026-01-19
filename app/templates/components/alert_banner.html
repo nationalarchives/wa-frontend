@@ -1,0 +1,21 @@
+{% from "components/icon.html" import icon %}
+{% if alert_banner %}
+    {% set modifier = alert_banner.modifier|default("warning") %}
+    <div class="alert-banner alert-banner--{{ modifier }}"
+         {% if modifier == "warning" %}role="alert"{% else %}role="status" aria-live="polite"{% endif %}>
+        <div class="alert-banner__container u-layout">
+            <div class="alert-banner__alert col-span-full">
+                <span class="alert-banner__icon" aria-hidden="true">
+                    {% if modifier == "info" %}
+                        {{ icon("info-circle", viewbox="0 0 24 24") }}
+                    {% elif modifier == "positive" %}
+                        {{ icon("check-circle", viewbox="0 0 24 24") }}
+                    {% else %}
+                        {{ icon("warning", viewbox="0 0 24 24") }}
+                    {% endif %}
+                </span>
+                <p class="alert-banner__message">{{ alert_banner.message }}</p>
+            </div>
+        </div>
+    </div>
+{% endif %}

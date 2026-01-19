@@ -1,0 +1,49 @@
+@use "../config" as *;
+
+.sidebar {
+  &__heading {
+    margin-bottom: $grid-s;
+  }
+
+  &__list {
+    list-style: none;
+  }
+
+  &__nav {
+    margin-bottom: $grid-m;
+  }
+
+  &__link {
+    padding: $grid-xs 0 $grid-s;
+
+    display: block;
+
+    color: var(--theme-link);
+    text-decoration: underline;
+    border-top: 1px solid var(--theme-border);
+
+    &--active {
+      color: var(--theme-link-invert);
+      font-weight: $weight-bold;
+
+      &:visited,
+      &:link {
+        color: var(--theme-link-invert);
+      }
+    }
+
+    &:link,
+    &:visited {
+      color: var(--theme-link);
+    }
+
+    &:hover,
+    &:active {
+      color: var(--theme-link-hover);
+    }
+
+    &:focus {
+      color: var(--theme-link-focus);
+    }
+  }
+}
