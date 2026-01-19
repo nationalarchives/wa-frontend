@@ -1,0 +1,19 @@
+{# Card component #}
+{% macro card(title, url='#', summary='', category='', source_url='', modifier='', heading_level='h2', clickable=False, grid_classes='') %}
+    <li class="card{% if modifier %} card--{{ modifier }}{% endif %}{% if clickable %} card--clickable{% endif %}{% if grid_classes %} {{ grid_classes }}{% endif %}">
+        <article>
+            {% if category %}<span class="card__category supporting">{{ category }}</span>{% endif %}
+            <a class="card__link" href="{{ url }}">
+                {% if heading_level == "h3" %}
+                    <h3 class="card__heading heading heading--{% if modifier == 'listing' %}two{% else %}four{% endif %}">{{ title }}</h3>
+                {% else %}
+                    <h2 class="card__heading heading heading--{% if modifier == 'listing' %}two{% else %}four{% endif %}">{{ title }}</h2>
+                {% endif %}
+            </a>
+            {% if summary %}
+                <p class="card__summary{% if modifier != 'listing' %} supporting{% endif %}">{{ summary }}</p>
+            {% endif %}
+            {% if source_url %}<p class="card__source supporting">{{ source_url }}</p>{% endif %}
+        </article>
+    </li>
+{% endmacro %}

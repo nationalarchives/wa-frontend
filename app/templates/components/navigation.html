@@ -1,0 +1,97 @@
+{# Navigation macros #}
+{% macro primary_nav(items, current_page_id=None, ancestor_ids=[]) %}
+    <ul class="tna-header__navigation-items">
+        {% for link in items %}
+            <li class="tna-header__navigation-item">
+                {% if link.page_id and (link.page_id == current_page_id or link.page_id in ancestor_ids) %}
+                    <a class="tna-header__navigation-item-link tna-header__navigation-item-link--active"
+                       tabindex="0"
+                       href="{{ link.href }}"
+                       aria-current="true">{{ link.text or nav_page.title }}</a>
+                {% else %}
+                    <a class="tna-header__navigation-item-link"
+                       tabindex="0"
+                       href="{{ link.href }}">{{ link.text }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+{% macro secondary_nav(items) %}
+    {% from "components/icon.html" import icon %}
+    <ul class="tna-header__top-navigation-items">
+        <li class="tna-header__top-navigation-item">
+            <a href="https://www.nationalarchives.gov.uk/"
+               class="tna-header__top-navigation-item-link header__secondary-link"
+               tabindex="0">
+                {{ icon("back-arrow", classname="secondary-nav__icon", viewbox="0 0 24 24") }}
+                <span class="secondary-nav__link-text"><span class="hidden lg:inline">Back to</span> The National Archives</span>
+            </a>
+        </li>
+        {% for link in items %}
+            <li class="tna-header__top-navigation-item">
+                <a href="{{ link.href }}"
+                   class="tna-header__top-navigation-item-link header__secondary-link"
+                   tabindex="0">
+                    <span class="secondary-nav__link-text">{{ link.text }}</span>
+                </a>
+            </li>
+        {% endfor %}
+        <li class="tna-header__top-navigation-item">
+            <a href="/search/"
+               class="tna-header__top-navigation-item-link header__secondary-link"
+               tabindex="0">
+                {{ icon("search", classname="secondary-nav__icon", viewbox="0 0 24 24") }}
+                <span class="secondary-nav__link-text">Search</span>
+            </a>
+        </li>
+    </ul>
+{% endmacro %}
+{% macro footer_nav(sections) %}
+    <div class="tna-footer__navigation tna-column tna-column--flex-2 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-columns tna-columns--2 tna-columns--1-tiny">
+        {% for section in sections %}
+            <div class="tna-column">
+                <h3 class="tna-footer__heading">{{ section.title }}</h3>
+                <ul class="tna-footer__list tna-ul tna-ul--plain">
+                    {% for link in section['items'] %}
+                    
+                        <li class="tna-footer__list-item">
+                            <a href="{{ link.href }}" class="tna-footer__link">{{ link.text }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+{% endmacro %}
+{% macro footer_links(links) %}
+    <div class="tna-container">
+        <h3 class="tna-!--visually-hidden">Legal information</h3>
+        <nav class="tna-footer__legal tna-column tna-column--full"
+             aria-label="Legal">
+            <ul class="tna-footer__legal-items tna-ul tna-ul--plain">
+                {% for link in links %}
+                    <li class="tna-footer__legal-item">
+                        <a href="{{ link.href }}" class="tna-footer__legal-item-link">{{ link.text }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <hr>
+        </nav>
+    </div>
+{% endmacro %}
+{% macro sidebar(siblings, parent, current_page, ancestor_ids, sidebar_cta=None) %}
+    <nav class="sidebar" aria-label="Page navigation">
+        {% if parent %}<h2 class="sidebar__title">{{ parent.title }}</h2>{% endif %}
+        <ul class="sidebar__list">
+            {% for sibling in siblings %}
+                <li class="sidebar__list-item{% if sibling.id == current_page.id or sibling.id in ancestor_ids %} sidebar__list-item--active{% endif %}">
+                    <a href="{{ sibling.url }}"
+                       class="sidebar__link"
+                       {% if sibling.id == current_page.id %}aria-current="page"{% endif %}>{{ sibling.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if sidebar_cta %}<div class="sidebar__cta">{{ sidebar_cta }}</div>{% endif %}
+    </nav>
+{% endmacro %}

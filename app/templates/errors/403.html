@@ -1,0 +1,14 @@
+{% extends "layouts/base_page.html" %}
+{% block title %}Access denied{% endblock %}
+{% block body_class %}template-403{% endblock %}
+{% block content %}
+    <div class="u-layout">
+        <div class="col-span-full md:col-span-8 md:col-start-3">
+            <h1>Access denied</h1>
+            <p>You do not have permission to access this page.</p>
+            <p>
+                If you think you should have access, please <a href="https://www.nationalarchives.gov.uk/contact-us/">contact The National Archives</a>.
+            </p>
+        </div>
+    </div>
+{% endblock %}

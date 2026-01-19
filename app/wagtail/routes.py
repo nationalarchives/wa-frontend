@@ -52,7 +52,7 @@ def preview_protected_page(page_id):
     """
 
     try:
-        # Get the page details from Wagtail by its and include the provided password
+        # Get the page details from Wagtail by its id and include the provided password
         password = objects.get(request.form, "password", "")
         params = {"password": password}
         page_data = page_details(
@@ -190,7 +190,10 @@ def page(path):
 
 def try_external_redirect(path):
     """
-    Renders a video details page.
+    Attempts to fetch and apply a redirect for the given path.
+
+    Returns a redirect response if found, or a 404/502 error page if not found or
+    failed.
     """
 
     # Normalise the path to ensure it starts with a slash and does not end with one

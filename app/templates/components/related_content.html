@@ -1,0 +1,21 @@
+{% from "components/card.html" import card %}
+{# Related content / content listing component #}
+{% macro related_content(related_pages, heading='Also of interest', heading_id='related-content-heading', intro='', modifier='') %}
+    {% if related_pages %}
+        <section class="related-content{% if modifier %} related-content--{{ modifier }}{% endif %}"
+                 aria-labelledby="{{ heading_id }}">
+            <div class="related-content__container u-layout">
+                <h2 class="related-content__heading{% if intro %} related-content__heading--tight{% endif %} heading heading--two col-span-12"
+                    id="{{ heading_id }}">{{ heading }}</h2>
+                {% if intro %}<p class="related-content__intro col-span-12">{{ intro }}</p>{% endif %}
+                <ul class="related-content__list col-span-12">
+                    {% for item in related_pages %}
+                        {% set card_title = item.listing_title or item.title %}
+                        {% set card_summary = item.listing_summary or item.introduction or '' %}
+                        {{ card(card_title, item.url, card_summary, item.category or '', item.source_url or '', modifier, 'h3', True) }}
+                    {% endfor %}
+                </ul>
+            </div>
+        </section>
+    {% endif %}
+{% endmacro %}

@@ -55,39 +55,21 @@ def redirect_by_uri(path, params={}):
     return wagtail_request_handler(uri, params)
 
 
+def _get_navigation_cache_key():
+    """Generate cache key for navigation settings."""
+    site = current_app.config.get("WAGTAIL_SITE_HOSTNAME", "default")
+    return f"navigation_settings:{site}:v1"
+
+
+@cache.cached(
+    key_prefix=_get_navigation_cache_key,
+)
 def navigation_settings():
     """
-    Get navigation settings from the API with caching via Flask-Caching.
-
-    Cache duration is configured via NAVIGATION_CACHE_TTL (default: 900 seconds / 15 minutes).
-    Falls back to direct API call if cache is unavailable.
+    Get navigation settings from the API with caching via Flask-Caching package.
     """
-    cache_key = "navigation_settings:v1"
-    ttl = current_app.config.get("NAVIGATION_CACHE_TTL", None)
-
-    if ttl is None:
-        current_app.logger.debug("Navigation caching disabled")
-        try:
-            return wagtail_request_handler("globals/navigation/")
-        except Exception as e:
-            current_app.logger.error(f"Failed to get navigation settings: {e}")
-            return {}
-
-    # Try to get from cache
-    cached_data = cache.get(cache_key)
-    if cached_data:
-        current_app.logger.debug("Navigation settings retrieved from cache")
-        return cached_data
-
-    # Fetch from API
     try:
-        navigation_data = wagtail_request_handler("globals/navigation/")
-
-        # Cache the result with custom TTL
-        cache.set(cache_key, navigation_data, timeout=ttl)
-        current_app.logger.debug(f"Navigation settings cached for {ttl} seconds")
-
-        return navigation_data
+        return wagtail_request_handler("globals/navigation/")
     except Exception as e:
         current_app.logger.error(f"Failed to get navigation settings: {e}")
         return {}

@@ -1,0 +1,53 @@
+@use "../config" as *;
+@use "sass:map";
+
+.alert-banner {
+  &__alert {
+    padding-top: $grid-xs;
+    padding-bottom: $grid-xs;
+
+    display: flex;
+    align-items: center;
+    gap: $grid-xs;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &__message {
+    margin: 0;
+
+    font-size: map.get($small-font-sizes, "supporting");
+  }
+
+  // Warning modifier (default)
+  &--warning {
+    color: var(--theme-text-invert);
+
+    background-color: var(--theme-primary);
+  }
+
+  // Info modifier
+  &--info {
+    color: var(--theme-text-default);
+
+    background-color: var(--color-cream);
+  }
+
+  // Positive modifier
+  &--positive {
+    color: var(--theme-text-invert);
+
+    background-color: var(--color-forest);
+  }
+}

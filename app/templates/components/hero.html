@@ -1,0 +1,19 @@
+{# Hero component #}
+{% macro hero(title, strapline='', background_image='', background_image_mobile='') %}
+    <section class="hero" aria-labelledby="hero-title">
+        {% if background_image %}
+            <div class="hero__background">
+                <img src="{{ background_image }}"
+                     {% if background_image_mobile %} srcset="{{ background_image_mobile }} 768w, {{ background_image }} 1920w" sizes="100vw" {% endif %}
+                     alt=""
+                     class="hero__background-image" />
+            </div>
+        {% endif %}
+        <div class="hero__container u-layout">
+            <div class="hero__content col-span-full lg:col-span-7">
+                <h1 class="hero__title heading heading--one" id="hero-title">{{ title }}</h1>
+                {% if strapline %}<p class="hero__strapline body body--feature">{{ strapline }}</p>{% endif %}
+            </div>
+        </div>
+    </section>
+{% endmacro %}

@@ -1,0 +1,26 @@
+@use "../config" as *;
+
+.card-listing {
+  margin-top: $grid-m;
+  margin-bottom: $grid-l;
+
+  @include media-query(medium) {
+    margin-top: $grid-l;
+    margin-bottom: $grid-xl;
+  }
+
+  &__grid {
+    margin: 0;
+    padding: 0;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 $grid-l;
+
+    list-style: none;
+
+    @include media-query(medium) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
