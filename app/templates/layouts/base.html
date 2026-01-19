@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="{{ config.LANGUAGE_CODE or 'en' }}"
+      class="{% block html_class %}{% endblock %}"
+      data-cookiesdomain="{{ config.COOKIE_DOMAIN or '' }}">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title_prefix %}
+                {% if config.SITE_NAME %}{{ config.SITE_NAME }} |{% endif %}
+            {% endblock %}
+            {% block title %}{% endblock %}
+            {% block title_suffix %}{% endblock %}
+        </title>
+        <meta name="description"
+              content="{% block meta_description %}{% endblock %}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {% if config.SEO_NOINDEX %}<meta name="robots" content="noindex">{% endif %}
+        {% block meta_tags %}{% endblock %}
+        {# Font preconnects #}
+        <link rel="preconnect" href="https://use.typekit.net" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        {# Fonts #}
+        <link rel="stylesheet" href="https://use.typekit.net/kaq6qqh.css" />
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400..700&family=Roboto+Mono:wght@400..500&display=swap" />
+        {# Stylesheets #}
+        <link rel="stylesheet"
+              type="text/css"
+              href="{{ url_for('static', filename='main.css', v=config.BUILD_VERSION) }}">
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='font-awesome.css', v=config.BUILD_VERSION) }}">
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='ie.css', v=config.BUILD_VERSION) }}"
+              media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
+        {% block extra_css %}{% endblock %}
+    </head>
+    <body class="{% block body_class %}{% endblock %}">
+        {% block body_top %}{% endblock %}
+        {% include "sprites/sprites.html" %}
+        {% block header %}{% endblock %}
+        <main id="main-content">
+            {% block content %}{% endblock %}
+        </main>
+        {% block footer %}{% endblock %}
+        {# JavaScript #}
+        <script src="{{ url_for('static', filename='main.min.js', v=config.BUILD_VERSION) }}"
+                defer></script>
+        <script src="{{ url_for('static', filename='analytics.min.js', v=config.BUILD_VERSION) }}"
+                defer></script>
+        {% block extra_js %}{% endblock %}
+    </body>
+</html>

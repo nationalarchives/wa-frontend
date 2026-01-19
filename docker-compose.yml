@@ -5,6 +5,7 @@ services:
       args:
         IMAGE: ghcr.io/nationalarchives/tna-python-dev
         IMAGE_TAG: latest
+    command: ["tna-wsgi", "main:app", "--reload"]
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:

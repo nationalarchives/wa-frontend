@@ -1,0 +1,8 @@
+{# Icon component macro #}
+{% macro icon(name, classname='', viewbox='0 0 24 24') %}
+    <svg class="icon icon--{{ name }}{% if classname %} {{ classname }}{% endif %}"
+         viewBox="{{ viewbox }}"
+         aria-hidden="true">
+        <use xlink:href="#{{ name }}" href="#{{ name }}"></use>
+    </svg>
+{% endmacro %}

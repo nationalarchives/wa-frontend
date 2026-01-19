@@ -1,0 +1,155 @@
+@use "../config" as *;
+
+.featured-search {
+  $root: &;
+  padding: $grid-m 0;
+
+  background-color: var(--theme-primary);
+
+  &__content {
+    color: var(--theme-text-invert);
+  }
+
+  &__label {
+    margin: 0 0 $grid-xxs;
+
+    color: var(--theme-text-invert);
+    flex-basis: 100%;
+  }
+
+  &__options {
+    margin-bottom: $grid-xxs;
+    padding: 0;
+
+    display: flex;
+    gap: $grid-m;
+
+    border: 0;
+    flex-basis: 100%;
+  }
+
+  &__radio {
+    display: flex;
+    align-items: center;
+    gap: $grid-xs;
+
+    color: var(--theme-text-invert);
+    font-family: $font-secondary;
+
+    cursor: pointer;
+
+    input[type="radio"] {
+      width: 18px;
+      height: 18px;
+
+      appearance: none;
+
+      position: relative;
+
+      background: transparent;
+
+      border: 2px solid var(--theme-text-invert);
+      border-radius: 50%;
+
+      cursor: pointer;
+
+      &:checked::after {
+        content: "";
+
+        width: 8px;
+        height: 8px;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        background: var(--theme-text-invert);
+
+        border-radius: 50%;
+
+        transform: translate(-50%, -50%);
+      }
+
+      &:focus {
+        outline: $focus-width solid $focus-bg;
+      }
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-flow: column wrap;
+    gap: $grid-xs;
+
+    @include media-query(medium) {
+      flex-direction: row;
+    }
+  }
+
+  &__input {
+    max-width: 800px;
+    padding: $grid-xs $grid-s;
+
+    font-family: $font-secondary;
+
+    border: 2px solid transparent;
+
+    @include media-query(medium) {
+      flex-basis: 75%;
+    }
+
+    &:focus {
+      border-color: $focus-color;
+      outline: $focus-width solid $focus-bg;
+    }
+  }
+
+  &__input-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    gap: $grid-xs;
+  }
+
+  &__help {
+    margin: $grid-xs 0 0;
+
+    color: var(--theme-text-invert);
+  }
+
+  // Secondary theme variant
+  &--secondary {
+    margin-bottom: $grid-m;
+
+    background-color: var(--theme-secondary);
+
+    @include media-query(medium) {
+      margin-bottom: $grid-l;
+    }
+
+    #{$root}__content {
+      color: var(--theme-text-default);
+    }
+
+    #{$root}__label {
+      color: var(--theme-primary);
+    }
+
+    #{$root}__radio {
+      color: var(--theme-text-default);
+
+      input[type="radio"] {
+        border-color: var(--theme-text-default);
+
+        &:checked::after {
+          background: var(--theme-text-default);
+        }
+      }
+    }
+
+    #{$root}__help {
+      color: var(--theme-text-default);
+    }
+  }
+}

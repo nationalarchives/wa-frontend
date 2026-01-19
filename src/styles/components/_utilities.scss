@@ -1,0 +1,80 @@
+@use "../config" as *;
+
+.u-layout {
+  padding-right: $grid-s;
+  padding-left: $grid-s;
+
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  column-gap: $grid-s;
+
+  @include media-query(large) {
+    max-width: $site-width;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: $grid-m;
+    padding-left: $grid-m;
+
+    column-gap: $grid-l;
+  }
+
+  &__primary-col,
+  &__secondary-col {
+    margin-bottom: $grid-m;
+
+    @include media-query(large) {
+      margin-bottom: $grid-l;
+    }
+  }
+}
+
+// Grid column span utilities
+.col-span-full {
+  grid-column: 1 / -1;
+}
+
+.col-span-12 {
+  grid-column: span 12;
+}
+
+.col-span-8 {
+  grid-column: span 8;
+}
+
+.col-span-7 {
+  grid-column: span 7;
+}
+
+.col-span-6 {
+  grid-column: span 6;
+}
+
+.col-span-4 {
+  grid-column: span 4;
+}
+
+// Responsive grid utilities
+@include media-query(medium) {
+  .md\:col-span-8 {
+    grid-column: span 8;
+  }
+
+  .md\:col-span-6 {
+    grid-column: span 6;
+  }
+
+  .md\:col-span-4 {
+    grid-column: span 4;
+  }
+
+  .md\:col-start-3 {
+    grid-column-start: 3;
+  }
+}
+
+@include media-query(large) {
+  .lg\:col-span-7 {
+    grid-column: span 7;
+  }
+}

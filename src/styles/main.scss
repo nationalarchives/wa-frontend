@@ -1,1 +1,46 @@
-@use "@nationalarchives/frontend/nationalarchives/all";
+@use "config" as *;
+
+// Vendor
+@use "../../node_modules/@nationalarchives/frontend/nationalarchives/all.css";
+
+// Base
+@use "base/base";
+@use "base/typography";
+
+// Components
+@use "components/accordion";
+@use "components/alert-banner";
+@use "components/blockquote";
+@use "components/button";
+@use "components/call-to-action";
+@use "components/card";
+@use "components/card-listing";
+@use "components/listing-page";
+@use "components/listing-item";
+@use "components/icon";
+@use "components/breadcrumb";
+@use "components/introduction";
+@use "components/page-header";
+@use "components/responsive-object";
+@use "components/rich-text";
+@use "components/sf";
+@use "components/sidebar";
+@use "components/related-content";
+@use "components/hero";
+@use "components/featured-search";
+@use "components/image-block";
+@use "components/skip-link";
+@use "components/stat-block";
+@use "components/sprites-preview-icons";
+@use "components/table";
+@use "components/utilities";
+@use "components/video-embed";
+
+// Layout
+@use "global/header";
+@use "global/footer";
+
+// Tailwind
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
