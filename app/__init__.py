@@ -4,6 +4,7 @@ from app.lib.cache import cache
 from app.lib.context_processor import (
     cookie_preference,
     now_iso_8601,
+    get_social_media_data,
 )
 from app.lib.navigation import build_footer_navigation, build_header_navigation
 from app.lib.talisman import talisman
@@ -100,6 +101,7 @@ def create_app(config_class):
         footer_nav = build_footer_navigation(nav_settings)
 
         return dict(
+            social_media=get_social_media_data,
             cookie_preference=cookie_preference,
             now_iso_8601=now_iso_8601,
             header_navigation=header_nav,
