@@ -13,6 +13,7 @@ from flask import (
 from pydash import objects
 
 from .api import (
+    image,
     page_details,
     page_details_by_uri,
     page_preview,
@@ -227,3 +228,21 @@ def try_external_redirect(path):
         rediect_destination,
         code=(301 if is_permanent else 302),
     )
+
+
+@bp.route("/image/<uuid:image_uuid>/")
+def image_page(image_uuid):
+    """
+    Renders an image details page.
+    """
+
+    try:
+        image_data = image(image_uuid=image_uuid)
+    except ResourceNotFound:
+        return render_template("errors/page_not_found.html"), 404
+    except ResourceForbidden:
+        return render_template("errors/forbidden.html"), 403
+    except Exception as e:
+        current_app.logger.error(f"Failed to get video: {e}")
+        return render_template("errors/api.html"), 502
+    return render_template("media/image.html", image_data=image_data)

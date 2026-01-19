@@ -1,0 +1,62 @@
+{%- from 'components/button/macro.html' import tnaButton -%}
+{%- from 'components/details/macro.html' import tnaDetails -%}
+{%- from 'components/warning/macro.html' import tnaWarning -%}
+
+{%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
+{%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
+
+{% macro wagtail_block(content_item, next_heading_level, plain_images, extra_classes, picture_itemprop) %}
+  {%- if content_item.type == 'paragraph' %}
+  {{ content_item.value.text | tna_html | safe }}
+
+  {%- elif content_item.type == 'heading' or content_item.type == 'sub_heading' or content_item.type == 'sub_sub_heading' %}
+  {%- if next_heading_level == 2 %}
+  <h2 class="tna-heading-l{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h2>
+  {%- elif next_heading_level == 3 %}
+  <h2 class="tna-heading-l{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h2>
+  {%- elif next_heading_level == 4 %}
+  <h3 class="tna-heading-m{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h3>
+  {%- elif next_heading_level == 5 %}
+  <h4 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h4>
+  {%- elif next_heading_level == 6 %}
+  <h5 class="tna-heading-s{%- if extra_classes %} {{ extra_classes }}{%- endif %}" id="heading-{{ content_item.value.heading | slugify }}-{{ content_item.id }}">{{ content_item.value.heading }}</h5>
+  {%- endif %}
+
+  {%- elif content_item.type == 'call_to_action' %}
+  <div class="tna-aside tna-background-tint etna-cta">
+    {{ content_item.value.body | tna_html | safe }}
+    <div class="tna-button-group">
+      {{ tnaButton({
+        'text': content_item.value.button.label,
+        'href': content_item.value.button.href,
+        'accent': content_item.value.button.accent
+      }) }}
+    </div>
+  </div>
+
+  {%- elif content_item.type == 'image' %}
+  {{ wagtailImage(content_item.value, content_item.id, plain_images, False, picture_itemprop) }}
+
+  {%- elif content_item.type == 'quote' %}
+  <blockquote class="tna-blockquote">
+    <div class="tna-blockquote__quote">
+      {{ content_item.value.quote | tna_html | safe }}
+    </div>
+    {%- if content_item.value.attribution %}
+    <p class="tna-blockquote__citation">{{ content_item.value.attribution }}</p>
+    {%- endif %}
+  </blockquote>
+
+  {%- elif content_item.type == 'featured_external_link' %}
+  {{ wagtailFeaturedExternalLink(content_item.value, next_heading_level) }}
+
+  {%- elif content_item.type == 'featured_page' %}
+  {{ wagtailFeaturedPage(content_item.value, next_heading_level) }}
+  
+  {%- elif content_item.type == 'youtube_video' %}
+  {{ wagtailYouTubeVideo(content_item.value, content_item.id) }}
+
+  {%- else %}
+  <p class="tna-heading-xl" aria-hidden="true">===== {{ content_item.type }} =====</p>
+  {%- endif %}
+{% endmacro %}
