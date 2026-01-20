@@ -21,7 +21,7 @@
                 <div class="sf">{{ wagtail_streamfield(page_data.body, 2) }}</div>
             </div>
             <div class="u-layout__secondary-col col-span-full md:col-span-4">
-                {% if page_data.siblings %}{{ sidebar(page_data.siblings, parent, page, ancestor_ids, sidebar_cta) }}{% endif %}
+                {% if page_data.sidebar_navigation %}{{ sidebar(page_data.sidebar_navigation.subpages, page_data.sidebar_navigation.parent_page_title, sidebar_cta) }}{% endif %}
             </div>
         </div>
         {% if page_data.featured_links %}{{ related_content(page_data.featured_links) }}{% endif %}
