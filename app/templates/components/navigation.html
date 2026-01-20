@@ -80,15 +80,16 @@
         </nav>
     </div>
 {% endmacro %}
-{% macro sidebar(siblings, parent, current_page, ancestor_ids, sidebar_cta=None) %}
+{% macro sidebar(siblings, parent_page_title, sidebar_cta=None) %}
     <nav class="sidebar" aria-label="Page navigation">
-        {% if parent %}<h2 class="sidebar__title">{{ parent.title }}</h2>{% endif %}
+        {% if parent_page_title %}<h2 class="sidebar__title">{{ parent_page_title }}</h2>{% endif %}
         <ul class="sidebar__list">
             {% for sibling in siblings %}
-                <li class="sidebar__list-item{% if sibling.id == current_page.id or sibling.id in ancestor_ids %} sidebar__list-item--active{% endif %}">
-                    <a href="{{ sibling.url }}"
+                
+                <li class="sidebar__list-item{% if sibling.is_current %} sidebar__list-item--active{% endif %}">
+                    <a href="{{ sibling.href }}"
                        class="sidebar__link"
-                       {% if sibling.id == current_page.id %}aria-current="page"{% endif %}>{{ sibling.title }}</a>
+                       {% if sibling.is_current %}aria-current="page"{% endif %}>{{ sibling.text }}</a>
                 </li>
             {% endfor %}
         </ul>
