@@ -1,8 +1,8 @@
 from flask import render_template
 
 
-def information_page(page_data):
+def render_information_page(page_data):
     return render_template(
-        "information/information_page.html",
+        "pages/information_page.html",
         page_data=page_data,
     )

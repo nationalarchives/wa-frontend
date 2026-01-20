@@ -7,9 +7,3 @@ from flask import render_template
 @cache.cached(key_prefix=cache_key_prefix)
 def cookies():
     return render_template("main/cookies.html")
-
-
-@bp.route("/preview/")
-@cache.cached(key_prefix=cache_key_prefix)
-def preview():
-    return "[Headless preview]"

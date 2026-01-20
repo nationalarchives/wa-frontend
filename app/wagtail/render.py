@@ -1,14 +1,12 @@
 from flask import current_app, render_template
 from pydash import objects
 
-from .pages.home.home_page import home_page
-from .pages.information.information_page import information_page
-from .pages.section_index_page import section_index_page
+from .pages import home_page, information_page, section_index_page
 
 page_type_templates = {
-    "ukgwa.UKGWAHomePage": home_page,
-    "ukgwa.SectionIndexPage": section_index_page,
-    "ukgwa.InformationPage": information_page,
+    "ukgwa.UKGWAHomePage": home_page.render_home_page,
+    "ukgwa.SectionIndexPage": section_index_page.render_section_index_page,
+    "ukgwa.InformationPage": information_page.render_information_page,
 }
 
 
