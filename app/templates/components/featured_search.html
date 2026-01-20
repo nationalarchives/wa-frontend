@@ -1,5 +1,5 @@
 {# Featured Search component #}
-{% macro featured_search(heading='Find archived government websites and documents', button_text='Search', help_text='', modifier='') %}
+{% macro featured_search(heading='Find archived government websites and documents', button_text='Search', help_text='', archive_type='web', modifier='') %}
     <section class="featured-search{% if modifier %} featured-search--{{ modifier }}{% endif %}"
              aria-labelledby="featured-search-heading">
         <div class="featured-search__container u-layout">
@@ -9,9 +9,10 @@
                 <form class="featured-search__form"
                       role="search"
                       aria-labelledby="featured-search-heading"
-                      action="https://webarchive.nationalarchives.gov.uk/search/result"
+                      action="{{ url_for('wagtail.search') }}"
                       method="get">
                     <label for="featured-search-input" class="sr-only">Enter search term</label>
+                    {% if archive_type == 'web' %}
                     <fieldset class="featured-search__options">
                         <legend class="sr-only">Search type</legend>
                         <label class="featured-search__radio">
@@ -23,12 +24,14 @@
                             Search by Website URL
                         </label>
                     </fieldset>
+                    {% endif %}
                     <div class="featured-search__input-container">
                         <input type="search"
                                id="featured-search-input"
                                name="q"
                                class="featured-search__input"
                                {% if help_text %}aria-describedby="featured-search-help"{% endif %} />
+                        <input type="hidden" name="archive_type" value="{{ archive_type }}" />
                         <button type="submit" class="featured-search__button button button--primary">{{ button_text }}</button>
                     </div>
                 </form>
