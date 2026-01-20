@@ -3,12 +3,12 @@ from urllib.parse import quote, quote_plus, unquote, urlparse
 from app.lib.api import ResourceForbidden, ResourceNotFound
 from app.wagtail import bp
 from app.wagtail.constants import (
-    ArchiveType,
-    SearchType,
+    SOCIAL_SEARCH_BASE,
     WEB_KEYWORD_SEARCH_BASE,
     WEB_SITE_SEARCH_BASE,
-    SOCIAL_SEARCH_BASE,
-) 
+    ArchiveType,
+    SearchType,
+)
 from app.wagtail.render import render_content_page
 from flask import (
     current_app,
@@ -267,8 +267,12 @@ def search():
     """
     # Get the search query from the request
     query = request.args.get("q", "").strip()
-    search_type = request.args.get("search_type", SearchType.KEYWORD.value)  # 'keyword' or 'url'
-    archive_type = request.args.get("archive_type", ArchiveType.WEB.value)  # 'web' or 'social'
+    search_type = request.args.get(
+        "search_type", SearchType.KEYWORD.value
+    )  # 'keyword' or 'url'
+    archive_type = request.args.get(
+        "archive_type", ArchiveType.WEB.value
+    )  # 'web' or 'social'
 
     if not query:
         # If no query provided, redirect to the appropriate base search URL
