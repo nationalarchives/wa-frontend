@@ -5,7 +5,7 @@
 {% from "components/navigation.html" import sidebar %}
 {% from "components/related_content.html" import related_content %}
 {% block content %}
-    {{ page_header(page_data.title, page_data.introduction, True, "flush") }}
+    {{ page_header(page_data.title, page_data.intro | tna_html | safe, True, "flush") }}
     <div class="listing-page u-layout">
         <div class="listing-page__main col-span-full md:col-span-8">
             {% if children %}
