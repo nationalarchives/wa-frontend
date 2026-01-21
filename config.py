@@ -35,6 +35,9 @@ class Production(Features):
 
     WAGTAIL_API_URL: str = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
     WAGTAIL_SITE_HOSTNAME: str = os.environ.get("WAGTAIL_SITE_HOSTNAME", "")
+    WAGTAILAPI_LIMIT_MAX: int = int(os.environ.get("WAGTAILAPI_LIMIT_MAX", "20"))
+
+    PAGINATION_PAGE_SIZE: int = int(os.environ.get("PAGINATION_PAGE_SIZE", "12"))
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
 

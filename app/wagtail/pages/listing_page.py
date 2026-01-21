@@ -6,7 +6,7 @@ from flask import current_app, render_template, request
 
 
 def render_listing_page(page_data):
-    children_per_page = 2
+    children_per_page = current_app.config.get("PAGINATION_PAGE_SIZE", 12)
     page = 1
     if request.args.get("page"):
         try:
