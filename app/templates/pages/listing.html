@@ -18,7 +18,9 @@
             {% endif %}
         </div>
         <aside class="listing-page__sidebar col-span-full md:col-span-4">
-            {% if siblings %}{{ sidebar(siblings, parent, page_data, ancestor_ids, sidebar_cta) }}{% endif %}
+            {% if page_data.sidebar_navigation %}
+                {{ sidebar(page_data.sidebar_navigation.subpages, page_data.sidebar_navigation.parent_page_title, sidebar_cta) }}
+            {% endif %}
         </aside>
     </div>
     {% if related_pages %}
