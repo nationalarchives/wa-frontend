@@ -1,22 +1,24 @@
 {% extends "layouts/base_page.html" %}
 {% from "components/page_header.html" import page_header %}
 {% from "components/listing_item.html" import listing_item %}
-{% from "components/pagination.html" import pagination %}
+{% from "components/pagination/macro.html" import tnaPagination %}
 {% from "components/navigation.html" import sidebar %}
 {% from "components/related_content.html" import related_content %}
 {% block content %}
-    {{ page_header(page.title, page.introduction, True, "flush") }}
+    {{ page_header(page_data.title, page_data.introduction, True, "flush") }}
     <div class="listing-page u-layout">
         <div class="listing-page__main col-span-full md:col-span-8">
-            {% if subpages %}
+            {% if children %}
                 <ul class="listing-page__list">
-                    {% for subpage in subpages.items %}{{ listing_item(subpage, subpage.url) }}{% endfor %}
+                    {% for child in children %}{{ listing_item(child, child.url) }}{% endfor %}
                 </ul>
-                {{ pagination(subpages) }}
+                {% if pages > 1 %}
+                    {{ tnaPagination(pagination) }}
+                {% endif %}
             {% endif %}
         </div>
         <aside class="listing-page__sidebar col-span-full md:col-span-4">
-            {% if siblings %}{{ sidebar(siblings, parent, page, ancestor_ids, sidebar_cta) }}{% endif %}
+            {% if siblings %}{{ sidebar(siblings, parent, page_data, ancestor_ids, sidebar_cta) }}{% endif %}
         </aside>
     </div>
     {% if related_pages %}
