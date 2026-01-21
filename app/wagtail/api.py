@@ -92,7 +92,7 @@ def page_children_paginated(
     params={},
 ):
     if not page_id:
-        return {}
+        return {"items": [], "meta": {"total_count": 0}}
     return pages_paginated(
         page=page,
         limit=limit,
