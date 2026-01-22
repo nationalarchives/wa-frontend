@@ -40,7 +40,7 @@
 }
 
 // Responsive visibility utilities
-.u-hide-until-lg {
+.u-hide-until-lg-inline {
   display: none;
 
   @include media-query(large) {
