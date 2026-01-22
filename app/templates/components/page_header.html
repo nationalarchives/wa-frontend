@@ -1,10 +1,10 @@
 {# Page Header component #}
 {% macro page_header(title, introduction='', show_introduction=True, modifier='') %}
     <div class="page-header{% if modifier %} page-header--{{ modifier }}{% endif %}">
-        <div class="page-header__container u-layout">
-            <h1 class="page-header__title heading heading--one col-span-full">{{ title }}</h1>
+        <div class="page-header__container tna-container">
+            <h1 class="page-header__title heading heading--one tna-column tna-column--full">{{ title }}</h1>
             {% if show_introduction and introduction %}
-                <p class="page-header__introduction col-span-full body body--feature">{{ introduction }}</p>
+                <div class="page-header__introduction tna-column tna-column--full body body--feature">{{ introduction }}</div>
             {% endif %}
         </div>
     </div>

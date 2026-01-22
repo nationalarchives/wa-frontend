@@ -2,8 +2,8 @@
 {% macro featured_search(heading='Find archived government websites and documents', button_text='Search', help_text='', archive_type='web', modifier='') %}
     <section class="featured-search{% if modifier %} featured-search--{{ modifier }}{% endif %}"
              aria-labelledby="featured-search-heading">
-        <div class="featured-search__container u-layout">
-            <div class="featured-search__content col-span-full">
+        <div class="featured-search__container tna-container">
+            <div class="featured-search__content tna-column tna-column--full">
                 <h2 id="featured-search-heading"
                     class="featured-search__heading heading heading--two">{{ heading }}</h2>
                 <form class="featured-search__form"
@@ -11,10 +11,10 @@
                       aria-labelledby="featured-search-heading"
                       action="{{ url_for('wagtail.search') }}"
                       method="get">
-                    <label for="featured-search-input" class="sr-only">Enter search term</label>
+                    <label for="featured-search-input" class="tna-visually-hidden">Enter search term</label>
                     {% if archive_type == 'web' %}
                     <fieldset class="featured-search__options">
-                        <legend class="sr-only">Search type</legend>
+                        <legend class="tna-visually-hidden">Search type</legend>
                         <label class="featured-search__radio">
                             <input type="radio" name="search_type" value="keyword" checked />
                             Keyword search

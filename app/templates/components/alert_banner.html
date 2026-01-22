@@ -3,8 +3,8 @@
     {% set modifier = page_data.global_alert.theme|default("yellow") %}
     <div class="alert-banner alert-banner--{{ modifier }}"
         {% if modifier == "red" %}role="alert"{% else %}role="status" aria-live="polite"{% endif %}>
-        <div class="alert-banner__container u-layout">
-            <div class="alert-banner__alert col-span-full">
+        <div class="alert-banner__container tna-container">
+            <div class="alert-banner__alert tna-column tna-column--full">
                 <span class="alert-banner__icon" aria-hidden="true">
                     {% if modifier == "info" %}
                         {{ icon("info-circle", viewbox="0 0 24 24") }}
