@@ -1,0 +1,23 @@
+{% extends "layouts/base_page.html" %}
+{% from "components/page_header.html" import page_header %}
+{% from "components/featured_search.html" import featured_search %}
+{% from "components/card.html" import card %}
+{% from "components/pagination.html" import pagination %}
+{% block content %}
+    {{ page_header(page_data.title, page_data.intro | tna_html | safe, True, "flush") }}
+    {% if page_data.search_configuration %}
+        {{ featured_search(page_data.search_configuration.heading, page_data.search_configuration.button_text, page_data.search_configuration.help_text, page_data.search_configuration.archive_type, "secondary") }}
+    {% endif %}
+    {% if page_data.subpages %}
+        <section class="card-listing">
+            <ul class="card-listing__grid tna-container">
+                {% for subpage in page_data.subpages %}
+                    {% set card_title = subpage.title %}
+                    {% set card_summary = subpage.teaser_text or '' %}
+                    {{ card(card_title, subpage.url, card_summary, modifier="listing", clickable=True, grid_classes="col-span-12 md:col-span-6") }}
+                {% endfor %}
+            </ul>
+        </section>
+        {# {{ pagination(page_data.subpages) }} #}
+    {% endif %}
+{% endblock %}

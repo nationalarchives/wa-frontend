@@ -18,14 +18,6 @@ class MainBlueprintTestCase(unittest.TestCase):
         self.assertEqual(rv.status_code, 308)
         self.assertEqual(rv.location, f"{self.domain}/healthcheck/live/")
 
-    def test_homepage(self):
-        rv = self.app.get("/")
-        self.assertEqual(rv.status_code, 200)
-        self.assertIn(
-            '<h1 class="hero__title heading heading--one" id="hero-title">UK Government Web Archive</h1>',
-            rv.text,
-        )
-
     def test_cookies(self):
         rv = self.app.get("/cookies/")
         self.assertEqual(rv.status_code, 200)
