@@ -30,6 +30,7 @@
                                id="featured-search-input"
                                name="q"
                                class="featured-search__input"
+                               data-search-keywords
                                {% if help_text %}aria-describedby="featured-search-help"{% endif %} />
                         <input type="hidden" name="archive_type" value="{{ archive_type }}" />
                         <button type="submit" class="featured-search__button button button--primary">{{ button_text }}</button>
