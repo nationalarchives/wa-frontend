@@ -54,7 +54,7 @@
                 <h3 class="tna-footer__heading">{{ section.title }}</h3>
                 <ul class="tna-footer__list tna-ul tna-ul--plain">
                     {% for link in section['items'] %}
-                    
+
                         <li class="tna-footer__list-item">
                             <a href="{{ link.href }}" class="tna-footer__link">{{ link.text }}</a>
                         </li>
@@ -80,15 +80,15 @@
         </nav>
     </div>
 {% endmacro %}
-{% macro sidebar(siblings, parent, current_page, ancestor_ids, sidebar_cta=None) %}
+{% macro sidebar(siblings, parent_page_title, sidebar_cta=None) %}
     <nav class="sidebar" aria-label="Page navigation">
-        {% if parent %}<h2 class="sidebar__title">{{ parent.title }}</h2>{% endif %}
+        {% if parent_page_title %}<h2 class="sidebar__title">{{ parent_page_title }}</h2>{% endif %}
         <ul class="sidebar__list">
             {% for sibling in siblings %}
-                <li class="sidebar__list-item{% if sibling.id == current_page.id or sibling.id in ancestor_ids %} sidebar__list-item--active{% endif %}">
-                    <a href="{{ sibling.url }}"
-                       class="sidebar__link"
-                       {% if sibling.id == current_page.id %}aria-current="page"{% endif %}>{{ sibling.title }}</a>
+                <li class="sidebar__list-item">
+                    <a href="{{ sibling.href }}"
+                       class="sidebar__link{{ ' sidebar__link--active' if sibling.is_current else '' }}"
+                       {% if sibling.is_current %}aria-current="page"{% endif %}>{{ sibling.text }}</a>
                 </li>
             {% endfor %}
         </ul>
