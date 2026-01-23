@@ -1,7 +1,14 @@
-from urllib.parse import quote, unquote, urlparse
+from urllib.parse import quote, quote_plus, unquote, urlparse
 
 from app.lib.api import ResourceForbidden, ResourceNotFound
 from app.wagtail import bp
+from app.wagtail.constants import (
+    SOCIAL_SEARCH_BASE,
+    WEB_KEYWORD_SEARCH_BASE,
+    WEB_SITE_SEARCH_BASE,
+    ArchiveType,
+    SearchType,
+)
 from app.wagtail.render import render_content_page
 from flask import (
     current_app,
@@ -246,3 +253,48 @@ def image_page(image_uuid):
         current_app.logger.error(f"Failed to get video: {e}")
         return render_template("errors/api.html"), 502
     return render_template("media/image.html", image_data=image_data)
+
+
+@bp.route("/search/")
+def search():
+    """
+    Handle search requests and redirect to external search URL.
+
+    URLs are determined by combination of search_type and archive_type:
+    - Web + Site: https://webarchive.nationalarchives.gov.uk/ukgwa/timeline1/{site}
+    - Web + Keyword: https://webarchive.nationalarchives.gov.uk/search/result?q={query}
+    - Social: https://webarchive.nationalarchives.gov.uk/social/search/result?q={query}
+    """
+    # Get the search query from the request
+    query = request.args.get("q", "").strip()
+    search_type = request.args.get(
+        "search_type", SearchType.KEYWORD.value
+    )  # 'keyword' or 'url'
+    archive_type = request.args.get(
+        "archive_type", ArchiveType.WEB.value
+    )  # 'web' or 'social'
+
+    if not query:
+        # If no query provided, redirect to the appropriate base search URL
+        if archive_type == ArchiveType.SOCIAL.value:
+            redirect_url = f"{SOCIAL_SEARCH_BASE}/"
+        else:
+            redirect_url = f"{WEB_KEYWORD_SEARCH_BASE}/"
+        return redirect(redirect_url, code=302)
+
+    # URL encode the query for safe inclusion in URL
+    encoded_query = quote_plus(query)
+
+    # Construct external URL based on archive_type and search_type
+    if archive_type == ArchiveType.SOCIAL.value:
+        # Social archive always uses keyword-style search
+        external_url = f"{SOCIAL_SEARCH_BASE}/result?q={encoded_query}"
+    elif search_type == SearchType.URL.value:
+        # Web + Site search uses timeline1 path
+        external_url = f"{WEB_SITE_SEARCH_BASE}/{encoded_query}"
+    else:
+        # Web + Keyword search
+        external_url = f"{WEB_KEYWORD_SEARCH_BASE}/result?q={encoded_query}"
+
+    # Redirect to the external search URL
+    return redirect(external_url, code=302)

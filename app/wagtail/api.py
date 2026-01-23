@@ -55,6 +55,55 @@ def redirect_by_uri(path, params={}):
     return wagtail_request_handler(uri, params)
 
 
+def page_children(page_id, params={}, limit=None):
+    if not page_id:
+        return {}
+    uri = "pages/"
+    params = params | {
+        "child_of": page_id,
+        "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+        "include_aliases": "",
+    }
+    return wagtail_request_handler(uri, params)
+
+
+def pages_paginated(
+    page,
+    limit=None,
+    initial_offset=0,
+    params={},
+):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = ((page - 1) * limit) + initial_offset
+    uri = "pages/"
+    params = params | {
+        "offset": offset,
+        "limit": limit,
+    }
+    return wagtail_request_handler(uri, params)
+
+
+def page_children_paginated(
+    page_id,
+    page,
+    limit=None,
+    initial_offset=0,
+    params={},
+):
+    if not page_id:
+        return {"items": [], "meta": {"total_count": 0}}
+    return pages_paginated(
+        page=page,
+        limit=limit,
+        initial_offset=initial_offset,
+        params=params
+        | {
+            "child_of": page_id,
+        },
+    )
+
+
 def _get_navigation_cache_key():
     """Generate cache key for navigation settings."""
     site = current_app.config.get("WAGTAIL_SITE_HOSTNAME", "default")
