@@ -122,3 +122,27 @@ def navigation_settings():
     except Exception as e:
         current_app.logger.error(f"Failed to get navigation settings: {e}")
         return {}
+
+
+def archive_records(first_character, params={}):
+    """Fetch archive records filtered by first character."""
+    uri = "archive_records/"
+    params = params | {"first_character": first_character}
+    try:
+        return wagtail_request_handler(uri, params)
+    except Exception as e:
+        current_app.logger.error(
+            f"Failed to get archive records for '{first_character}': {e}"
+        )
+        return []
+
+
+def archive_available_characters(params={}):
+    """Fetch list of characters that have archive records."""
+    uri = "archive_records/characters/"
+    try:
+        response = wagtail_request_handler(uri, params)
+        return response.get("characters", [])
+    except Exception as e:
+        current_app.logger.error(f"Failed to get available characters: {e}")
+        return []
