@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main class="tna-main" id="main-content">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+
+        {%- if page_data.intro %}
+        <div class="tna-large-paragraph tna-!--margin-top-s">
+          {{ page_data.intro | tna_html | safe }}
+        </div>
+        {%- endif %}
+
+        <h2 class="tna-heading-l tna-!--margin-top-l">Browse by character</h2>
+
+        <ul class="breadcrumb__list tna-!--margin-top-m">
+          {%- for char in available_characters %}
+          <li class="breadcrumb__item">
+            <a href="?character={{ char }}">
+              {{ char if char == '0-9' else char | upper }}
+            </a>
+          </li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+  </main>
+{% endblock content %}
