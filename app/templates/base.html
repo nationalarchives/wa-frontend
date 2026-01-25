@@ -6,7 +6,7 @@
 {%- from 'components/header/macro.html' import tnaHeader -%}
 {%- from 'macros/global_alert_banners.html' import global_alert_banners -%}
 
-{%- set theme = request.cookies.get('theme') or 'system' -%}
+{# {%- set theme = request.cookies.get('theme') or 'system' -%} #}
 {%- set themeAccent = themeAccent if themeAccent else 'yellow' -%}
 {%- set htmlAttributes = {
 'data-ga4id': app_config.GA4_ID or '',
