@@ -11,10 +11,24 @@
 {% endblock header %}
 
 {% block content %}
-  <div class="tna-container">
-    <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny tna-section">
-      <h1 class="tna-heading-xl">{{ error_data.title }}</h1>
-      {{ error_data.message | tna_html | safe }}
+  <div class="tna-section">
+    <div class="tna-container">
+      <div class="tna-column tna-column--width-2-3 tna-column--full-small tna-column--full-tiny">
+        <h1 class="tna-heading-xl">{{ error_data.title }}</h1>
+        {{ error_data.message | tna_html | safe }}
+        {% if error_data.links %}
+          <div class="error-links">
+            {% if error_data.links_heading %}
+              <h2>{{ error_data.links_heading }}</h2>
+            {% endif %}
+            <ul>
+              {% for link in error_data.links %}
+                <li><a href="{{ link.url }}">{{ link.text }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
     </div>
   </div>
 {% endblock content %}
