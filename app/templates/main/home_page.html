@@ -16,7 +16,7 @@
 {% endblock head %}
 
 {% block content %}
-  {{ hero("UK Government Web Archive", "We capture, preserve and make accessible UK central government information published on the web. The Web Archive includes videos, tweets, images and websites dating from 1996 to the present day.") }}
+  {{ hero(page_data.title, page_data.intro | tna_html | safe, page_data.hero_image.webp.full_url, page_data.hero_image_small.webp.full_url) }}
   {% if page_data.search_configuration %}
     {{ featured_search(page_data.search_configuration.heading, page_data.search_configuration.button_text, page_data.search_configuration.help_text, page_data.search_configuration.archive_type) }}
   {% endif %}
