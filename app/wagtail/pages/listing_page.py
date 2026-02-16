@@ -36,7 +36,7 @@ def render_listing_page(page_data):
         pagination = pagination_object(page, pages, request.args)
     except AssertionError:
         # The requested page is out of range, 404
-        return render_template("errors/page_not_found.html"), 404
+        return render_template("errors/page-not-found.html"), 404
     return render_template(
         "pages/listing.html",
         page_data=page_data,

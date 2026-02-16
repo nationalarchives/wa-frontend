@@ -33,11 +33,11 @@ def preview_page():
     content_type = request.args.get("content_type")
     token = request.args.get("token")
     if not content_type or not token:
-        return render_template("errors/page_not_found.html"), 404
+        return render_template("errors/page-not-found.html"), 404
     try:
         page_data = page_preview(content_type, token)
     except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
+        return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
         return render_template("errors/forbidden.html"), 403
     except Exception as e:
@@ -67,7 +67,7 @@ def preview_protected_page(page_id):
             params=params,
         )
     except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
+        return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
         return render_template("errors/forbidden.html"), 403
     except Exception as e:
@@ -111,7 +111,7 @@ def page_permalink(page_id):
         # Get the page details from Wagtail by its ID
         page_data = page_details(page_id)
     except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
+        return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
         return render_template("errors/forbidden.html"), 403
     except Exception as e:
@@ -150,7 +150,7 @@ def page(path):
         # redirects added in Wagtail
         if current_app.config.get("SERVE_WAGTAIL_EXTERNAL_REDIRECTIONS"):
             return try_external_redirect(path)
-        return render_template("errors/page_not_found.html"), 404
+        return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
         # In the unlikely case that the API returns a 403, show a forbidden error page
         return render_template("errors/forbidden.html"), 403
@@ -221,7 +221,7 @@ def try_external_redirect(path):
         # Attempt to get the redirect data by the requested path
         redirect_data = redirect_by_uri(path)
     except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
+        return render_template("errors/page-not-found.html"), 404
     except Exception as e:
         current_app.logger.error(f"Failed to get redirect: {e}")
         return render_template("errors/api.html"), 502
@@ -246,7 +246,7 @@ def image_page(image_uuid):
     try:
         image_data = image(image_uuid=image_uuid)
     except ResourceNotFound:
-        return render_template("errors/page_not_found.html"), 404
+        return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
         return render_template("errors/forbidden.html"), 403
     except Exception as e:

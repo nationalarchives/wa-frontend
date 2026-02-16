@@ -18,6 +18,7 @@ services:
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
+      - WAGTAIL_SITE_HOSTNAME=webarchive.localhost
       - CACHE_REDIS_URL=redis://redis:6379/0
       - COOKIE_DOMAIN=localhost
       - CSP_IMG_SRC='self',localhost:8000,localhost:65529,*.google-analytics.com,*.gstatic.com,*.nationalarchives.gov.uk,i.ytimg.com,img.youtube.com,maps.googleapis.com
