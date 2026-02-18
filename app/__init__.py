@@ -6,6 +6,7 @@ from app.lib.context_processor import (
     get_social_media_data,
     now_iso_8601,
 )
+from app.lib.database import init_db
 from app.lib.navigation import build_footer_navigation, build_header_navigation
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
@@ -39,6 +40,8 @@ def create_app(config_class):
             "CACHE_REDIS_URL": app.config.get("CACHE_REDIS_URL"),
         },
     )
+
+    init_db(app)
 
     csp_self = "'self'"
     csp_none = "'none'"
