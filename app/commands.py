@@ -54,6 +54,8 @@ import os
 
 import click
 import requests
+from app.lib.archive_service import get_records_by_character
+from app.lib.cache import cache
 from app.lib.database import db_session
 from app.lib.models import ArchiveRecord
 from app.lib.schemas import ArchiveRecordSchema
@@ -61,6 +63,17 @@ from pydantic import ValidationError
 from sqlalchemy.exc import SQLAlchemyError
 
 logger = logging.getLogger(__name__)
+
+
+@click.command("clear-archive-cache")
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    default=False,
+    help="Validate and report without saving to database",
+)
+def clear_archive_cache(dry_run: bool):
+    _clear_cache(dry_run)
 
 
 @click.command("sync-archive-data")
@@ -188,6 +201,9 @@ def sync_archive_data(url, dry_run, validation_batch_size, commit_batch_size):
         ArchiveRecord.wam_id.not_in(source_wam_ids)
     )
     stats["deleted"] = delete_entries(to_delete, dry_run)
+
+    # Clear cache after successful sync
+    _clear_cache(dry_run)
 
     logger.info(
         "Archive data sync completed: %s total, %s created, %s updated, "
@@ -407,3 +423,20 @@ def save_entry(validated: ArchiveRecordSchema, existing_records: dict, dry_run=F
         setattr(existing, field, value)
 
     return "updated"
+
+
+def _clear_cache(dry_run: bool):
+    """
+    Save or update an entry in the database using hash-based change detection.
+
+    Args:
+        dry_run: If True, determine what would happen without writing to database"""
+    if not dry_run:
+        click.echo("\nClearing archive caches...")
+        try:
+            cache.delete("archive:characters")
+            cache.delete_memoized(get_records_by_character)
+            click.echo("Caches cleared")
+        except Exception as e:
+            logger.error("Failed to clear archive caches: %s", str(e))
+            click.secho(f"Failed to clear caches: {e}")
