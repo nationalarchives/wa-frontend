@@ -9,6 +9,7 @@ import Header from "./components/header.js";
 import SkipLink from "./components/skip-link.js";
 import YouTubeConsentManager from "./components/youtube-consent-manager.js";
 import TableHint from "./components/table-hint.js";
+import KeywordDetector from "./components/keyword-detector.js";
 
 function initComponent(ComponentClass) {
   const items = document.querySelectorAll(ComponentClass.selector());
@@ -27,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initComponent(SkipLink);
   initComponent(YouTubeConsentManager);
   initComponent(TableHint);
+  initComponent(KeywordDetector);
 
   // Initialise custom header with extended mobile breakpoint
   // Must be initialised before initAll() to prevent TNA's default header from taking over
