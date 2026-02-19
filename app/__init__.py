@@ -128,4 +128,8 @@ def create_app(config_class):
     app.register_blueprint(healthcheck_bp, url_prefix="/healthcheck")
     app.register_blueprint(wagtail_bp)
 
+    from app import commands
+
+    app.cli.add_command(commands.sync_archive_data)
+
     return app
