@@ -427,10 +427,11 @@ def save_entry(validated: ArchiveRecordSchema, existing_records: dict, dry_run=F
 
 def _clear_cache(dry_run: bool):
     """
-    Save or update an entry in the database using hash-based change detection.
+    Clear the archive service cache.
 
     Args:
-        dry_run: If True, determine what would happen without writing to database"""
+        dry_run: If True, skip cache clearing
+    """
     if not dry_run:
         click.echo("\nClearing archive caches...")
         try:
