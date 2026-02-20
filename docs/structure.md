@@ -58,11 +58,11 @@ Any static images that are needed for this site can be placed in `app/static/ima
 
 ```html
 <img
-    src="{{ url_for('static', filename='images/example.svg') }}"
-    width="128"
-    height="128"
-    alt=""
->
+  src="{{ url_for('static', filename='images/example.svg') }}"
+  width="128"
+  height="128"
+  alt=""
+/>
 ```
 
 Avoid adding large images and binary files to this repository. Try to use SVGs where possible.

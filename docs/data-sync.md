@@ -71,8 +71,8 @@ Memory spikes during the initial JSON load then remains flat during batch proces
 
 ## Environment variables
 
-| Variable | Description |
-|----------|-------------|
+| Variable           | Description                                                              |
+| ------------------ | ------------------------------------------------------------------------ |
 | `ARCHIVE_JSON_URL` | Default URL for the archive JSON feed, used when `--url` is not provided |
 
 Set `ARCHIVE_JSON_URL` in your `docker-compose.override.yml` for local development:
