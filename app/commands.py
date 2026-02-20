@@ -394,10 +394,6 @@ def save_entry(validated: ArchiveRecordSchema, existing_records: dict, dry_run=F
     # Get data excluding wam_id
     data = validated.model_dump(mode="json", by_alias=False, exclude={"wam_id"})
 
-    # Convert HttpUrl to string for SQLAlchemy
-    data["record_url"] = str(data["record_url"])
-    data["archive_link"] = str(data["archive_link"])
-
     # Check if record exists
     existing = existing_records.get(validated.wam_id)
 
