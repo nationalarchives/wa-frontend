@@ -123,11 +123,13 @@ def create_app(config_class):
     from .api import bp as api_bp
     from .healthcheck import bp as healthcheck_bp
     from .main import bp as site_bp
+    from .sitemaps import bp as sitemaps_bp
     from .wagtail import bp as wagtail_bp
 
+    app.register_blueprint(api_bp)
     app.register_blueprint(site_bp)
     app.register_blueprint(healthcheck_bp, url_prefix="/healthcheck")
-    app.register_blueprint(api_bp)
+    app.register_blueprint(sitemaps_bp)
     app.register_blueprint(wagtail_bp)
 
     from app import commands

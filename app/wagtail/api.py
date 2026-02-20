@@ -19,6 +19,15 @@ def wagtail_request_handler(uri, params={}):
     return data
 
 
+def all_pages(params={}, batch=1, limit=None):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (batch - 1) * limit
+    params = params | {"offset": offset, "limit": limit}
+    uri = "pages/"
+    return wagtail_request_handler(uri, params)
+
+
 def page_details(page_id, params={}):
     uri = f"pages/{page_id}/"
     params = params | {
