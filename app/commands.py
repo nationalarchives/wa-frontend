@@ -54,9 +54,9 @@ import os
 
 import click
 import requests
+from app.lib import database
 from app.lib.archive_service import get_records_by_character
 from app.lib.cache import cache
-from app.lib.database import db_session
 from app.lib.models import ArchiveRecord
 from app.lib.schemas import ArchiveRecordSchema
 from pydantic import ValidationError
@@ -197,7 +197,7 @@ def sync_archive_data(url, dry_run, validation_batch_size, commit_batch_size):
         )
 
     # Delete entries not in source
-    to_delete = db_session.query(ArchiveRecord).filter(
+    to_delete = database.db_session.query(ArchiveRecord).filter(
         ArchiveRecord.wam_id.not_in(source_wam_ids)
     )
     stats["deleted"] = delete_entries(to_delete, dry_run)
@@ -289,13 +289,13 @@ def save_entries(validated_entries, total_valid_entries, commit_batch_size, dry_
             batch_wam_ids = [v.wam_id for v in batch]
             existing_records = {
                 r.wam_id: r
-                for r in db_session.query(ArchiveRecord)
+                for r in database.db_session.query(ArchiveRecord)
                 .filter(ArchiveRecord.wam_id.in_(batch_wam_ids))
                 .all()
             }
 
             # Disable autoflush for performance (flush only on commit)
-            with db_session.no_autoflush:
+            with database.db_session.no_autoflush:
                 for validated in batch:
                     result = save_entry(validated, existing_records, dry_run)
                     save_stats[result] += 1
@@ -310,12 +310,12 @@ def save_entries(validated_entries, total_valid_entries, commit_batch_size, dry_
 
             # Commit batch
             if not dry_run:
-                db_session.commit()
+                database.db_session.commit()
                 # Clear session cache to free memory
-                db_session.expire_all()
+                database.db_session.expire_all()
 
         except SQLAlchemyError as e:
-            db_session.rollback()
+            database.db_session.rollback()
             save_stats["database_errors"] += len(batch)
             logger.error(
                 "Failed to process batch %s-%s: %s", batch_start, batch_end, str(e)
@@ -348,13 +348,13 @@ def delete_entries(query, dry_run):
 
         if not dry_run:
             query.delete(synchronize_session=False)
-            db_session.commit()
+            database.db_session.commit()
             if record_count:
                 click.echo(f"Deleted {record_count} entries not in source")
         return record_count
     except SQLAlchemyError as e:
         if not dry_run:
-            db_session.rollback()
+            database.db_session.rollback()
             logger.error("Database error deleting removed entries: %s", str(e))
             click.secho(f"Failed to delete removed entries: {e}", fg="red")
         return -1
@@ -411,7 +411,7 @@ def save_entry(validated: ArchiveRecordSchema, existing_records: dict, dry_run=F
     if existing is None:
         # Create new record
         new_record = ArchiveRecord(wam_id=validated.wam_id, **data)
-        db_session.add(new_record)
+        database.db_session.add(new_record)
         return "created"
 
     # Check if changed (hash-based change detection)
