@@ -133,5 +133,6 @@ def create_app(config_class):
     from app import commands
 
     app.cli.add_command(commands.sync_archive_data)
+    app.cli.add_command(commands.clear_archive_cache)
 
     return app
