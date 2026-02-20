@@ -3,3 +3,4 @@ services:
     environment:
       - WAGTAIL_SITE_HOSTNAME=localhost:65500  # The hostname of the site we want to make requests top
       - CACHE_DEFAULT_TIMEOUT=15  # Sensible cache timeout for testing (seconds)
+      - ARCHIVE_JSON_URL= # URL to fetch archive data JSON from (used by sync-archive-data command)

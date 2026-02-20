@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <main class="tna-main" id="main-content">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        <h1 class="tna-heading-xl">{{ page_data.title }} - {{ display_character }}</h1>
+
+        {%- if page_data.intro %}
+        <div class="tna-large-paragraph tna-!--margin-top-s">
+          {{ page_data.intro | tna_html | safe }}
+        </div>
+        {%- endif %}
+
+        <h2 class="tna-heading-m tna-!--margin-top-l">Browse by character</h2>
+        <ul class="breadcrumb__list tna-!--margin-top-s">
+          {%- for char in available_characters %}
+          <li class="breadcrumb__item">
+            <a href="?character={{ char }}"{% if char == selected_character %} aria-current="page"{% endif %}>
+              {{ char if char == '0-9' else char | upper }}
+            </a>
+          </li>
+          {%- endfor %}
+        </ul>
+
+        <h2 class="tna-heading-l tna-!--margin-top-l">Records starting with {{ display_character }}</h2>
+
+        {%- if records %}
+        <ul class="tna-!--margin-top-m">
+          {%- for record in records %}
+          <li class="tna-!--margin-bottom-s">
+            <h3 class="tna-heading-m">
+              <a href="{{ record.archive_link }}">{{ record.profile_name }}</a>
+            </h3>
+            <ul>
+              <li>Original URL: {{ record.record_url }}</li>
+              <li>First capture: {{ record.first_capture_display }}</li>
+              <li>Latest captured: {% if record.ongoing %}Ongoing{% else %}{{ record.latest_capture_display }}{% endif %}</li>
+            </ul>
+          </li>
+          {%- endfor %}
+        </ul>
+        {%- else %}
+        <p class="tna-!--margin-top-m">No records found for this character.</p>
+        <p class="tna-!--margin-top-s">
+          <a href="{{ page_data.meta.url }}">View all characters</a>
+        </p>
+        {%- endif %}
+      </div>
+    </div>
+  </main>
+{% endblock content %}

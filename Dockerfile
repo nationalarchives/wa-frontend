@@ -9,6 +9,9 @@ ENV CONTAINER_IMAGE="$CONTAINER_IMAGE"
 ARG BUILD_VERSION
 ENV BUILD_VERSION="$BUILD_VERSION"
 
+# Set Flask app location for CLI commands
+ENV FLASK_APP=main:app
+
 # Copy in the application code
 COPY --chown=app . .
 

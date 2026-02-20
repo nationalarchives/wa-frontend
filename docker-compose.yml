@@ -5,12 +5,14 @@ services:
       args:
         IMAGE: ghcr.io/nationalarchives/tna-python-dev
         IMAGE_TAG: latest
-    # command: ["tna-wsgi", "main:app", "--reload"]
-    # extra_hosts:
-    #   - "host.docker.internal:host-gateway"
+    entrypoint: ["/app/docker-entrypoint.sh"]
+    command: ["tna-wsgi", "main:app", "--reload"]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - redis
     environment:
+      - FLASK_APP=main:app
       - ENVIRONMENT_NAME=localhost
       - ALLOW_INSECURE=true
       - CONFIG=config.Develop
