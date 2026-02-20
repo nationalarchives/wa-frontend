@@ -37,6 +37,8 @@ class Production(Features):
     WAGTAIL_SITE_HOSTNAME: str = os.environ.get("WAGTAIL_SITE_HOSTNAME", "")
     WAGTAILAPI_LIMIT_MAX: int = int(os.environ.get("WAGTAILAPI_LIMIT_MAX", "20"))
 
+    ITEMS_PER_SITEMAP: int = int(os.environ.get("ITEMS_PER_SITEMAP", "500"))
+
     PAGINATION_PAGE_SIZE: int = int(os.environ.get("PAGINATION_PAGE_SIZE", "12"))
 
     COOKIE_DOMAIN: str = os.environ.get("COOKIE_DOMAIN", "")
@@ -86,6 +88,8 @@ class Develop(Production):
     DEBUG: bool = strtobool(os.getenv("DEBUG", "False"))
 
     CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
+
+    PREFERRED_URL_SCHEME: str = "http"
 
 
 class Test(Production):
