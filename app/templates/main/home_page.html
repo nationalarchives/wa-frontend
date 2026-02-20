@@ -21,8 +21,8 @@
     {{ featured_search(page_data.search_configuration.heading, page_data.search_configuration.button_text, page_data.search_configuration.help_text, page_data.search_configuration.archive_type) }}
   {% endif %}
   
-  {% set firstLinkBlock = page_data.featured_links_sections[0] %}
-  {% set secondLinkBlock = page_data.featured_links_sections[1] %}
+  {% set firstLinkBlock = page_data.featured_links_sections[0] or None %}
+  {% set secondLinkBlock = page_data.featured_links_sections[1] or None %}
   {{ related_content(firstLinkBlock.links, heading=firstLinkBlock.heading, heading_id="archive-highlights", modifier="archive-highlights") }}
   {{ related_content(secondLinkBlock.links, heading=secondLinkBlock.heading, heading_id="recently-archived", intro="test", modifier="recently-archived") }}
 {% endblock content %}

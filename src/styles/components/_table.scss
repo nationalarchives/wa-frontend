@@ -47,7 +47,11 @@
     top: 0;
     right: 0;
 
-    background: linear-gradient(to right, rgb(255 255 255 / 0%) -50%, var(--color-background-primary) 100%);
+    background: linear-gradient(
+      to right,
+      rgb(255 255 255 / 0%) -50%,
+      var(--color-background-primary) 100%
+    );
 
     opacity: 1;
     transition: opacity 0.25s ease;

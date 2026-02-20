@@ -4,7 +4,9 @@
 // Note: We have to override the breakpoint that the desktop nav kicks in due to the nav site
 
 .header {
-  background: var(--global-header-background); // needs to be background to override TNA Frontend background
+  background: var(
+    --global-header-background
+  ); // needs to be background to override TNA Frontend background
 
   &__strapline {
     max-width: 140px;
