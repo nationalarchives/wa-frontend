@@ -21,6 +21,19 @@
             {% if page_data.sidebar_navigation %}
                 {{ sidebar(page_data.sidebar_navigation.subpages, page_data.sidebar_navigation.parent_page_title, sidebar_cta) }}
             {% endif %}
+            {% if page_data.bookmarklet_cta %}
+                    {{ tnaCard({
+                        "title": page_data.bookmarklet_cta.heading,
+                        "body": page_data.bookmarklet_cta.body,
+                        "actions": [
+                            {
+                                "text": page_data.bookmarklet_cta.button_text,
+                                "href": page_data.bookmarklet_cta.button_link
+                            }
+                        ],
+                        "style": "contrast"
+                    }) }}
+                {% endif %}
         </aside>
     </div>
     {% if related_pages %}
