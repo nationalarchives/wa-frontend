@@ -1,4 +1,5 @@
 from app.lib import archive_service
+from app.lib.util import normalize_archive_letter
 from flask import current_app, render_template, request
 
 
@@ -13,10 +14,7 @@ def render_atoz_archive_page(page_data):
     Query parameter:
     - character: Character to filter by (a-z, or '0-9' for digits and special chars)
     """
-    character = request.args.get("character", "").strip()
-    # Normalize alphabetic characters to lowercase, keep '0-9' as-is
-    if character and character.isalpha():
-        character = character.lower()
+    character = normalize_archive_letter(request.args.get("character", ""))
 
     # Fetch available characters from local database
     try:
