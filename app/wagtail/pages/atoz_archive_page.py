@@ -30,7 +30,7 @@ def render_atoz_archive_page(page_data):
         available_characters = archive_service.get_available_characters()
     except Exception as e:
         current_app.logger.error(f"Failed to get available characters: {e}")
-        return render_template("errors/internal_server_error.html"), 500
+        return render_template("errors/server.html"), 500
 
     if not character:
         return render_template(
@@ -43,7 +43,7 @@ def render_atoz_archive_page(page_data):
         current_app.logger.warning(
             f"Invalid character parameter '{character}' for A-to-Z archive"
         )
-        return render_template("errors/page_not_found.html"), 404
+        return render_template("errors/page-not-found.html"), 404
 
     try:
         result = archive_service.get_records_by_character(character)
@@ -52,7 +52,7 @@ def render_atoz_archive_page(page_data):
         current_app.logger.error(
             f"Failed to get archive records for character '{character}' on page {page_data['id']}: {e}"
         )
-        return render_template("errors/internal_server_error.html"), 500
+        return render_template("errors/server.html"), 500
 
     display_character = character if character == "0-9" else character.upper()
 
