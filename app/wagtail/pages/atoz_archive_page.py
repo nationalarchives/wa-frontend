@@ -1,5 +1,5 @@
 from app.lib import archive_service
-from app.lib.util import normalize_archive_letter
+from app.lib.util import DIGITS_CATEGORY, normalize_archive_letter
 from flask import current_app, render_template, request
 
 
@@ -45,7 +45,7 @@ def render_atoz_archive_page(page_data):
         )
         return render_template("errors/server.html"), 500
 
-    display_character = character if character == "0-9" else character.upper()
+    display_character = character if character == DIGITS_CATEGORY else character.upper()
 
     return render_template(
         "pages/atoz/listing.html",

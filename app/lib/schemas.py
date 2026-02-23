@@ -1,7 +1,7 @@
 import hashlib
 import json
 
-from app.lib.util import normalize_archive_letter
+from app.lib.util import DIGITS_CATEGORY, normalize_archive_letter
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -60,14 +60,14 @@ class ArchiveRecordSchema(BaseModel):
             lowercase letter (a-z) or '0-9' for digits and symbols.
         """
         if not self.sort_name:
-            return "0-9"
+            return DIGITS_CATEGORY
 
         first_char = self.sort_name[0]
 
         normalized = normalize_archive_letter(first_char)
 
         # If normalization returns empty (invalid input), default to '0-9'
-        return normalized if normalized else "0-9"
+        return normalized if normalized else DIGITS_CATEGORY
 
     @computed_field
     @property

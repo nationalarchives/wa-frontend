@@ -13,6 +13,9 @@ def strtobool(val):
         raise ValueError("invalid truth value %r" % (val,))
 
 
+DIGITS_CATEGORY = "0-9"
+
+
 def normalize_archive_letter(letter: str | None) -> str:
     """
     Normalize a letter for archive navigation and filtering.
@@ -30,8 +33,8 @@ def normalize_archive_letter(letter: str | None) -> str:
 
     letter = letter.strip()
 
-    if letter == "0-9":
-        return "0-9"
+    if letter == DIGITS_CATEGORY:
+        return DIGITS_CATEGORY
 
     if len(letter) == 1 and letter.isalpha():
         return letter.lower()
