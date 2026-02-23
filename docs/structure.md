@@ -6,7 +6,7 @@ The application code.
 
 ### `app/api`
 
-The internal REST API blueprint exposing archive data endpoints. Used for A-Z progressing enhancements.
+The internal REST API blueprint exposing archive data endpoints. Used for A-Z progressive enhancement.
 
 - `GET /api/archive/characters` - returns available A-Z characters from the local database
 - `GET /api/archive/records?character=X` - returns archive records for a given character
