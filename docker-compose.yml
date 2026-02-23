@@ -19,8 +19,6 @@ services:
       - DEBUG=true
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev
-      # - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2
-      # - WAGTAIL_SITE_HOSTNAME=webarchive.localhost
       - WAGTAIL_API_URL=https://wagtail.nationalarchives.gov.uk/api/v2
       - WAGTAIL_SITE_HOSTNAME=webarchive.nationalarchives.gov.uk
       - CACHE_REDIS_URL=redis://redis:6379/0
