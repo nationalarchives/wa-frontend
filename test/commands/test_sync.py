@@ -3,14 +3,15 @@ from unittest.mock import MagicMock, patch
 
 from app.commands import (
     _clear_cache,
-    delete_entries,
     save_entries,
     save_entry,
+    sync_archive_data,
     validate_entries,
 )
 from app.lib import archive_service, database
 from app.lib.cache import cache
 from app.lib.models import ArchiveRecord
+from click.testing import CliRunner
 
 from app import create_app
 
@@ -123,12 +124,13 @@ class SaveEntryTestCase(unittest.TestCase):
         self.assertEqual(result, "updated")
 
 
-class DeleteEntriesTestCase(unittest.TestCase):
+class SyncArchiveDataTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app("config.Test")
         self.app_context = self.app.app_context()
         self.app_context.push()
         database.Base.metadata.create_all(database.engine)
+        self.runner = CliRunner()
 
     def tearDown(self):
         database.db_session.remove()
@@ -142,28 +144,39 @@ class DeleteEntriesTestCase(unittest.TestCase):
         database.db_session.add(record)
         database.db_session.commit()
 
-    def test_deletes_records_not_in_source(self):
+    @patch("app.commands.load_data")
+    @patch("app.commands._clear_cache")
+    def test_removes_records_absent_from_source(
+        self, _mock_clear_cache, mock_load_data
+    ):
+        """Records in the database but not in the source should be deleted."""
         self._add_record(1)
         self._add_record(2)
         self.assertEqual(_num_db_records(), 2)
 
-        query = database.db_session.query(ArchiveRecord).filter(
-            ArchiveRecord.wam_id.not_in([1])
-        )
-        count = delete_entries(query, dry_run=False)
-        self.assertEqual(count, 1)
+        # Source only contains wam_id=1
+        mock_load_data.return_value = [{**VALID_ENTRY, "wamId": 1}]
+
+        self.runner.invoke(sync_archive_data, ["--url", "http://example.com/data.json"])
+
         self.assertEqual(_num_db_records(), 1)
+        remaining = database.db_session.query(ArchiveRecord).one()
+        self.assertEqual(remaining.wam_id, 1)
 
-    def test_dry_run_does_not_delete(self):
+    @patch("app.commands.load_data")
+    @patch("app.commands._clear_cache")
+    def test_dry_run_does_not_remove_records(self, _mock_clear_cache, mock_load_data):
+        """Records absent from source should not be deleted during a dry run."""
         self._add_record(1)
         self._add_record(2)
         self.assertEqual(_num_db_records(), 2)
 
-        query = database.db_session.query(ArchiveRecord).filter(
-            ArchiveRecord.wam_id.not_in([1])
+        mock_load_data.return_value = [{**VALID_ENTRY, "wamId": 1}]
+
+        self.runner.invoke(
+            sync_archive_data, ["--url", "http://example.com/data.json", "--dry-run"]
         )
-        count = delete_entries(query, dry_run=True)
-        self.assertEqual(count, 1)
+
         self.assertEqual(_num_db_records(), 2)
 
 
