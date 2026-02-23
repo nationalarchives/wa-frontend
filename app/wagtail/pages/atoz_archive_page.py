@@ -2,13 +2,6 @@ from app.lib import archive_service
 from flask import current_app, render_template, request
 
 
-def render_atoz_page(page_data):
-    return render_template(
-        "pages/atoz_page.html",
-        page_data=page_data,
-    )
-
-
 def render_atoz_archive_page(page_data):
     """
     Handler for A-to-Z Archive Page.
