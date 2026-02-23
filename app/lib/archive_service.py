@@ -5,7 +5,7 @@ from flask import current_app
 from sqlalchemy import func
 
 
-@cache.cached(timeout=3600, key_prefix="archive:characters")
+@cache.cached(timeout=0, key_prefix="archive:characters")
 def get_available_characters():
     """
     Get list of characters that have archive records.
