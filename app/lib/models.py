@@ -1,10 +1,11 @@
 from app.lib.database import Base
-from sqlalchemy import Boolean, Integer, String, Text
+from sqlalchemy import Boolean, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 
 
 class ArchiveRecord(Base):
     __tablename__ = "archive_records"
+    __table_args__ = (UniqueConstraint("wam_id", name="uq_archive_records_wam_id"),)
 
     profile_name: Mapped[str] = mapped_column(Text, nullable=False)
     record_url: Mapped[str] = mapped_column(Text, nullable=False)

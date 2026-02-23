@@ -231,11 +231,29 @@ def validate_entries(raw_data):
     """
     validated_entries = []
     validation_errors_count = 0
+    seen_wam_ids = {}
 
     for idx, raw_entry in enumerate(raw_data, 1):
         try:
             # Validate with Pydantic (computes hash, sort_name, first_character)
             validated = ArchiveRecordSchema(**raw_entry)
+
+            if validated.wam_id in seen_wam_ids:
+                validation_errors_count += 1
+                logger.error(
+                    "Duplicate wam_id %s at entry %s (first seen at entry %s), skipping",
+                    validated.wam_id,
+                    idx,
+                    seen_wam_ids[validated.wam_id],
+                )
+                click.secho(
+                    f"Duplicate wam_id {validated.wam_id} at entry {idx} "
+                    f"(first seen at entry {seen_wam_ids[validated.wam_id]}), skipping",
+                    fg="red",
+                )
+                continue
+
+            seen_wam_ids[validated.wam_id] = idx
             validated_entries.append(validated)
 
         except ValidationError as e:

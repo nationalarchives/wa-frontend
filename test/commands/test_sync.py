@@ -69,6 +69,17 @@ class ValidateEntriesTestCase(unittest.TestCase):
         self.assertEqual(len(validated), 1)
         self.assertEqual(errors, 1)
 
+    @patch("app.commands.logger")
+    def test_duplicate_wam_id_is_rejected(self, mock_logger):
+        duplicate = {**VALID_ENTRY, "profileName": "Duplicate Site"}
+        validated, errors = validate_entries([VALID_ENTRY, duplicate])
+        self.assertEqual(len(validated), 1)
+        self.assertEqual(errors, 1)
+        mock_logger.error.assert_called_once()
+        args = mock_logger.error.call_args[0]
+        self.assertIn("Duplicate wam_id", args[0])
+        self.assertEqual(args[1], VALID_ENTRY["wamId"])
+
 
 class SaveEntryTestCase(unittest.TestCase):
     def setUp(self):
