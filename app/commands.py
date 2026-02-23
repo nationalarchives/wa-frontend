@@ -70,7 +70,7 @@ logger = logging.getLogger(__name__)
     "--dry-run",
     is_flag=True,
     default=False,
-    help="Validate and report without saving to database",
+    hidden=True,  # Hidden from help output but available for internal use by sync-archive-data
 )
 def clear_archive_cache(dry_run: bool):
     _clear_cache(dry_run)
