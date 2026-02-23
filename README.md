@@ -70,9 +70,11 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `CSP_FEATURE_PICTURE_IN_PICTURE` | A comma separated list of rules for the `picture-in-picture` feature policy | `'self'`                                                  |
 | `CSP_REPORT_URL`                 | The URL to report CSP violations to                                         | _none_                                                    |
 | `FORCE_HTTPS`                    | Redirect requests to HTTPS as part of the CSP                               | _none_                                                    |
-| `CACHE_TYPE`                     | https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching   | _none_                                                    |
+| `CACHE_TYPE`                     | <https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching> | _none_                                                    |
 | `CACHE_DEFAULT_TIMEOUT`          | The number of seconds to cache pages for                                    | production: `300`, staging: `60`, develop: `0`, test: `0` |
 | `CACHE_DIR`                      | Directory for storing cached responses when using `FileSystemCache`         | `/tmp`                                                    |
 | `GA4_ID`                         | The Google Analytics 4 ID                                                   | _none_                                                    |
+| `ARCHIVE_JSON_URL`               | URL to fetch archive data JSON from (used by sync-archive-data command)     | _none_                                                    |
+| `SQLALCHEMY_DATABASE_URI`        | Database connection string                                                  | `sqlite:///app.db`                                        |
 
 [^1] [Debugging in Flask](https://flask.palletsprojects.com/en/2.3.x/debugging/)

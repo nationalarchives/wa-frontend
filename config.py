@@ -75,6 +75,12 @@ class Production(Features):
 
     GA4_ID: str = os.environ.get("GA4_ID", "")
 
+    # Database
+    SQLALCHEMY_DATABASE_URI: str = os.environ.get(
+        "SQLALCHEMY_DATABASE_URI",
+        f"sqlite:///{os.path.join(os.path.dirname(__file__), 'app.db')}",
+    )
+
 
 class Staging(Production):
     DEBUG: bool = strtobool(os.getenv("DEBUG", "False"))
@@ -101,3 +107,7 @@ class Test(Production):
 
     FORCE_HTTPS: bool = False
     PREFERRED_URL_SCHEME: str = "http"
+
+    SQLALCHEMY_DATABASE_URI: str = (
+        f"sqlite:///{os.path.join(os.path.dirname(__file__), 'test.db')}"
+    )
