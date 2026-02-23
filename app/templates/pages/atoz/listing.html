@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "layouts/base_page.html" %}
 
 {% block content %}
   <main class="tna-main" id="main-content">
@@ -17,7 +17,7 @@
           {%- for char in available_characters %}
           <li class="breadcrumb__item">
             <a href="?character={{ char }}"{% if char == selected_character %} aria-current="page"{% endif %}>
-              {{ char if char == '0-9' else char | upper }}
+              {{ char | upper }}
             </a>
           </li>
           {%- endfor %}
