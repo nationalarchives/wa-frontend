@@ -13,7 +13,7 @@ from flask import (
 )
 
 
-@bp.route("/sitemap.xml")
+@bp.route("/sitemap.xml", strict_slashes=False)
 def sitemap_index():
     sitemap_urls = []
     wagtail_pages = all_pages(limit=1)
@@ -46,7 +46,7 @@ def sitemaps():
     )
 
 
-@bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml")
+@bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml", strict_slashes=False)
 def sitemap_dynamic(sitemap_page):
     dynamic_urls = list()
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
