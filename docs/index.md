@@ -9,17 +9,17 @@ docker compose up -d
 ## Run the tests
 
 ```sh
-docker compose exec dev poetry run python -m pytest
+docker compose exec app poetry run python -m pytest
 ```
 
 ## Format the code
 
 ```sh
-docker compose exec dev format
+docker compose exec app format
 ```
 
 ## Upgrade dependencies
 
 ```sh
-docker compose exec dev upgrade
+docker compose exec app upgrade
 ```
