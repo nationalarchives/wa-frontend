@@ -18,12 +18,10 @@ class APIError(Exception):
         self.response = response
 
 
-class ResourceNotFound(Exception):
-    """Raised when the API returns a 404 status code."""
+class BadRequest(Exception):
+    """Raised when the API returns a 400 status code."""
 
-    def __init__(self, message, data=None):
-        super().__init__(message)
-        self.data = data
+    pass
 
 
 class ResourceForbidden(Exception):
@@ -32,13 +30,24 @@ class ResourceForbidden(Exception):
     pass
 
 
-class JSONAPIClient:
-    api_url = ""
-    params = {}
+class ResourceNotFound(Exception):
+    """Raised when the API returns a 404 status code."""
 
-    def __init__(self, api_url, params=None):
+    def __init__(self, message, data=None):
+        super().__init__(message)
+        self.data = data
+
+
+class JSONAPIClient:
+    def __init__(self, api_url, default_headers=None, default_params=None):
         self.api_url = api_url
-        self.params = {} if params is None else params
+        self.headers = {
+            "Cache-Control": "no-cache",
+            "Accept": "application/json",
+        }
+        if default_headers:
+            self.headers.update(default_headers)
+        self.params = {} if default_params is None else default_params
 
     def add_parameter(self, key, value):
         self.params[key] = value
@@ -48,16 +57,14 @@ class JSONAPIClient:
 
     def get(self, path="/"):
         url = f"{self.api_url}/{path.lstrip('/')}"
-        headers = {
-            "Cache-Control": "no-cache",
-            "Accept": "application/json",
-        }
-
         try:
-            response = get(url, params=self.params, headers=headers)
+            response = get(url, params=self.params, headers=self.headers)
         except (ConnectionError, Timeout, TooManyRedirects) as e:
             current_app.logger.error(f"Network error calling {url}: {type(e).__name__}")
-            raise
+            raise APIError(f"Network error: {e}", status_code=503) from e
+        except Exception as e:
+            current_app.logger.error(f"Unknown JSON API exception: {e}")
+            raise APIError(f"Unexpected error: {e}", status_code=500) from e
 
         current_app.logger.debug(response.url)
 
@@ -69,6 +76,10 @@ class JSONAPIClient:
                 raise APIError(
                     "Invalid JSON response", response.status_code, response
                 ) from e
+
+        if response.status_code == 400:
+            current_app.logger.error(f"Bad request: {response.url}")
+            raise BadRequest("Bad request")
 
         if response.status_code == 403:
             current_app.logger.warning("Forbidden")

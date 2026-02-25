@@ -34,6 +34,7 @@ class Production(Features):
     DEBUG: bool = False
 
     WAGTAIL_API_URL: str = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
+    WAGTAIL_API_KEY: str = os.environ.get("WAGTAIL_API_KEY", "")
     WAGTAIL_SITE_HOSTNAME: str = os.environ.get("WAGTAIL_SITE_HOSTNAME", "")
     WAGTAILAPI_LIMIT_MAX: int = int(os.environ.get("WAGTAILAPI_LIMIT_MAX", "20"))
 
