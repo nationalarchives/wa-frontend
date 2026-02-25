@@ -5,3 +5,4 @@ services:
       - WAGTAIL_API_URL=http://host.docker.internal:8000/api/v2  # The locally running Wagtail instance
       - CACHE_DEFAULT_TIMEOUT=15  # Sensible cache timeout for testing (seconds)
       - ARCHIVE_JSON_URL= # URL to fetch archive data JSON from (used by sync-archive-data command)
+      - WAGTAIL_API_KEY= # Auth key required to send requests in production testing

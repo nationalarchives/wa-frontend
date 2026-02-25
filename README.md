@@ -76,5 +76,10 @@ In addition to the [base Docker image variables](https://github.com/nationalarch
 | `GA4_ID`                         | The Google Analytics 4 ID                                                   | _none_                                                    |
 | `ARCHIVE_JSON_URL`               | URL to fetch archive data JSON from (used by sync-archive-data command)     | _none_                                                    |
 | `SQLALCHEMY_DATABASE_URI`        | Database connection string                                                  | `sqlite:///app.db`                                        |
+| `WAGTAIL_API_URL`                | The base URL of the content API, including the `/api/v2` path               | _none_                                                    |
+| `WAGTAIL_API_KEY`                | A token used to access the Wagtail API                                      | _none_                                                    |
+| `WAGTAIL_SITE_HOSTNAME`          | The site hostname in Wagtail, the default site is used if none is specified | _none_                                                    |
+
+> **Note:** Due to the way the `requests` library handles redirects, the `Authorization` header is stripped when following a redirect that involves an HTTP to HTTPS protocol change. This means that connecting to a live (HTTPS) Wagtail API from a local HTTP development environment may result in a `403 Forbidden` response. This behaviour will not be worked around as doing so would introduce security risks by potentially sending credentials over an unencrypted connection.
 
 [^1] [Debugging in Flask](https://flask.palletsprojects.com/en/2.3.x/debugging/)
