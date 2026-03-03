@@ -12,6 +12,29 @@
         </div>
         {%- endif %}
 
+        <div class="tna-!--margin-top-l">
+          <form method="get" action="{{ page_data.meta.url }}">
+            <div class="tna-form__group">
+                <label for="search" class="tna-form__label">
+                Search archive records
+                </label>
+                <div class="tna-search">
+                <input
+                    type="search"
+                    id="search"
+                    name="q"
+                    class="tna-search__input"
+                    placeholder="Search by name or description"
+                    maxlength="{{ search_max_length }}"
+                />
+                <button type="submit" class="tna-search__button">
+                    Search
+                </button>
+                </div>
+            </div>
+          </form>
+        </div>
+
         <h2 class="tna-heading-l tna-!--margin-top-l">Browse by character</h2>
 
         <ul class="breadcrumb__list tna-!--margin-top-m">

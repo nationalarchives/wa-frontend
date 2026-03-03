@@ -14,6 +14,7 @@ def strtobool(val):
 
 
 DIGITS_CATEGORY = "0-9"
+ARCHIVE_SEARCH_MAX_LENGTH = 200
 
 
 def normalize_archive_letter(letter: str | None) -> str:
