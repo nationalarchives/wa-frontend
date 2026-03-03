@@ -1,4 +1,5 @@
 {% extends "layouts/base_page.html" %}
+{% from "components/related_content.html" import related_content %}
 
 {% block content %}
   <main class="tna-main" id="main-content">
@@ -93,5 +94,6 @@
 
       </div>
     </div>
+    {% if page_data.featured_links %}{{ related_content(page_data.featured_links) }}{% endif %}
   </main>
 {% endblock content %}
