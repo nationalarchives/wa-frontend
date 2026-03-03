@@ -7,16 +7,38 @@ from flask import current_app
 
 def wagtail_request_handler(uri, params={}):
     api_url = current_app.config.get("WAGTAIL_API_URL")
+    api_key = current_app.config.get("WAGTAIL_API_KEY")
+    default_headers = {}
+    default_params = {"format": "json"}
+
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise Exception("WAGTAIL_API_URL not set")
-    client = JSONAPIClient(api_url)
-    client.add_parameter("format", "json")
+
+    if not api_key:
+        current_app.logger.critical("WAGTAIL_API_KEY not set")
+        raise Exception("WAGTAIL_API_KEY not set")
+
+    default_headers["Authorization"] = f"Token {api_key}"
+
+    client = JSONAPIClient(
+        api_url, default_headers=default_headers, default_params=default_params
+    )
+
     if site_hostname := current_app.config.get("WAGTAIL_SITE_HOSTNAME"):
         client.add_parameter("site", site_hostname)
     client.add_parameters(params)
     data = client.get(uri)
     return data
+
+
+def all_pages(params={}, batch=1, limit=None):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (batch - 1) * limit
+    params = params | {"offset": offset, "limit": limit}
+    uri = "pages/"
+    return wagtail_request_handler(uri, params)
 
 
 def page_details(page_id, params={}):

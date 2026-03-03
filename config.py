@@ -34,8 +34,11 @@ class Production(Features):
     DEBUG: bool = False
 
     WAGTAIL_API_URL: str = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
+    WAGTAIL_API_KEY: str = os.environ.get("WAGTAIL_API_KEY", "")
     WAGTAIL_SITE_HOSTNAME: str = os.environ.get("WAGTAIL_SITE_HOSTNAME", "")
     WAGTAILAPI_LIMIT_MAX: int = int(os.environ.get("WAGTAILAPI_LIMIT_MAX", "20"))
+
+    ITEMS_PER_SITEMAP: int = int(os.environ.get("ITEMS_PER_SITEMAP", "500"))
 
     PAGINATION_PAGE_SIZE: int = int(os.environ.get("PAGINATION_PAGE_SIZE", "12"))
 
@@ -75,6 +78,12 @@ class Production(Features):
 
     GA4_ID: str = os.environ.get("GA4_ID", "")
 
+    # Database
+    SQLALCHEMY_DATABASE_URI: str = os.environ.get(
+        "SQLALCHEMY_DATABASE_URI",
+        f"sqlite:///{os.path.join(os.path.dirname(__file__), 'app.db')}",
+    )
+
 
 class Staging(Production):
     DEBUG: bool = strtobool(os.getenv("DEBUG", "False"))
@@ -86,6 +95,8 @@ class Develop(Production):
     DEBUG: bool = strtobool(os.getenv("DEBUG", "False"))
 
     CACHE_DEFAULT_TIMEOUT: int = int(os.environ.get("CACHE_DEFAULT_TIMEOUT", "1"))
+
+    PREFERRED_URL_SCHEME: str = "http"
 
 
 class Test(Production):
@@ -101,3 +112,7 @@ class Test(Production):
 
     FORCE_HTTPS: bool = False
     PREFERRED_URL_SCHEME: str = "http"
+
+    SQLALCHEMY_DATABASE_URI: str = (
+        f"sqlite:///{os.path.join(os.path.dirname(__file__), 'test.db')}"
+    )
