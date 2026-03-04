@@ -85,8 +85,10 @@ class AtozArchivePageSearchTestCase(unittest.TestCase):
         ):
             with self.app.test_request_context(f"/?{query_string}"):
                 result = render_atoz_archive_page(PAGE_DATA)
-        # Normalise: success returns a plain string; errors return (string, status)
-        return result, 200
+        # Normalise: success returns a Response; errors return (string, status)
+        if isinstance(result, tuple):
+            return result
+        return result.get_data(as_text=True), result.status_code
 
     def test_empty_q_renders_index(self):
         """?q= with no character returns index page."""
@@ -127,6 +129,40 @@ class AtozArchivePageSearchTestCase(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertIn("Government Digital Service", response)
         self.assertIn('Search results for "government"', response)
+
+    def _render_response(self, query_string=""):
+        """Returns the raw Response object for header inspection."""
+        with (
+            patch(
+                "app.lib.archive_service.get_available_characters",
+                return_value=AVAILABLE_CHARACTERS,
+            ),
+            patch(
+                "app.lib.archive_service.search_records",
+                return_value=SEARCH_RESULTS,
+            ),
+            patch(
+                "app.lib.archive_service.get_records_by_character",
+                return_value=CHARACTER_RESULTS,
+            ),
+        ):
+            with self.app.test_request_context(f"/?{query_string}"):
+                return render_atoz_archive_page(PAGE_DATA)
+
+    def test_search_results_have_noindex_header(self):
+        """Search results response includes X-Robots-Tag: noindex."""
+        result = self._render_response("q=government")
+        self.assertEqual(result.headers.get("X-Robots-Tag"), "noindex")
+
+    def test_character_page_has_no_noindex_header(self):
+        """Character listing does not include X-Robots-Tag: noindex."""
+        result = self._render_response("character=d")
+        self.assertIsNone(result.headers.get("X-Robots-Tag"))
+
+    def test_index_page_has_no_noindex_header(self):
+        """Index page does not include X-Robots-Tag: noindex."""
+        result = self._render_response()
+        self.assertIsNone(result.headers.get("X-Robots-Tag"))
 
 
 class SanitizeFtsQueryTestCase(unittest.TestCase):
