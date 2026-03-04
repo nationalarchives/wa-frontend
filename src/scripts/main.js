@@ -1,4 +1,7 @@
-import { initAll, Cookies } from "@nationalarchives/frontend/nationalarchives/all.mjs";
+import {
+  initAll,
+  Cookies,
+} from "@nationalarchives/frontend/nationalarchives/all.mjs";
 
 import "../styles/main.scss";
 
@@ -14,7 +17,8 @@ function initComponent(ComponentClass) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Cookie domain setup
-  const cookiesDomain = document.documentElement.getAttribute("data-cookiesdomain");
+  const cookiesDomain =
+    document.documentElement.getAttribute("data-cookiesdomain");
   if (cookiesDomain) {
     new Cookies({ domain: cookiesDomain });
   }

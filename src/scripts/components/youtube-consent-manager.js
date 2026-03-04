@@ -12,12 +12,21 @@ class YouTubeConsentManager {
    */
   constructor(node) {
     this.youtubeEmbedNode = node;
-    this.consentButton = this.youtubeEmbedNode.querySelector("[data-youtube-consent-button]");
-    this.dontAskAgainCheckbox = this.youtubeEmbedNode.querySelector("[data-youtube-save-prefs]");
-    this.placeholderContainer = this.youtubeEmbedNode.querySelector("[data-youtube-placeholder-container]");
-    this.embedContainer = this.youtubeEmbedNode.querySelector("[data-youtube-embed-container]");
+    this.consentButton = this.youtubeEmbedNode.querySelector(
+      "[data-youtube-consent-button]",
+    );
+    this.dontAskAgainCheckbox = this.youtubeEmbedNode.querySelector(
+      "[data-youtube-save-prefs]",
+    );
+    this.placeholderContainer = this.youtubeEmbedNode.querySelector(
+      "[data-youtube-placeholder-container]",
+    );
+    this.embedContainer = this.youtubeEmbedNode.querySelector(
+      "[data-youtube-embed-container]",
+    );
     this.videoId = this.embedContainer.getAttribute("data-video-id");
-    this.videoTitle = this.embedContainer.getAttribute("data-video-title") || "Video";
+    this.videoTitle =
+      this.embedContainer.getAttribute("data-video-title") || "Video";
     this.cookies = window.TNAFrontendCookies;
     this.bindEvents();
   }
@@ -39,7 +48,10 @@ class YouTubeConsentManager {
     // Create YouTube iframe embed using youtube-nocookie.com for privacy
     if (this.videoId && this.embedContainer.children.length === 0) {
       const iframe = document.createElement("iframe");
-      iframe.setAttribute("src", `https://www.youtube-nocookie.com/embed/${this.videoId}?rel=0`);
+      iframe.setAttribute(
+        "src",
+        `https://www.youtube-nocookie.com/embed/${this.videoId}?rel=0`,
+      );
       iframe.setAttribute("frameborder", "0");
       iframe.setAttribute(
         "allow",

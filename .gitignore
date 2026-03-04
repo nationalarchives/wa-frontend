@@ -10,4 +10,7 @@ __pycache__
 /app/static/*.min.js
 /app/static/*.min.js.map
 !.gitkeep
+.env
 docker-compose.override.yml
+app.db
+test.db
