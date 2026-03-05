@@ -54,8 +54,6 @@ export function renderRecords(panel, records) {
     const item = document.createElement("li");
     item.className = CLASSES.listingItem;
 
-    const article = document.createElement("article");
-
     const link = document.createElement("a");
     link.className = CLASSES.listingItemLink;
     link.href = record.archive_link || "#";
@@ -65,13 +63,13 @@ export function renderRecords(panel, records) {
     title.textContent = record.profile_name || "";
 
     link.appendChild(title);
-    article.appendChild(link);
+    item.appendChild(link);
 
     if (record.record_url) {
       const urlEl = document.createElement("p");
       urlEl.className = CLASSES.listingItemUrl;
       urlEl.textContent = record.record_url;
-      article.appendChild(urlEl);
+      item.appendChild(urlEl);
     }
 
     const capturesText = `Captures from ${record.first_capture_display || ""} to${
@@ -80,9 +78,8 @@ export function renderRecords(panel, records) {
     const dateEl = document.createElement("p");
     dateEl.className = CLASSES.listingItemDate;
     dateEl.textContent = capturesText;
-    article.appendChild(dateEl);
+    item.appendChild(dateEl);
 
-    item.appendChild(article);
     list.appendChild(item);
   });
 

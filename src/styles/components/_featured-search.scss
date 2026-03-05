@@ -3,8 +3,37 @@
 .featured-search {
   $root: &;
   padding: $grid-m 0;
-
   background-color: var(--theme-primary);
+
+  &--transparent {
+    background-color: transparent;
+    padding-top: 0;
+
+    #{$root}__label {
+      display: inline-block;
+      color: var(--theme-text-default);
+      font-weight: $weight-bold;
+      margin-bottom: $grid-xs;
+    }
+
+    #{$root}__input {
+      width: 100%;
+      border: 1px solid var(--theme-border);
+      padding-left: $grid-xxs;
+    }
+
+    #{$root}__input-container {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-items: center;
+      gap: $grid-xxs;
+    }
+
+    #{$root}__clear {
+      margin-left: $grid;
+    }
+  }
 
   &__content {
     color: var(--theme-text-invert);

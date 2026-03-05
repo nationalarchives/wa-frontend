@@ -12,33 +12,30 @@
   <div class="page tna-main">
 
     <div class="tna-container">
-      <div class="tna-column tna-column--width-7-12">
+      <div class="tna-column tna-column--width-3-4">
         <div class="tna-!--margin-top-l">
           <form method="get"
                 action="{{ page_data.meta.url }}"
                 data-az-search-form
                 data-az-base-url="{{ page_data.meta.url }}">
-            <div class="tna-form__group">
-              <label for="search" class="tna-form__label">
-                Search archive records
+            <div class="tna-form__group featured-search featured-search--transparent">
+              <label for="search" class="tna-form__label featured-search__label">
+                Search the A-Z
               </label>
-              <div class="tna-search">
+              <div class="featured-search__input-container">
                 <input
                   type="search"
                   id="search"
                   name="q"
-                  class="tna-search__input"
+                  class="tna-search__inpu featured-search__input"
                   value="{{ search_query or '' }}"
-                  placeholder="Search by name or description"
                   maxlength="{{ search_max_length }}"
                 />
-                <button type="submit" class="tna-search__button">
+                <button type="submit" class="tna-search__button featured-search__button button button--primary">
                   Search
                 </button>
+                <a class="featured-search__clear" href="{{ page_data.meta.url }}" data-az-clear hidden>Clear</a>
               </div>
-              <p class="tna-!--margin-top-s">
-                <a href="{{ page_data.meta.url }}" data-az-clear hidden>Clear</a>
-              </p>
             </div>
           </form>
         </div>
@@ -119,7 +116,7 @@
                  hidden>
           <h2 class="tna-heading-m tna-!--margin-top-l tna-visually-hidden">Browse by character</h2>
           <p class="tna-!--margin-top-m" data-az-no-results hidden></p>
-          <div class="accordion__container tna-!--margin-top-s" data-az-accordion-list></div>
+          <div class="accordion-group tna-!--margin-top-s tna-!--margin-bottom-xl" data-az-accordion-list></div>
         </section>
 
       </div>
