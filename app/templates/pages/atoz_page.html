@@ -11,7 +11,8 @@
 {{ page_header(page_data.title, page_data.intro | tna_html | safe, True, "flush") }}
   <div class="page tna-main">
 
-      <div class="tna-container">
+    <div class="tna-container">
+      <div class="tna-column tna-column--width-7-12">
         <div class="tna-!--margin-top-l">
           <form method="get"
                 action="{{ page_data.meta.url }}"
@@ -78,22 +79,18 @@
                       data-az-static-record
                       data-first-character="{{ record.first_character }}"
                       data-profile-name="{{ record.profile_name }}"
-                      data-sort-name="{{ record.sort_name or '' }}"
                       data-description="{{ record.description or '' }}"
                       data-record-url="{{ record.record_url or '' }}"
                       data-archive-link="{{ record.archive_link or '' }}"
-                      data-domain-type="{{ record.domain_type or '' }}"
                       data-first-capture="{{ record.first_capture_display or '' }}"
                       data-latest-capture="{{ record.latest_capture_display or '' }}"
                       data-ongoing="{{ 'true' if record.ongoing else 'false' }}">
                     <h3 class="tna-heading-m">
                       <a href="{{ record.archive_link }}">{{ record.profile_name }}</a>
                     </h3>
-                    <ul>
-                      <li>Original URL: {{ record.record_url }}</li>
-                      <li>Description: {{ record.description }}</li>
-                      <li>First capture: {{ record.first_capture_display }}</li>
-                      <li>Latest captured: {% if record.ongoing %}Ongoing{% else %}{{ record.latest_capture_display }}{% endif %}</li>
+                    <ul class="supporting">
+                      <li>{{ record.record_url }}</li>
+                      <li>Captures from {{ record.first_capture_display }} to{% if record.ongoing %} Ongoing{% else %} {{ record.latest_capture_display }}{% endif %}</li>
                     </ul>
                   </li>
                 {%- endfor %}

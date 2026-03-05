@@ -12,6 +12,7 @@ const CLASSES = {
   accordionToggleText: "accordion__toggle-text",
   accordionIcon: "accordion__icon",
   accordionContent: "accordion__content",
+  supporting: "supporting",
 };
 
 export function createLink(href, text, className) {
@@ -59,33 +60,19 @@ export function renderRecords(panel, records) {
     item.appendChild(heading);
 
     const meta = document.createElement("ul");
+    meta.className = CLASSES.supporting;
 
     if (record.record_url) {
       const urlLine = document.createElement("li");
-      urlLine.append("Original URL: ");
-      urlLine.appendChild(createLink(record.record_url, record.record_url));
+      urlLine.textContent = record.record_url;
       meta.appendChild(urlLine);
     }
 
-    if (record.description) {
-      const description = document.createElement("li");
-      description.textContent = `Description: ${record.description}`;
-      meta.appendChild(description);
-    }
-
-    if (record.first_capture_display) {
-      const firstCapture = document.createElement("li");
-      firstCapture.textContent = `First capture: ${record.first_capture_display}`;
-      meta.appendChild(firstCapture);
-    }
-
-    if (record.ongoing || record.latest_capture_display) {
-      const latest = document.createElement("li");
-      latest.textContent = `Latest captured: ${
-        record.ongoing ? "Ongoing" : record.latest_capture_display
-      }`;
-      meta.appendChild(latest);
-    }
+    const capturesLine = document.createElement("li");
+    capturesLine.textContent = `Captures from ${record.first_capture_display || ""} to${
+      record.ongoing ? " Ongoing" : ` ${record.latest_capture_display || ""}`
+    }`;
+    meta.appendChild(capturesLine);
 
     if (meta.children.length) {
       item.appendChild(meta);
