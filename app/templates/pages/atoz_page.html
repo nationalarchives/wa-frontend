@@ -1,4 +1,5 @@
 {% extends "layouts/base_page.html" %}
+{% from "components/page_header.html" import page_header %}
 {% from "components/related_content.html" import related_content %}
 
 {% block meta_tags %}
@@ -7,17 +8,10 @@
 {% endblock %}
 
 {% block content %}
+{{ page_header(page_data.title, page_data.intro | tna_html | safe, True, "flush") }}
   <div class="page tna-main">
-    <div class="tna-container">
-      <div class="tna-column tna-column--full">
-        <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
 
-        {%- if page_data.intro %}
-        <div class="tna-large-paragraph tna-!--margin-top-s">
-          {{ page_data.intro | tna_html | safe }}
-        </div>
-        {%- endif %}
-
+      <div class="tna-container">
         <div class="tna-!--margin-top-l">
           <form method="get"
                 action="{{ page_data.meta.url }}"
