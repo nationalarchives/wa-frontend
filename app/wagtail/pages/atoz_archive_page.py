@@ -1,3 +1,5 @@
+from enum import StrEnum
+
 from app.lib import archive_service
 from app.lib.util import (
     ARCHIVE_SEARCH_MAX_LENGTH,
@@ -5,6 +7,12 @@ from app.lib.util import (
     normalize_archive_letter,
 )
 from flask import current_app, make_response, render_template, request
+
+
+class DisplayMode(StrEnum):
+    INDEX = "index"
+    LISTING = "listing"
+    SEARCH = "search"
 
 
 def render_atoz_archive_page(page_data):
@@ -32,6 +40,11 @@ def render_atoz_archive_page(page_data):
         return render_template("errors/server.html"), 500
 
     records = None
+    display_mode = (
+        DisplayMode.SEARCH
+        if search_query
+        else DisplayMode.LISTING if character else DisplayMode.INDEX
+    )
 
     if search_query:
         try:
@@ -73,6 +86,7 @@ def render_atoz_archive_page(page_data):
             available_characters=available_characters,
             search_query=search_query,
             search_max_length=ARCHIVE_SEARCH_MAX_LENGTH,
+            display_mode=display_mode,
         )
     )
 

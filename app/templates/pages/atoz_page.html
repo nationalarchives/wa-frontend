@@ -3,7 +3,7 @@
 
 {% block meta_tags %}
   {{ super() }}
-  {% if search_query %}<meta name="robots" content="noindex">{% endif %}
+  {% if display_mode == 'search' %}<meta name="robots" content="noindex">{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -53,12 +53,12 @@
           {%- endfor %}
         </ul>
 
-        {% if search_query %}
+        {% if display_mode == 'search' %}
           <h2 class="tna-heading-l tna-!--margin-top-l">
             Search results for "{{ search_query }}"
             <span class="tna-!--margin-left-s">({{ records | length }} found)</span>
           </h2>
-        {% elif selected_character %}
+        {% elif display_mode == 'listing' %}
           <h2 class="tna-heading-l tna-!--margin-top-l">
             Records starting with {{ display_character }}
           </h2>
@@ -82,7 +82,7 @@
               {%- endfor %}
             </ul>
           {% else %}
-            {% if search_query %}
+            {% if display_mode == 'search' %}
               <p class="tna-!--margin-top-m">No records found for "{{ search_query }}".</p>
               <p class="tna-!--margin-top-s">
                 <a href="{{ page_data.meta.url }}">Clear search</a>
