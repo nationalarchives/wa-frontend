@@ -49,11 +49,11 @@
            data-az-live-region></p>
 
         <section data-az-static-content>
-          <h2 class="tna-heading-m tna-!--margin-top-l">Browse by character</h2>
+          <h2 class="tna-heading-m tna-!--margin-top-l tna-visually-hidden">Browse by character</h2>
           <ul class="breadcrumb__list tna-!--margin-top-s">
             {%- for char in available_characters %}
             <li class="breadcrumb__item">
-              <a href="?character={{ char }}"{% if char == selected_character %} aria-current="page"{% endif %}>
+              <a class="heading heading--two" href="?character={{ char }}"{% if char == selected_character %} aria-current="page"{% endif %}>
                 {{ char if char == '0-9' else char | upper }}
               </a>
             </li>
@@ -117,7 +117,8 @@
                  data-search-query="{{ search_query or '' }}"
                  data-selected-character="{{ selected_character or '' }}"
                  hidden>
-          <h2 class="tna-heading-m tna-!--margin-top-l">Browse by character</h2>
+          <h2 class="tna-heading-m tna-!--margin-top-l tna-visually-hidden">Browse by character</h2>
+          <p class="tna-!--margin-top-m" data-az-no-results hidden></p>
           <div class="accordion__container tna-!--margin-top-s" data-az-accordion-list></div>
         </section>
 

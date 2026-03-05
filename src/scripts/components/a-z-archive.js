@@ -14,6 +14,8 @@ import {
 } from "./a-z-archive/render.js";
 
 const MIN_LIVE_SEARCH_LENGTH = 2;
+const MIN_LOADER_MS = 250;
+const LOADER_FADEOUT_MS = 200;
 
 export default class AtoZArchive {
   static selector() {
@@ -36,6 +38,7 @@ export default class AtoZArchive {
     this.clearControl = this.root
       ? this.root.querySelector("[data-az-clear]")
       : null;
+    this.noResultsEl = node.querySelector("[data-az-no-results]") || null;
 
     this.letters = [];
     this.activeQuery = "";
@@ -183,13 +186,32 @@ export default class AtoZArchive {
       return [];
     }
 
+    const loadStarted = Date.now();
     renderLoading(panel);
 
     try {
       const records = await this.api.getRecordsForLetter(letter);
+      const elapsed = Date.now() - loadStarted;
+      if (elapsed < MIN_LOADER_MS) {
+        await new Promise((r) => setTimeout(r, MIN_LOADER_MS - elapsed));
+      }
+      const loader = panel.querySelector(".accordion__loading");
+      if (loader) {
+        loader.classList.add("accordion__loading--out");
+        await new Promise((r) => setTimeout(r, LOADER_FADEOUT_MS));
+      }
       renderRecords(panel, records);
       return records;
     } catch (_error) {
+      const elapsed = Date.now() - loadStarted;
+      if (elapsed < MIN_LOADER_MS) {
+        await new Promise((r) => setTimeout(r, MIN_LOADER_MS - elapsed));
+      }
+      const loader = panel.querySelector(".accordion__loading");
+      if (loader) {
+        loader.classList.add("accordion__loading--out");
+        await new Promise((r) => setTimeout(r, LOADER_FADEOUT_MS));
+      }
       renderError(panel, letter, this.baseUrl);
       return [];
     }
@@ -218,6 +240,12 @@ export default class AtoZArchive {
     history.replaceState({}, "", this.baseUrl);
     if (this.clearControl) {
       this.clearControl.hidden = true;
+    }
+    if (this.noResultsEl) {
+      this.noResultsEl.hidden = true;
+    }
+    if (this.accordionList) {
+      this.accordionList.hidden = false;
     }
   }
 
@@ -291,6 +319,17 @@ export default class AtoZArchive {
         details.open = false;
       }
     });
+
+    if (this.noResultsEl) {
+      if (resultCount === 0) {
+        this.noResultsEl.textContent = `No records found for "${urlQuery}".`;
+        this.noResultsEl.hidden = false;
+        this.accordionList.hidden = true;
+      } else {
+        this.noResultsEl.hidden = true;
+        this.accordionList.hidden = false;
+      }
+    }
 
     updateLiveRegion(this.liveRegion, resultCount, letterCount);
     history.replaceState(
@@ -383,7 +422,12 @@ export default class AtoZArchive {
     }
 
     try {
-      this.letters = await this.api.fetchCharacters();
+      const letters = await this.api.fetchCharacters();
+      // Place 0-9 after Z in the accordion list.
+      this.letters =
+        letters.indexOf("0-9") === -1
+          ? letters
+          : [...letters.filter((l) => l !== "0-9"), "0-9"];
     } catch (_error) {
       return;
     }

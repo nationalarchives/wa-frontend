@@ -5,6 +5,12 @@
   $root: &;
   border-top: 1px solid var(--theme-border);
 
+  &--a-z {
+    #{$root}__content {
+      padding-top: 0;
+    }
+  }
+
   &:last-child {
     border-bottom: 1px solid var(--theme-border);
   }
@@ -120,5 +126,42 @@
     > *:last-child {
       margin-bottom: 0;
     }
+  }
+
+  &__list {
+    opacity: 0;
+    animation: accordion-content-in 0.2s ease-out forwards;
+  }
+
+  &__loading {
+    display: flex;
+    justify-content: center;
+    padding: $grid-s 0;
+    min-height: 3rem;
+    transition: opacity 0.2s ease-out;
+  }
+
+  &__loading--out {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__spinner {
+    width: 32px;
+    height: 32px;
+    color: var(--theme-text-default);
+    animation: accordion-spinner 0.8s linear infinite;
+  }
+}
+
+@keyframes accordion-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes accordion-content-in {
+  to {
+    opacity: 1;
   }
 }

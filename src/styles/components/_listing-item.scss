@@ -1,10 +1,23 @@
 @use "../config" as *;
 
 .listing-item {
+  $root: &;
   padding: $grid-s 0;
   border-top: 1px solid var(--theme-border);
-
   list-style: none;
+
+  &--a-z {
+    border-top: 1px dotted var(--theme-border-inverted);
+
+    #{$root}__title {
+      margin-bottom: $grid-xxs;
+    }
+
+    #{$root}__url,
+    #{$root}__date {
+      margin: 0;
+    }
+  }
 
   &:last-child {
     border-bottom: 1px solid var(--theme-border);
@@ -43,9 +56,12 @@
     font-weight: $weight-medium;
   }
 
+  &__url {
+    margin: $grid-xxs 0 0;
+  }
+
   &__date {
     margin: $grid-xxs 0 0;
-
     color: var(--theme-text-meta);
   }
 }

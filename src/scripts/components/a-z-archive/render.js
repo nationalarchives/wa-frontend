@@ -4,15 +4,21 @@ const CLASSES = {
   marginTopXs: "tna-!--margin-top-xs",
   marginBottomS: "tna-!--margin-bottom-s",
   headingM: "tna-heading-m",
-  accordion: "accordion",
+  accordion: "accordion accordion--a-z",
   accordionSummary: "accordion__summary",
   accordionHeader: "accordion__header",
-  accordionTitle: "accordion__title heading heading--four",
+  accordionTitle: "accordion__title heading heading--two",
   accordionToggle: "accordion__toggle",
   accordionToggleText: "accordion__toggle-text",
   accordionIcon: "accordion__icon",
   accordionContent: "accordion__content",
   supporting: "supporting",
+  visuallyHidden: "tna-visually-hidden",
+  listingItem: "listing-item listing-item--a-z",
+  listingItemLink: "listing-item__link",
+  listingItemTitle: "listing-item__title heading heading--four",
+  listingItemUrl: "listing-item__url supporting",
+  listingItemDate: "listing-item__date supporting",
 };
 
 export function createLink(href, text, className) {
@@ -42,42 +48,41 @@ export function renderRecords(panel, records) {
   }
 
   const list = document.createElement("ul");
-  list.className = CLASSES.marginTopXs;
+  list.className = `accordion__list`.trim();
 
   records.forEach((record) => {
     const item = document.createElement("li");
-    item.className = CLASSES.marginBottomS;
+    item.className = CLASSES.listingItem;
 
-    const heading = document.createElement("h3");
-    heading.className = CLASSES.headingM;
+    const article = document.createElement("article");
 
-    if (record.archive_link) {
-      heading.appendChild(createLink(record.archive_link, record.profile_name));
-    } else {
-      heading.textContent = record.profile_name;
-    }
+    const link = document.createElement("a");
+    link.className = CLASSES.listingItemLink;
+    link.href = record.archive_link || "#";
 
-    item.appendChild(heading);
+    const title = document.createElement("h2");
+    title.className = CLASSES.listingItemTitle;
+    title.textContent = record.profile_name || "";
 
-    const meta = document.createElement("ul");
-    meta.className = CLASSES.supporting;
+    link.appendChild(title);
+    article.appendChild(link);
 
     if (record.record_url) {
-      const urlLine = document.createElement("li");
-      urlLine.textContent = record.record_url;
-      meta.appendChild(urlLine);
+      const urlEl = document.createElement("p");
+      urlEl.className = CLASSES.listingItemUrl;
+      urlEl.textContent = record.record_url;
+      article.appendChild(urlEl);
     }
 
-    const capturesLine = document.createElement("li");
-    capturesLine.textContent = `Captures from ${record.first_capture_display || ""} to${
+    const capturesText = `Captures from ${record.first_capture_display || ""} to${
       record.ongoing ? " Ongoing" : ` ${record.latest_capture_display || ""}`
     }`;
-    meta.appendChild(capturesLine);
+    const dateEl = document.createElement("p");
+    dateEl.className = CLASSES.listingItemDate;
+    dateEl.textContent = capturesText;
+    article.appendChild(dateEl);
 
-    if (meta.children.length) {
-      item.appendChild(meta);
-    }
-
+    item.appendChild(article);
     list.appendChild(item);
   });
 
@@ -87,10 +92,35 @@ export function renderRecords(panel, records) {
 export function renderLoading(panel) {
   panel.innerHTML = "";
 
-  const loading = document.createElement("p");
-  loading.className = CLASSES.marginTopXs;
-  loading.textContent = "Loading...";
-  panel.appendChild(loading);
+  const wrapper = document.createElement("div");
+  wrapper.className = "accordion__loading";
+  wrapper.setAttribute("aria-hidden", "true");
+
+  const spinner = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  spinner.setAttribute("viewBox", "0 0 24 24");
+  spinner.setAttribute("class", "accordion__spinner");
+  spinner.setAttribute("aria-hidden", "true");
+  const circle = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "circle",
+  );
+  circle.setAttribute("cx", "12");
+  circle.setAttribute("cy", "12");
+  circle.setAttribute("r", "10");
+  circle.setAttribute("fill", "none");
+  circle.setAttribute("stroke", "currentColor");
+  circle.setAttribute("stroke-width", "2");
+  circle.setAttribute("stroke-dasharray", "30 70");
+  circle.setAttribute("stroke-linecap", "round");
+  spinner.appendChild(circle);
+
+  wrapper.appendChild(spinner);
+  panel.appendChild(wrapper);
+
+  const srText = document.createElement("p");
+  srText.className = CLASSES.visuallyHidden;
+  srText.textContent = "Loading...";
+  panel.appendChild(srText);
 }
 
 export function renderError(panel, letter, baseUrl) {
