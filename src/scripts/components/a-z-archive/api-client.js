@@ -50,10 +50,12 @@ export default class ArchiveApiClient {
   }
 
   async getRecordsForLetter(letter) {
+    // Reuse cached records when available.
     if (this.recordsByLetter.has(letter)) {
       return this.recordsByLetter.get(letter);
     }
 
+    // Reuse a pending request so repeated opens of the same letter don't duplicate calls.
     if (this.loadingByLetter.has(letter)) {
       return this.loadingByLetter.get(letter);
     }

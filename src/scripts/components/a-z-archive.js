@@ -65,6 +65,8 @@ export default class AtoZArchive {
   }
 
   parseStaticRecords() {
+    // Parse server-rendered records from the page so initial enhancement can reuse them
+    // without refetching immediately.
     const grouped = new Map();
     const nodes = this.staticContent.querySelectorAll("[data-az-static-record]");
 
@@ -102,6 +104,7 @@ export default class AtoZArchive {
   }
 
   async fetchSearchResultsFromServer(query, token) {
+    // Always cancel older live-search requests so only the latest query remains active.
     this.abortInFlightSearch();
     this.searchAbortController = new AbortController();
 
@@ -180,6 +183,7 @@ export default class AtoZArchive {
 
   resetBrowseMode(detailsElements) {
     this.abortInFlightSearch();
+    // Invalidate any in-flight search pipeline to prevent stale UI updates.
     this.currentToken += 1;
     this.activeQuery = "";
     this.activeSearchResultsByLetter = new Map();
@@ -206,6 +210,7 @@ export default class AtoZArchive {
     urlQuery = query,
     fallbackToPageOnError = false
   ) {
+    // Token guards ensure only the newest async search can mutate UI state.
     const token = this.currentToken + 1;
     this.currentToken = token;
     this.activeQuery = query;
@@ -214,6 +219,8 @@ export default class AtoZArchive {
 
     if (!matchedByLetter) {
       try {
+        // Live search uses one server-rendered search response, parsed client-side,
+        // instead of crawling per-letter API endpoints.
         matchedByLetter = await this.fetchSearchResultsFromServer(query, token);
       } catch (error) {
         if (error && error.name === "AbortError") {
@@ -314,6 +321,7 @@ export default class AtoZArchive {
         return;
       }
       if (!fromSubmit && query.length < MIN_LIVE_SEARCH_LENGTH) {
+        // Keep live typing conservative at scale; users can still submit short terms.
         this.resetBrowseMode(detailsElements);
         return;
       }
@@ -346,6 +354,8 @@ export default class AtoZArchive {
   async init() {
     const staticGrouped = this.parseStaticRecords();
 
+    // Only seed browse cache from a letter page, not from search result pages
+    // (search pages may include partial per-letter subsets).
     if (this.selectedCharacter && staticGrouped.has(this.selectedCharacter)) {
       this.api.seedRecords(
         this.selectedCharacter,

@@ -158,6 +158,7 @@ export function createAccordion(letter, baseUrl) {
   icon.setAttribute("viewBox", "0 0 24 24");
   icon.classList.add(CLASSES.accordionIcon);
 
+  // Reuse the sprite symbol included globally in base templates.
   const iconUse = document.createElementNS("http://www.w3.org/2000/svg", "use");
   iconUse.setAttribute("href", "#accordion-arrow");
   icon.appendChild(iconUse);
@@ -184,6 +185,7 @@ export function createAccordion(letter, baseUrl) {
 export function resetPanelToBrowseFallback(panel, letter, baseUrl) {
   panel.innerHTML = "";
 
+  // Default accordion panel state before records are loaded on demand.
   const fallback = document.createElement("p");
   fallback.className = CLASSES.marginTopXs;
   fallback.append("Select this character to load records, or ");

@@ -12,6 +12,7 @@ export function debounce(fn, ms) {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
+    // Preserve calling context and args so this helper is safe for method callbacks.
     const context = this;
     timeoutId = setTimeout(() => {
       timeoutId = null;
