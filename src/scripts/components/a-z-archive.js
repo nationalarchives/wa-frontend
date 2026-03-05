@@ -35,6 +35,7 @@ export default class AtoZArchive {
 
     this.letters = [];
     this.activeQuery = "";
+    /** Run ID for async search; incremented to invalidate in-flight runs. Not a security token. */
     this.currentToken = 0;
     this.searchResultsCache = new Map();
     this.activeSearchResultsByLetter = new Map();
@@ -109,31 +110,36 @@ export default class AtoZArchive {
     }
   }
 
-  async fetchSearchResultsFromServer(query, token) {
+  async fetchSearchResultsFromServer(query, runId) {
     // Always cancel older live-search requests so only the latest query remains active.
     this.abortInFlightSearch();
     this.searchAbortController = new AbortController();
 
-    const response = await fetch(
+    const searchUrl = new URL(
       `${this.baseUrl}?q=${encodeURIComponent(query)}`,
-      {
-        headers: {
-          Accept: "text/html",
-        },
-        signal: this.searchAbortController.signal,
-      },
+      window.location.origin
     );
+    if (searchUrl.origin !== window.location.origin) {
+      throw new Error("Search URL must be same-origin");
+    }
+
+    const response = await fetch(searchUrl.toString(), {
+      headers: {
+        Accept: "text/html",
+      },
+      signal: this.searchAbortController.signal,
+    });
 
     if (!response.ok) {
       throw new Error(`Search failed (${response.status})`);
     }
 
-    if (this.currentToken !== token) {
+    if (this.currentToken !== runId) {
       return null;
     }
 
     const html = await response.text();
-    if (this.currentToken !== token) {
+    if (this.currentToken !== runId) {
       return null;
     }
 
@@ -216,9 +222,9 @@ export default class AtoZArchive {
     urlQuery = query,
     fallbackToPageOnError = false,
   ) {
-    // Token guards ensure only the newest async search can mutate UI state.
-    const token = this.currentToken + 1;
-    this.currentToken = token;
+    // Run ID guards ensure only the newest async search can mutate UI state (not a security token).
+    const runId = this.currentToken + 1;
+    this.currentToken = runId;
     this.activeQuery = query;
     const cacheKey = normalise(query);
     let matchedByLetter = this.searchResultsCache.get(cacheKey);
@@ -227,7 +233,7 @@ export default class AtoZArchive {
       try {
         // Live search uses one server-rendered search response, parsed client-side,
         // instead of crawling per-letter API endpoints.
-        matchedByLetter = await this.fetchSearchResultsFromServer(query, token);
+        matchedByLetter = await this.fetchSearchResultsFromServer(query, runId);
       } catch (error) {
         if (error && error.name === "AbortError") {
           return;
@@ -244,7 +250,7 @@ export default class AtoZArchive {
         this.searchAbortController = null;
       }
 
-      if (this.currentToken !== token || !matchedByLetter) {
+      if (this.currentToken !== runId || !matchedByLetter) {
         return;
       }
 
@@ -253,7 +259,7 @@ export default class AtoZArchive {
       this.abortInFlightSearch();
     }
 
-    if (this.currentToken !== token) {
+    if (this.currentToken !== runId) {
       return;
     }
 
