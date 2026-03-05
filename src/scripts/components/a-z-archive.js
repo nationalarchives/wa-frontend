@@ -1,5 +1,9 @@
 import ArchiveApiClient from "./a-z-archive/api-client.js";
-import { debounce, normalise } from "./a-z-archive/helpers.js";
+import {
+  addPrefixToLastTerm,
+  debounce,
+  normalise,
+} from "./a-z-archive/helpers.js";
 import {
   createAccordion,
   renderError,
@@ -86,11 +90,9 @@ export default class AtoZArchive {
       const existing = grouped.get(letter) || [];
       existing.push({
         profile_name: node.dataset.profileName || "",
-        sort_name: node.dataset.sortName || "",
         description: node.dataset.description || "",
         record_url: node.dataset.recordUrl || "",
         archive_link: node.dataset.archiveLink || "",
-        domain_type: node.dataset.domainType || "",
         first_capture_display: node.dataset.firstCapture || "",
         latest_capture_display: node.dataset.latestCapture || "",
         ongoing: node.dataset.ongoing === "true",
@@ -115,8 +117,10 @@ export default class AtoZArchive {
     this.abortInFlightSearch();
     this.searchAbortController = new AbortController();
 
+    // Send last term as prefix (e.g. sear -> sear*) so FTS5 returns partial-word matches.
+    const serverQuery = addPrefixToLastTerm(query);
     const searchUrl = new URL(
-      `${this.baseUrl}?q=${encodeURIComponent(query)}`,
+      `${this.baseUrl}?q=${encodeURIComponent(serverQuery)}`,
       window.location.origin
     );
     if (searchUrl.origin !== window.location.origin) {
@@ -157,11 +161,9 @@ export default class AtoZArchive {
       const existing = grouped.get(letter) || [];
       existing.push({
         profile_name: node.dataset.profileName || "",
-        sort_name: node.dataset.sortName || "",
         description: node.dataset.description || "",
         record_url: node.dataset.recordUrl || "",
         archive_link: node.dataset.archiveLink || "",
-        domain_type: node.dataset.domainType || "",
         first_capture_display: node.dataset.firstCapture || "",
         latest_capture_display: node.dataset.latestCapture || "",
         ongoing: node.dataset.ongoing === "true",
@@ -214,6 +216,9 @@ export default class AtoZArchive {
 
     updateLiveRegion(this.liveRegion, 0, 0);
     history.replaceState({}, "", this.baseUrl);
+    if (this.clearControl) {
+      this.clearControl.hidden = true;
+    }
   }
 
   async applySearch(
@@ -293,6 +298,9 @@ export default class AtoZArchive {
       "",
       `${this.baseUrl}?q=${encodeURIComponent(urlQuery)}`,
     );
+    if (this.clearControl) {
+      this.clearControl.hidden = false;
+    }
   }
 
   bindAccordionEvents(detailsElements) {
@@ -349,7 +357,6 @@ export default class AtoZArchive {
     });
 
     if (this.clearControl) {
-      this.clearControl.hidden = false;
       this.clearControl.addEventListener("click", (event) => {
         event.preventDefault();
         if (searchInput) {
