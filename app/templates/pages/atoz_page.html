@@ -82,9 +82,13 @@
                       data-first-capture="{{ record.first_capture_display or '' }}"
                       data-latest-capture="{{ record.latest_capture_display or '' }}"
                       data-ongoing="{{ 'true' if record.ongoing else 'false' }}">
-                    <a class="listing-item__link" href="{{ record.archive_link or '#' }}">
+                    {% if record.archive_link %}
+                      <a class="listing-item__link" href="{{ record.archive_link }}">
+                        <h2 class="listing-item__title heading heading--four">{{ record.profile_name }}</h2>
+                      </a>
+                    {% else %}
                       <h2 class="listing-item__title heading heading--four">{{ record.profile_name }}</h2>
-                    </a>
+                    {% endif %}
                     {% if record.record_url %}<p class="listing-item__url supporting">{{ record.record_url }}</p>{% endif %}
                     <p class="listing-item__date supporting">Captures from {{ record.first_capture_display or '' }} to{% if record.ongoing %} Ongoing{% else %} {{ record.latest_capture_display or '' }}{% endif %}</p>
                   </li>
@@ -114,7 +118,7 @@
                  aria-labelledby="az-browse-heading-enhanced"
                  hidden>
           <h2 id="az-browse-heading-enhanced" class="tna-heading-m tna-!--margin-top-l tna-visually-hidden">Browse by character</h2>
-          <p class="tna-!--margin-top-m tna-!--margin-bottom-xl heading heading--three" data-az-no-results role="status" aria-live="polite" hidden></p>
+          <p class="tna-!--margin-top-m tna-!--margin-bottom-xl heading heading--three" data-az-no-results hidden></p>
           <div class="accordion-group tna-!--margin-top-s tna-!--margin-bottom-xl" data-az-accordion-list></div>
         </section>
 

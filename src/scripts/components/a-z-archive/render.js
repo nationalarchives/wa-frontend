@@ -54,16 +54,18 @@ export function renderRecords(panel, records) {
     const item = document.createElement("li");
     item.className = CLASSES.listingItem;
 
-    const link = document.createElement("a");
-    link.className = CLASSES.listingItemLink;
-    link.href = record.archive_link || "#";
-
     const title = document.createElement("h2");
     title.className = CLASSES.listingItemTitle;
     title.textContent = record.profile_name || "";
-
-    link.appendChild(title);
-    item.appendChild(link);
+    if (record.archive_link) {
+      const link = document.createElement("a");
+      link.className = CLASSES.listingItemLink;
+      link.href = record.archive_link;
+      link.appendChild(title);
+      item.appendChild(link);
+    } else {
+      item.appendChild(title);
+    }
 
     if (record.record_url) {
       const urlEl = document.createElement("p");
