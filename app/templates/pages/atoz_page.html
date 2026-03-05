@@ -12,7 +12,7 @@
   <div class="page tna-main">
 
     <div class="tna-container">
-      <div class="tna-column tna-column--width-3-4">
+      <div class="tna-column tna-column--full-small tna-column--full-medium tna-column--width-3-4">
         <div class="tna-!--margin-top-l">
           <form method="get"
                 action="{{ page_data.meta.url }}"
@@ -27,7 +27,7 @@
                   type="search"
                   id="search"
                   name="q"
-                  class="tna-search__inpu featured-search__input"
+                  class="tna-search__input featured-search__input"
                   value="{{ search_query or '' }}"
                   maxlength="{{ search_max_length }}"
                 />
@@ -45,8 +45,8 @@
            aria-live="polite"
            data-az-live-region></p>
 
-        <section data-az-static-content>
-          <h2 class="tna-heading-m tna-!--margin-top-l tna-visually-hidden">Browse by character</h2>
+        <section data-az-static-content aria-labelledby="az-browse-heading">
+          <h2 id="az-browse-heading" class="tna-heading-m tna-!--margin-top-l tna-visually-hidden">Browse by character</h2>
           <ul class="breadcrumb__list tna-!--margin-top-s">
             {%- for char in available_characters %}
             <li class="breadcrumb__item">
@@ -111,9 +111,10 @@
                  data-az-records-api="{{ url_for('api.archive_records') }}"
                  data-search-query="{{ search_query or '' }}"
                  data-selected-character="{{ selected_character or '' }}"
+                 aria-labelledby="az-browse-heading-enhanced"
                  hidden>
-          <h2 class="tna-heading-m tna-!--margin-top-l tna-visually-hidden">Browse by character</h2>
-          <p class="tna-!--margin-top-m tna-!--margin-bottom-xl heading heading--three" data-az-no-results hidden></p>
+          <h2 id="az-browse-heading-enhanced" class="tna-heading-m tna-!--margin-top-l tna-visually-hidden">Browse by character</h2>
+          <p class="tna-!--margin-top-m tna-!--margin-bottom-xl heading heading--three" data-az-no-results role="status" aria-live="polite" hidden></p>
           <div class="accordion-group tna-!--margin-top-s tna-!--margin-bottom-xl" data-az-accordion-list></div>
         </section>
 

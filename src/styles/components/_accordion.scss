@@ -161,3 +161,23 @@
     opacity: 1;
   }
 }
+
+// Respect prefers-reduced-motion: no loader/content animations
+@media (prefers-reduced-motion: reduce) {
+  .accordion__list {
+    animation: none;
+    opacity: 1;
+  }
+
+  .accordion__loading {
+    transition: none;
+  }
+
+  .accordion__loading--out {
+    opacity: 0;
+  }
+
+  .accordion__spinner {
+    animation: none;
+  }
+}

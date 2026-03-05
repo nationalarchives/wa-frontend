@@ -187,6 +187,7 @@ export default class AtoZArchive {
     }
 
     const loadStarted = Date.now();
+    panel.setAttribute("aria-busy", "true");
     renderLoading(panel);
 
     try {
@@ -200,6 +201,7 @@ export default class AtoZArchive {
         loader.classList.add("accordion__loading--out");
         await new Promise((r) => setTimeout(r, LOADER_FADEOUT_MS));
       }
+      panel.removeAttribute("aria-busy");
       renderRecords(panel, records);
       return records;
     } catch (_error) {
@@ -212,6 +214,7 @@ export default class AtoZArchive {
         loader.classList.add("accordion__loading--out");
         await new Promise((r) => setTimeout(r, LOADER_FADEOUT_MS));
       }
+      panel.removeAttribute("aria-busy");
       renderError(panel, letter, this.baseUrl);
       return [];
     }

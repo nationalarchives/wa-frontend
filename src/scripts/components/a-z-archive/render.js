@@ -140,7 +140,11 @@ export function renderError(panel, letter, baseUrl) {
 }
 
 export function updateLiveRegion(liveRegion, resultCount, letterCount) {
-  liveRegion.textContent = `${resultCount} results across ${letterCount} letters`;
+  const message =
+    resultCount === 0 && letterCount === 0
+      ? "No results found."
+      : `${resultCount} results across ${letterCount} letters`;
+  liveRegion.textContent = message;
 }
 
 export function createAccordion(letter, baseUrl) {

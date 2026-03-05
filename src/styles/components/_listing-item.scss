@@ -14,12 +14,12 @@
     border-top: 1px dotted var(--theme-border-inverted);
 
     #{$root}__title {
-      margin-bottom: $grid-xxs;
+      margin-bottom: 3px; // one off value to optimise space on A-Z
     }
 
     #{$root}__url,
     #{$root}__date {
-      margin: 0;
+      margin: 0 0 1px; // one off value to optimise space on A-Z
     }
 
     &:last-child {
