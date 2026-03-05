@@ -57,7 +57,7 @@ def render_atoz_archive_page(page_data):
             return render_template("errors/server.html"), 500
     elif character:
         if character not in available_characters:
-            current_app.logger.warning(
+            current_app.logger.info(
                 f"Invalid character parameter '{character}' for A-to-Z archive"
             )
             return render_template("errors/page-not-found.html"), 404
