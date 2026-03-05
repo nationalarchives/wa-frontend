@@ -19,7 +19,9 @@ export default class AtoZArchive {
   constructor(node) {
     this.enhancedContent = node;
     this.root = node.parentElement;
-    this.form = this.root ? this.root.querySelector("[data-az-search-form]") : null;
+    this.form = this.root
+      ? this.root.querySelector("[data-az-search-form]")
+      : null;
     this.staticContent = this.root
       ? this.root.querySelector("[data-az-static-content]")
       : null;
@@ -27,7 +29,9 @@ export default class AtoZArchive {
     this.liveRegion = this.root
       ? this.root.querySelector("[data-az-live-region]")
       : null;
-    this.clearControl = this.root ? this.root.querySelector("[data-az-clear]") : null;
+    this.clearControl = this.root
+      ? this.root.querySelector("[data-az-clear]")
+      : null;
 
     this.letters = [];
     this.activeQuery = "";
@@ -54,7 +58,7 @@ export default class AtoZArchive {
 
     this.api = new ArchiveApiClient(
       node.dataset.azCharactersApi,
-      node.dataset.azRecordsApi
+      node.dataset.azRecordsApi,
     );
 
     if (!this.api.charactersUrl || !this.api.recordsApiUrl) {
@@ -68,7 +72,9 @@ export default class AtoZArchive {
     // Parse server-rendered records from the page so initial enhancement can reuse them
     // without refetching immediately.
     const grouped = new Map();
-    const nodes = this.staticContent.querySelectorAll("[data-az-static-record]");
+    const nodes = this.staticContent.querySelectorAll(
+      "[data-az-static-record]",
+    );
 
     nodes.forEach((node) => {
       const letter = normalise(node.dataset.firstCharacter);
@@ -115,7 +121,7 @@ export default class AtoZArchive {
           Accept: "text/html",
         },
         signal: this.searchAbortController.signal,
-      }
+      },
     );
 
     if (!response.ok) {
@@ -208,7 +214,7 @@ export default class AtoZArchive {
     query,
     detailsElements,
     urlQuery = query,
-    fallbackToPageOnError = false
+    fallbackToPageOnError = false,
   ) {
     // Token guards ensure only the newest async search can mutate UI state.
     const token = this.currentToken + 1;
@@ -226,11 +232,11 @@ export default class AtoZArchive {
         if (error && error.name === "AbortError") {
           return;
         }
-        this.liveRegion.textContent =
-          "Live search is temporarily unavailable.";
+        this.liveRegion.textContent = "Live search is temporarily unavailable.";
+        // On form submit, redirect to full page so user still gets server-rendered results.
         if (fallbackToPageOnError) {
           window.location.assign(
-            `${this.baseUrl}?q=${encodeURIComponent(urlQuery)}`
+            `${this.baseUrl}?q=${encodeURIComponent(urlQuery)}`,
           );
         }
         return;
@@ -279,7 +285,7 @@ export default class AtoZArchive {
     history.replaceState(
       {},
       "",
-      `${this.baseUrl}?q=${encodeURIComponent(urlQuery)}`
+      `${this.baseUrl}?q=${encodeURIComponent(urlQuery)}`,
     );
   }
 
@@ -329,10 +335,7 @@ export default class AtoZArchive {
       this.applySearch(query, detailsElements, rawQuery, fromSubmit);
     };
 
-    searchInput.addEventListener(
-      "input",
-      debounce(runSearch, 300)
-    );
+    searchInput.addEventListener("input", debounce(runSearch, 300));
 
     this.form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -359,7 +362,7 @@ export default class AtoZArchive {
     if (this.selectedCharacter && staticGrouped.has(this.selectedCharacter)) {
       this.api.seedRecords(
         this.selectedCharacter,
-        staticGrouped.get(this.selectedCharacter)
+        staticGrouped.get(this.selectedCharacter),
       );
     }
     if (this.initialSearchQuery) {
@@ -373,9 +376,11 @@ export default class AtoZArchive {
     }
 
     const detailsElements = this.letters.map((letter) =>
-      createAccordion(letter, this.baseUrl)
+      createAccordion(letter, this.baseUrl),
     );
-    detailsElements.forEach((details) => this.accordionList.appendChild(details));
+    detailsElements.forEach((details) =>
+      this.accordionList.appendChild(details),
+    );
 
     this.bindAccordionEvents(detailsElements);
     this.bindSearchForm(detailsElements);
@@ -395,14 +400,14 @@ export default class AtoZArchive {
       await this.applySearch(
         initialQuery,
         detailsElements,
-        this.enhancedContent.dataset.searchQuery || initialQuery
+        this.enhancedContent.dataset.searchQuery || initialQuery,
       );
       return;
     }
 
     if (selectedCharacter) {
       const selectedDetails = detailsElements.find(
-        (details) => details.dataset.letter === selectedCharacter
+        (details) => details.dataset.letter === selectedCharacter,
       );
       if (selectedDetails) {
         selectedDetails.open = true;

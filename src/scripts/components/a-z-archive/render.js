@@ -119,8 +119,8 @@ export function renderError(panel, letter, baseUrl) {
   fallback.appendChild(
     createLink(
       `${baseUrl}?character=${encodeURIComponent(letter)}`,
-      "Open the letter page"
-    )
+      "Open the letter page",
+    ),
   );
   panel.appendChild(fallback);
 }
@@ -192,8 +192,8 @@ export function resetPanelToBrowseFallback(panel, letter, baseUrl) {
   fallback.appendChild(
     createLink(
       `${baseUrl}?character=${encodeURIComponent(letter)}`,
-      "open the letter page"
-    )
+      "open the letter page",
+    ),
   );
   fallback.append(".");
   panel.appendChild(fallback);
