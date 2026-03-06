@@ -67,6 +67,11 @@ def render_atoz_archive_page(page_data):
                 f"Failed to get archive records on page {page_data['id']}: {e}"
             )
             return render_template("errors/server.html"), 500
+        if not records:
+            current_app.logger.error(
+                f"Character '{character}' is in available_characters but returned no records"
+            )
+            return render_template("errors/server.html"), 500
 
     display_character = (
         character
