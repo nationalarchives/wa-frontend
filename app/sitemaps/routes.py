@@ -77,19 +77,21 @@ def sitemap_dynamic(sitemap_page):
 
     # Add A-to-Z character pages on the first sitemap page
     if sitemap_page == 1:
-        scheme = current_app.config.get("PREFERRED_URL_SCHEME", "https")
-        base_url = url_for(
-            "wagtail.page", path="a-z-index", _external=True, _scheme=scheme
-        )
         try:
-            characters = archive_service.get_available_characters()
-            for character in characters:
-                dynamic_urls.append(
-                    {
-                        "loc": f"{base_url}?character={character}",
-                        "lastmod": None,
-                    }
-                )
+            atoz_result = all_pages(
+                params={"type": "ukgwa.AToZArchivePage", "limit": 1}
+            )
+            atoz_items = atoz_result.get("items", [])
+            if atoz_items:
+                base_url = atoz_items[0]["full_url"]
+                characters = archive_service.get_available_characters()
+                for character in characters:
+                    dynamic_urls.append(
+                        {
+                            "loc": f"{base_url}?character={character}",
+                            "lastmod": None,
+                        }
+                    )
         except Exception as e:
             current_app.logger.error(f"Failed to add A-to-Z URLs to sitemap: {e}")
 
