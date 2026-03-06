@@ -40,13 +40,10 @@ def render_atoz_archive_page(page_data):
         return render_template("errors/server.html"), 500
 
     records = None
-    display_mode = (
-        DisplayMode.SEARCH
-        if search_query
-        else DisplayMode.LISTING if character else DisplayMode.INDEX
-    )
+    display_mode = DisplayMode.INDEX
 
     if search_query:
+        display_mode = DisplayMode.SEARCH
         try:
             result = archive_service.search_records(search_query)
             records = result.get("items", [])
@@ -56,6 +53,7 @@ def render_atoz_archive_page(page_data):
             )
             return render_template("errors/server.html"), 500
     elif character:
+        display_mode = DisplayMode.LISTING
         if character not in available_characters:
             current_app.logger.info(
                 f"Invalid character parameter '{character}' for A-to-Z archive"
@@ -87,6 +85,7 @@ def render_atoz_archive_page(page_data):
             search_query=search_query,
             search_max_length=ARCHIVE_SEARCH_MAX_LENGTH,
             display_mode=display_mode,
+            DisplayMode=DisplayMode,
         )
     )
 
