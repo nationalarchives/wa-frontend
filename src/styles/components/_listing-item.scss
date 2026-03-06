@@ -1,13 +1,30 @@
 @use "../config" as *;
 
 .listing-item {
+  $root: &;
   padding: $grid-s 0;
   border-top: 1px solid var(--theme-border);
-
   list-style: none;
 
   &:last-child {
     border-bottom: 1px solid var(--theme-border);
+  }
+
+  &--a-z {
+    border-top: 1px dotted var(--theme-border-inverted);
+
+    #{$root}__title {
+      margin-bottom: 3px; // one off value to optimise space on A-Z
+    }
+
+    #{$root}__url,
+    #{$root}__date {
+      margin: 0 0 1px; // one off value to optimise space on A-Z
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
   }
 
   &__category {
@@ -43,9 +60,12 @@
     font-weight: $weight-medium;
   }
 
+  &__url {
+    margin: $grid-xxs 0 0;
+  }
+
   &__date {
     margin: $grid-xxs 0 0;
-
     color: var(--theme-text-meta);
   }
 }

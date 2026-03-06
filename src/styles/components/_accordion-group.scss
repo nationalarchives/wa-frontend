@@ -1,0 +1,6 @@
+@use "../config" as *;
+@use "sass:map";
+
+.accordion-group {
+  max-width: 100%;
+}

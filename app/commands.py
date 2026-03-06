@@ -60,6 +60,7 @@ from app.lib.cache import cache
 from app.lib.models import ArchiveRecord
 from app.lib.schemas import ArchiveRecordSchema
 from pydantic import ValidationError
+from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 logger = logging.getLogger(__name__)
@@ -204,6 +205,8 @@ def sync_archive_data(url, dry_run, validation_batch_size, commit_batch_size):
 
     # Clear cache after successful sync
     _clear_cache(dry_run)
+
+    _rebuild_fts_index(dry_run)
 
     logger.info(
         "Archive data sync completed: %s total, %s created, %s updated, "
@@ -455,3 +458,20 @@ def _clear_cache(dry_run: bool):
         except Exception as e:
             logger.error("Failed to clear archive caches: %s", str(e))
             click.secho(f"Failed to clear caches: {e}")
+
+
+def _rebuild_fts_index(dry_run: bool):
+    """Rebuild FTS5 search index from archive_records content table."""
+    if not dry_run:
+        click.echo("\nRebuilding search index...")
+        try:
+            database.db_session.execute(
+                text(
+                    "INSERT INTO archive_records_fts(archive_records_fts) VALUES('rebuild')"
+                )
+            )
+            database.db_session.commit()
+            click.echo("Search index rebuilt")
+        except Exception as e:
+            logger.error("Failed to rebuild FTS5 index: %s", str(e))
+            click.secho(f"Failed to rebuild search index: {e}")

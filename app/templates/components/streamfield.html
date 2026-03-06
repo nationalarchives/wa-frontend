@@ -3,7 +3,7 @@
 {# Streamfield content blocks - macros for rendering rich content #}
 {# Accordion Block #}
 {% macro accordion(accordions) %}
-    <div class="accordion__container">
+    <div class="accordion-group">
         {% for accordion in accordions %}
             <details class="accordion">
                 <summary class="accordion__summary">
@@ -52,8 +52,8 @@
                         <input type="checkbox" data-youtube-save-prefs>
                         <span>Don't ask again for YouTube videos</span>
                     </label>
-                    <button type="button" 
-                            class="button button--primary" 
+                    <button type="button"
+                            class="button button--primary"
                             data-youtube-consent-button>
                         Accept and watch video
                     </button>
@@ -61,7 +61,7 @@
             </div>
         </div>
         {# Video container - shown after consent #}
-        <div class="video-embed__container hidden" 
+        <div class="video-embed__container hidden"
              data-youtube-embed-container
              {% if provider == 'youtube' %}
              data-video-id="{{ video_url }}"
