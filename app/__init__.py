@@ -69,6 +69,12 @@ def create_app(config_class):
             ),
         },
         force_https=app.config["FORCE_HTTPS"],
+        # This sets the deprecated X-Frame-Options header to allow embedding in iframes on any domain, which is required for previewing the site in the Wagtail admin interface
+        # https://github.com/wntrblm/flask-talisman/issues/31
+        # An updated TNA-specific Talisman implementation will address this issue properly in the future:
+        # https://github.com/nationalarchives/python-utilities/pull/9
+        frame_options="ALLOW_FROM",
+        frame_options_allow_from="*",
     )
 
     @app.after_request
