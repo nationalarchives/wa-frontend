@@ -8,6 +8,7 @@ from flask import current_app
 def wagtail_request_handler(uri, params={}):
     api_url = current_app.config.get("WAGTAIL_API_URL")
     api_key = current_app.config.get("WAGTAIL_API_KEY")
+    api_unthrottled_header = current_app.config.get("API_UNTHROTTLED_HEADER")
     default_headers = {}
     default_params = {"format": "json"}
 
@@ -20,6 +21,8 @@ def wagtail_request_handler(uri, params={}):
         raise Exception("WAGTAIL_API_KEY not set")
 
     default_headers["Authorization"] = f"Token {api_key}"
+    if api_unthrottled_header:
+        default_headers["X-Api-Unthrottled"] = api_unthrottled_header
 
     client = JSONAPIClient(
         api_url, default_headers=default_headers, default_params=default_params

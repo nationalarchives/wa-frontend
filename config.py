@@ -35,6 +35,7 @@ class Production(Features):
 
     WAGTAIL_API_URL: str = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
     WAGTAIL_API_KEY: str = os.environ.get("WAGTAIL_API_KEY", "")
+    API_UNTHROTTLED_HEADER: str = os.environ.get("API_UNTHROTTLED_HEADER", "")
     WAGTAIL_SITE_HOSTNAME: str = os.environ.get("WAGTAIL_SITE_HOSTNAME", "")
     WAGTAILAPI_LIMIT_MAX: int = int(os.environ.get("WAGTAILAPI_LIMIT_MAX", "20"))
 
