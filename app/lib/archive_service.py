@@ -1,8 +1,12 @@
+import re
+
 from app.lib import database
 from app.lib.cache import cache
 from app.lib.models import ArchiveRecord
+from app.lib.util import ARCHIVE_SEARCH_MAX_LENGTH
 from flask import current_app
-from sqlalchemy import func
+from sqlalchemy import func, text
+from sqlalchemy.exc import OperationalError
 
 
 @cache.cached(timeout=0, key_prefix="archive:characters")
@@ -93,3 +97,83 @@ def get_record_count():
     except Exception as e:
         current_app.logger.error(f"Failed to get record count: {e}")
         raise
+
+
+def search_records(query):
+    """
+    Full-text search across archive records (profile_name and description) using FTS5.
+
+    Args:
+        query: Search string (e.g. "government digital")
+
+    Returns:
+        dict: Dictionary with 'items' (list of records) and 'meta' (count info)
+    """
+    sanitised_query = _sanitize_fts_query(query)
+
+    if not sanitised_query:
+        return {
+            "items": [],
+            "meta": {
+                "total_count": 0,
+            },
+        }
+
+    try:
+        sql = text("""
+            SELECT ar.*
+            FROM archive_records ar
+            INNER JOIN archive_records_fts fts ON ar.id = fts.rowid
+            WHERE archive_records_fts MATCH :query
+            ORDER BY rank, ar.sort_name
+        """)
+
+        result = database.db_session.execute(sql, {"query": sanitised_query})
+        rows = result.fetchall()
+
+        items = [dict(row._mapping) for row in rows]
+
+        return {
+            "items": items,
+            "meta": {
+                "total_count": len(items),
+            },
+        }
+    except OperationalError:
+        return {"items": [], "meta": {"total_count": 0, "error": "invalid_query"}}
+    except Exception as e:
+        current_app.logger.error(f"Failed to search archive records for '{query}': {e}")
+        raise
+
+
+def _sanitize_fts_query(query):
+    """
+    Remove characters and syntax patterns that would cause FTS5 query errors, keeping
+    FTS5 special characters:
+
+    - Prefix wildcard: digit* matches digital, digitisation, digitised..
+    - Phrase search: "government digital"
+    - Grouping with parenthesis: (health OR digital) AND service
+    """
+    # Truncate to prevent excessively long queries
+    query = query[:ARCHIVE_SEARCH_MAX_LENGTH]
+
+    # Strip characters not valid in FTS5 queries
+    query = re.sub(r'[^\w\s"()*]', " ", query)
+
+    # Strip leading/trailing boolean operators
+    query = re.sub(r"^\s*(AND|OR|NOT)\s+", "", query, flags=re.IGNORECASE)
+    query = re.sub(r"\s+(AND|OR|NOT)\s*$", "", query, flags=re.IGNORECASE)
+
+    # Strip leading wildcards
+    query = re.sub(r"(?<!\w)\*", "", query)
+
+    # Strip unmatched quotes
+    if query.count('"') % 2 != 0:
+        query = query.replace('"', "")
+
+    # Strip unbalanced parentheses
+    if query.count("(") != query.count(")"):
+        query = re.sub(r"[()]", "", query)
+
+    return query.strip()
