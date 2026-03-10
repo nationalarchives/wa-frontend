@@ -39,7 +39,7 @@ def preview_page():
     except ResourceNotFound:
         return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
-        return render_template("errors/forbidden.html"), 403
+        return render_template("errors/403.html"), 403
     except Exception as e:
         current_app.logger.error(f"Failed to get page preview data: {e}")
         return render_template("errors/api.html"), 502
@@ -69,7 +69,7 @@ def preview_protected_page(page_id):
     except ResourceNotFound:
         return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
-        return render_template("errors/forbidden.html"), 403
+        return render_template("errors/403.html"), 403
     except Exception as e:
         current_app.logger.error(f"Failed to render page preview: {e}")
         return render_template("errors/api.html"), 502
@@ -113,7 +113,7 @@ def page_permalink(page_id):
     except ResourceNotFound:
         return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
-        return render_template("errors/forbidden.html"), 403
+        return render_template("errors/403.html"), 403
     except Exception as e:
         current_app.logger.error(f"Failed to get page details: {e}")
         return render_template("errors/api.html"), 502
@@ -153,7 +153,7 @@ def page(path):
         return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
         # In the unlikely case that the API returns a 403, show a forbidden error page
-        return render_template("errors/forbidden.html"), 403
+        return render_template("errors/403.html"), 403
     except Exception as e:
         # If any other error occurs, log it and return a generic API error page
         # with a 502 status code
@@ -248,7 +248,7 @@ def image_page(image_uuid):
     except ResourceNotFound:
         return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
-        return render_template("errors/forbidden.html"), 403
+        return render_template("errors/403.html"), 403
     except Exception as e:
         current_app.logger.error(f"Failed to get video: {e}")
         return render_template("errors/api.html"), 502
