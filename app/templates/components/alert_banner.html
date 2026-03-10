@@ -1,5 +1,5 @@
 {% from "components/icon.html" import icon %}
-{% if page_data.global_alert %}
+{% if page_data and page_data.global_alert %}
     {% set modifier = page_data.global_alert.theme|default("yellow") %}
     <div class="alert-banner alert-banner--{{ modifier }}"
         {% if modifier == "red" %}role="alert"{% else %}role="status" aria-live="polite"{% endif %}>
