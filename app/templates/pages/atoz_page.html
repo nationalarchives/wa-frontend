@@ -1,6 +1,7 @@
 {% extends "layouts/base_page.html" %}
 {% from "components/page_header.html" import page_header %}
 {% from "components/related_content.html" import related_content %}
+{% from "components/breadcrumbs/macro.html" import tnaBreadcrumbs %}
 
 {% block meta_tags %}
   {{ super() }}
@@ -8,6 +9,18 @@
 {% endblock %}
 
 {% block content %}
+{% if page_data.meta.breadcrumbs %}
+  <div class="tna-breadcrumbs-wrapper">
+    <div class="tna-container">
+      <div class="tna-column tna-column--full">
+        {{ tnaBreadcrumbs({
+            "items": page_data.meta.breadcrumbs,
+            "labelText": "Breadcrumb navigation"
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endif %}
 {{ page_header(page_data.title, page_data.intro | tna_html | safe, True, "flush") }}
   <div class="page tna-main">
 

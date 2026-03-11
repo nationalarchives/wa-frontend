@@ -10,10 +10,16 @@
     <div class="page">
         {% block breadcrumbs %}
             {% if page_data.meta.breadcrumbs %}
-                {{ tnaBreadcrumbs({
-                    "items": page_data.meta.breadcrumbs,
-                    "labelText": "Breadcrumb navigation"
-                }) }}
+                <div class="tna-breadcrumbs-wrapper">
+                    <div class="tna-container">
+                        <div class="tna-column tna-column--full">
+                            {{ tnaBreadcrumbs({
+                                "items": page_data.meta.breadcrumbs,
+                                "labelText": "Breadcrumb navigation"
+                            }) }}
+                        </div>
+                    </div>
+                </div>
             {% endif %}
         {% endblock %}
         {{ page_header(page_data.title) }}
