@@ -3,7 +3,6 @@
 .featured-search {
   $root: &;
   padding: $grid-m 0;
-
   background-color: var(--theme-primary);
 
   &__content {
@@ -12,7 +11,6 @@
 
   &__label {
     margin: 0 0 $grid-xxs;
-
     color: var(--theme-text-invert);
     flex-basis: 100%;
   }
@@ -20,10 +18,8 @@
   &__options {
     margin-bottom: $grid-xxs;
     padding: 0;
-
     display: flex;
     gap: $grid-m;
-
     border: 0;
     flex-basis: 100%;
   }
@@ -31,42 +27,43 @@
   &__radio {
     display: flex;
     align-items: center;
-    gap: $grid-xs;
-
     color: var(--theme-text-invert);
     font-family: $font-secondary;
-
+    text-transform: capitalize;
     cursor: pointer;
+
+    @include media-query(medium) {
+      text-transform: none;
+    }
+
+    &-optional {
+      display: none;
+
+      @include media-query(medium) {
+        display: inline;
+      }
+    }
 
     input[type="radio"] {
       width: 18px;
       height: 18px;
-
+      margin-right: $grid-xs;
       appearance: none;
-
       position: relative;
-
       background: transparent;
-
       border: 2px solid var(--theme-text-invert);
       border-radius: 50%;
-
       cursor: pointer;
 
       &:checked::after {
         content: "";
-
         width: 8px;
         height: 8px;
-
         position: absolute;
         top: 50%;
         left: 50%;
-
         background: var(--theme-text-invert);
-
         border-radius: 50%;
-
         transform: translate(-50%, -50%);
       }
 
@@ -87,11 +84,11 @@
   }
 
   &__input {
+    min-width: 0;
     max-width: 800px;
     padding: $grid-xs $grid-s;
-
     font-family: $font-secondary;
-
+    flex: 1 1 auto;
     border: 2px solid transparent;
 
     @include media-query(medium) {
@@ -106,10 +103,14 @@
 
   &__input-container {
     width: 100%;
-
+    min-width: 0;
     display: flex;
     flex-direction: row;
     gap: $grid-xs;
+  }
+
+  &__button {
+    flex-shrink: 0;
   }
 
   &__help {
@@ -121,7 +122,6 @@
   // Secondary theme variant
   &--secondary {
     margin-bottom: $grid-m;
-
     background-color: var(--theme-secondary);
 
     @include media-query(medium) {

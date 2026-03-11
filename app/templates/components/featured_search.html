@@ -17,11 +17,13 @@
                         <legend class="tna-visually-hidden">Search type</legend>
                         <label class="featured-search__radio">
                             <input type="radio" name="search_type" value="keyword" checked />
-                            Keyword search
+                            <span aria-hidden="true">Keyword<span class="featured-search__radio-optional">&nbsp;search</span></span>
+                            <span class="tna-visually-hidden">Keyword search</span>
                         </label>
                         <label class="featured-search__radio">
                             <input type="radio" name="search_type" value="url" />
-                            Search by Website URL
+                            <span aria-hidden="true"><span class="featured-search__radio-optional">Search by&nbsp;</span>website URL</span>
+                            <span class="tna-visually-hidden">Search by website URL</span>
                         </label>
                     </fieldset>
                     {% endif %}
