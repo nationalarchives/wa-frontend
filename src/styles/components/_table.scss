@@ -9,53 +9,43 @@
   @include font-size(heading-five) {
     min-width: 600px;
     width: 100%;
-
     border-collapse: collapse;
   }
 
   &__caption {
     @include font-size(heading-three) {
       margin-bottom: $grid;
-
       font-weight: $weight-bold;
     }
   }
 
   &__cell {
     padding: $grid;
-
     text-align: left;
   }
 }
 
 .table-wrapper {
   width: 100%;
-
   overflow-x: scroll;
-
   position: relative;
 
   &__hint {
     width: 300px;
     height: 100%;
-
     display: flex;
     align-items: center;
     justify-content: flex-end;
-
     position: absolute;
     top: 0;
     right: 0;
-
     background: linear-gradient(
       to right,
       rgb(255 255 255 / 0%) -50%,
       var(--color-background-primary) 100%
     );
-
     opacity: 1;
     transition: opacity 0.25s ease;
-
     .is-scrolling & {
       opacity: 0;
     }

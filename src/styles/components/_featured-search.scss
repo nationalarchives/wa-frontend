@@ -115,11 +115,9 @@
 
   &__help {
     margin: $grid-xs 0 0;
-
     color: var(--theme-text-invert);
   }
 
-  // Secondary theme variant
   &--secondary {
     margin-bottom: $grid-m;
     background-color: var(--theme-secondary);

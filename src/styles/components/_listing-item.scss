@@ -3,7 +3,6 @@
 .listing-item {
   padding: $grid-s 0;
   border-top: 1px solid var(--theme-border);
-
   list-style: none;
 
   &:last-child {
@@ -12,9 +11,7 @@
 
   &__category {
     margin-bottom: $grid-xxs;
-
     display: block;
-
     color: var(--theme-primary);
     font-family: $font-tertiary;
     letter-spacing: 0.05em;
@@ -23,7 +20,6 @@
 
   &__link {
     display: block;
-
     color: var(--theme-link);
     text-decoration: underline;
     text-decoration-thickness: 1px;
@@ -38,14 +34,12 @@
 
   &__title {
     margin: 0;
-
     font-family: $font-tertiary;
     font-weight: $weight-medium;
   }
 
   &__date {
     margin: $grid-xxs 0 0;
-
     color: var(--theme-text-meta);
   }
 }

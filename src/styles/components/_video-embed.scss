@@ -9,7 +9,6 @@
 
   &__description {
     margin-bottom: $grid-s;
-
     color: var(--theme-text-80);
   }
 
@@ -25,14 +24,12 @@
   &__thumbnail {
     width: 100%;
     height: auto;
-
     display: block;
     object-fit: cover;
   }
 
   &__consent {
     padding: $grid-s;
-
     background-color: var(--color-grey-200);
 
     h3 {
@@ -72,7 +69,6 @@
 
   &__consent-text {
     margin: 0 0 $grid-s;
-
     color: var(--theme-text-default);
 
     a {
@@ -96,19 +92,15 @@
   &__accept-button {
     min-width: 120px;
     padding: $grid-xs $grid-s;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     color: var(--color-white);
     font-family: $font-primary;
     font-weight: $weight-semibold;
     text-decoration: none;
-
     border: 2px solid transparent;
     border-radius: 0;
-
     cursor: pointer;
     transition:
       background-color $transition,
@@ -125,7 +117,6 @@
     width: 20px;
     height: 20px;
     margin: 0;
-
     cursor: pointer;
 
     &:focus {
@@ -137,7 +128,6 @@
   &__checkbox-label {
     @include font-size(body) {
       color: var(--theme-text-default);
-
       cursor: pointer;
       user-select: none;
     }
@@ -146,9 +136,7 @@
   &__container {
     height: 0;
     padding-bottom: 56.25%; // 16:9 aspect ratio
-
     overflow: hidden;
-
     position: relative;
 
     // Hidden by default until consent is given
@@ -161,11 +149,9 @@
   &__iframe {
     width: 100%;
     height: 100%;
-
     position: absolute;
     top: 0;
     left: 0;
-
     border: 0;
   }
 }

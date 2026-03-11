@@ -4,17 +4,14 @@
 
 .stat-block {
   padding: $grid-m 0;
-
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: $grid-m;
 
   &__item {
     padding: $grid-s;
-
     display: flex;
     flex-direction: column;
-
     background-color: var(--theme-secondary-background);
     border-left: 4px solid var(--theme-primary);
   }
@@ -37,7 +34,6 @@
 
   &__sentence {
     margin: $grid-xs 0 0;
-
     color: var(--theme-text-default);
     font-family: $font-secondary;
     font-size: map.get($large-font-sizes, body);
@@ -46,7 +42,6 @@
   &__link {
     margin-top: auto;
     padding-top: $grid-xs;
-
     color: var(--theme-link);
     font-size: map.get($large-font-sizes, supporting);
     text-decoration: underline;
