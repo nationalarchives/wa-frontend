@@ -83,7 +83,7 @@ class Media {
     return "body";
   }
 
-  constructor(_node) {
+  constructor() {
     const $links = getYouTubeVideoLinks();
     if (!$links.length) return;
     initYoutubeEmbedApi(() => initYouTubeVideos($links));
