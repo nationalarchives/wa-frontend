@@ -192,6 +192,7 @@ class AtozArchivePageSearchTestCase(unittest.TestCase):
                 _, status = render_atoz_archive_page(PAGE_DATA)
         self.assertEqual(status, 500)
 
+
 class SanitizeFtsQueryTestCase(unittest.TestCase):
     def test_plain_query_is_unchanged(self):
         self.assertEqual(_sanitize_fts_query("government"), "government")
