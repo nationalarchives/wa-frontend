@@ -23,7 +23,9 @@
     &--image,
     &--embed,
     &--table,
-    &--quote {
+    &--quote,
+    &--youtube_video,
+    &--content_section {
       @include media-query(large) {
         grid-column: 1 / -1;
       }
