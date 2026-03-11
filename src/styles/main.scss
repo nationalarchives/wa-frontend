@@ -31,7 +31,8 @@
 @use "components/image-block";
 @use "components/skip-link";
 @use "components/utilities";
-@use "components/etna-media-block";
+// Etna media/video block from ds-frontend (https://github.com/nationalarchives/ds-frontend)
+@use "ds-frontend/src/styles/media";
 
 // Layout
 @use "global/header";
