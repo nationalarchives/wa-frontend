@@ -35,6 +35,7 @@ class Production(Features):
 
     WAGTAIL_API_URL: str = os.environ.get("WAGTAIL_API_URL", "").rstrip("/")
     WAGTAIL_API_KEY: str = os.environ.get("WAGTAIL_API_KEY", "")
+    API_UNTHROTTLED_HEADER: str = os.environ.get("API_UNTHROTTLED_HEADER", "")
     WAGTAIL_SITE_HOSTNAME: str = os.environ.get("WAGTAIL_SITE_HOSTNAME", "")
     WAGTAILAPI_LIMIT_MAX: int = int(os.environ.get("WAGTAILAPI_LIMIT_MAX", "20"))
 
@@ -61,9 +62,9 @@ class Production(Features):
     CSP_FEATURE_PICTURE_IN_PICTURE: list[str] = os.environ.get(
         "CSP_FEATURE_PICTURE_IN_PICTURE", "'self'"
     ).split(",")
-    CSP_REPORT_URL: str = os.environ.get("CSP_REPORT_URL", "")
-    if CSP_REPORT_URL:
-        CSP_REPORT_URL += f"&sentry_release={BUILD_VERSION}" if BUILD_VERSION else ""
+    # CSP_REPORT_URL: str = os.environ.get("CSP_REPORT_URL", "")
+    # if CSP_REPORT_URL:
+    #     CSP_REPORT_URL += f"&sentry_release={BUILD_VERSION}" if BUILD_VERSION else ""
     FORCE_HTTPS: bool = strtobool(os.getenv("FORCE_HTTPS", "False"))
     PREFERRED_URL_SCHEME: str = os.getenv("PREFERRED_URL_SCHEME", "https")
 

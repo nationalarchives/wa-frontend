@@ -19,8 +19,10 @@ services:
       - DEBUG=true
       - SECRET_KEY=abc123
       - NPM_DEVELOP_COMMAND=dev
-      - WAGTAIL_API_URL=https://wagtail.nationalarchives.gov.uk/api/v2
-      - WAGTAIL_SITE_HOSTNAME=webarchive.nationalarchives.gov.uk
+      - WAGTAIL_API_URL=https://dev-wagtail.nationalarchives.gov.uk/api/v2
+      - WAGTAIL_API_KEY
+      - API_UNTHROTTLED_HEADER
+      - WAGTAIL_SITE_HOSTNAME=tna.preservation.mirrorweb.today
       - CACHE_REDIS_URL=redis://redis:6379/0
       - COOKIE_DOMAIN=localhost
       - CSP_IMG_SRC='self',localhost:8000,localhost:65529,*.google-analytics.com,*.gstatic.com,*.nationalarchives.gov.uk,i.ytimg.com,img.youtube.com,maps.googleapis.com

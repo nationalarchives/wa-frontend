@@ -164,6 +164,33 @@ class AtozArchivePageSearchTestCase(unittest.TestCase):
         result = self._render_response()
         self.assertIsNone(result.headers.get("X-Robots-Tag"))
 
+    def test_character_not_in_available_returns_404(self):
+        """?character=x where x is not in available_characters returns 404."""
+        response, status = self._render("character=x")
+        self.assertEqual(status, 404)
+
+    def test_all_available_characters_return_200(self):
+        """Every character in available_characters returns a 200 listing."""
+        for char in AVAILABLE_CHARACTERS:
+            with self.subTest(char=char):
+                response, status = self._render(f"character={char}")
+                self.assertEqual(status, 200)
+
+    def test_available_character_with_no_records_returns_500(self):
+        """A character in available_characters that returns no records is a data error."""
+        with (
+            patch(
+                "app.lib.archive_service.get_available_characters",
+                return_value=AVAILABLE_CHARACTERS,
+            ),
+            patch(
+                "app.lib.archive_service.get_records_by_character",
+                return_value={"items": []},
+            ),
+        ):
+            with self.app.test_request_context("/?character=a"):
+                _, status = render_atoz_archive_page(PAGE_DATA)
+        self.assertEqual(status, 500)
 
 class SanitizeFtsQueryTestCase(unittest.TestCase):
     def test_plain_query_is_unchanged(self):

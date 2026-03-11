@@ -1,3 +1,5 @@
+from enum import StrEnum
+
 from app.lib import archive_service
 from app.lib.util import (
     ARCHIVE_SEARCH_MAX_LENGTH,
@@ -5,6 +7,12 @@ from app.lib.util import (
     normalize_archive_letter,
 )
 from flask import current_app, make_response, render_template, request
+
+
+class DisplayMode(StrEnum):
+    INDEX = "index"
+    LISTING = "listing"
+    SEARCH = "search"
 
 
 def render_atoz_archive_page(page_data):
@@ -32,8 +40,10 @@ def render_atoz_archive_page(page_data):
         return render_template("errors/server.html"), 500
 
     records = None
+    display_mode = DisplayMode.INDEX
 
     if search_query:
+        display_mode = DisplayMode.SEARCH
         try:
             result = archive_service.search_records(search_query)
             records = result.get("items", [])
@@ -43,8 +53,9 @@ def render_atoz_archive_page(page_data):
             )
             return render_template("errors/server.html"), 500
     elif character:
+        display_mode = DisplayMode.LISTING
         if character not in available_characters:
-            current_app.logger.warning(
+            current_app.logger.info(
                 f"Invalid character parameter '{character}' for A-to-Z archive"
             )
             return render_template("errors/page-not-found.html"), 404
@@ -54,6 +65,11 @@ def render_atoz_archive_page(page_data):
         except Exception as e:
             current_app.logger.error(
                 f"Failed to get archive records on page {page_data['id']}: {e}"
+            )
+            return render_template("errors/server.html"), 500
+        if not records:
+            current_app.logger.error(
+                f"Character '{character}' is in available_characters but returned no records"
             )
             return render_template("errors/server.html"), 500
 
@@ -73,6 +89,8 @@ def render_atoz_archive_page(page_data):
             available_characters=available_characters,
             search_query=search_query,
             search_max_length=ARCHIVE_SEARCH_MAX_LENGTH,
+            display_mode=display_mode,
+            DisplayMode=DisplayMode,
         )
     )
 
