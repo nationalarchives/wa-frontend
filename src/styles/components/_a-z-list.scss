@@ -4,9 +4,8 @@
 .a-z-list {
   $root: &;
   display: flex;
+  flex-flow: row wrap;
   gap: $grid-xxs;
-  flex-direction: row;
-  flex-wrap: wrap;
   margin-bottom: $grid-xl;
 
   &__item {
