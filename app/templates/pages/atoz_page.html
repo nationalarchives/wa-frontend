@@ -25,7 +25,7 @@
   <div class="page tna-main">
 
     <div class="tna-container">
-      <div class="tna-column tna-column--full-small tna-column--full-medium tna-column--width-3-4">
+      <div class="tna-column tna-column--full-tiny tna-column--full-small tna-column--full-medium tna-column--width-3-4">
         <div class="tna-!--margin-top-l">
           <form method="get"
                 action="{{ page_data.meta.url }}"
@@ -60,10 +60,10 @@
 
         <section data-az-static-content aria-labelledby="az-browse-heading">
           <h2 id="az-browse-heading" class="tna-heading-m tna-!--margin-top-l tna-visually-hidden">Browse by character</h2>
-          <ul class="breadcrumb__list tna-!--margin-top-s">
+          <ul class="a-z-list tna-!--margin-top-s">
             {%- for char in available_characters %}
-            <li class="breadcrumb__item">
-              <a class="heading heading--two" href="?character={{ char }}"{% if char == selected_character %} aria-current="page"{% endif %}>
+            <li class="a-z-list__item">
+              <a class="a-z-list__link heading heading--two" href="?character={{ char }}"{% if char == selected_character %} aria-current="page"{% endif %}>
                 {{ char if char == '0-9' else char | upper }}
               </a>
             </li>
