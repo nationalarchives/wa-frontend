@@ -115,6 +115,18 @@ export default class AtoZArchive {
     }
   }
 
+  buildSafeSearchUrl(serverQuery) {
+    const searchUrl = new URL(this.baseUrl, window.location.origin);
+    const isHttp =
+      searchUrl.protocol === "http:" || searchUrl.protocol === "https:";
+    if (!isHttp || searchUrl.origin !== window.location.origin) {
+      throw new Error("Search URL must be same-origin over HTTP(S)");
+    }
+    searchUrl.search = "";
+    searchUrl.searchParams.set("q", serverQuery);
+    return searchUrl;
+  }
+
   async fetchSearchResultsFromServer(query, runId) {
     // Always cancel older live-search requests so only the latest query remains active.
     this.abortInFlightSearch();
@@ -122,13 +134,7 @@ export default class AtoZArchive {
 
     // Send last term as prefix (e.g. sear -> sear*) so FTS5 returns partial-word matches.
     const serverQuery = addPrefixToLastTerm(query);
-    const searchUrl = new URL(
-      `${this.baseUrl}?q=${encodeURIComponent(serverQuery)}`,
-      window.location.origin,
-    );
-    if (searchUrl.origin !== window.location.origin) {
-      throw new Error("Search URL must be same-origin");
-    }
+    const searchUrl = this.buildSafeSearchUrl(serverQuery);
 
     const response = await fetch(searchUrl.toString(), {
       headers: {
