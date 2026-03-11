@@ -1,5 +1,5 @@
 /**
- * YouTube video.js player init – mirrors ds-frontend media.js.
+ * YouTube video.js player init – mostly from ds-frontend media.js.
  */
 import videojs from "video.js";
 import { initYoutubeEmbedApi } from "ds-frontend/src/scripts/lib/videojs-youtube-modified.js";
@@ -77,7 +77,6 @@ const initYouTubeVideos = ($youTubeVideoInstances) => {
 
 /**
  * Media component: inits YouTube video.js players for a.etna-video--youtube links.
- * Uses initComponent() like Header / SkipLink; selector is body so it runs once per page.
  */
 class Media {
   static selector() {
