@@ -35,6 +35,8 @@
     color: var(--theme-text-invert);
 
     // On small and medium breakpoints, only show the parent section/current page.
+    // We use a selector here because the markup comes from the TNA component
+    // (tnaBreadcrumbs macro); we can't add custom classes to items.
     &:not(:nth-last-child(-n + 2)) {
       display: none;
 
