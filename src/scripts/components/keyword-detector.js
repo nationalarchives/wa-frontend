@@ -37,6 +37,7 @@ class KeywordDetector {
     this.tokens = [];
     this.announceTimeout = null;
     this.MAX_TOKENS = 50; // Reasonable limit to prevent abuse
+    this.originalInputId = this.input.id || "";
 
     this.buildUI();
     this.seedTokens();
@@ -54,8 +55,8 @@ class KeywordDetector {
       .filter(Boolean);
   }
 
-  hasToken(t) {
-    return this.tokens.some((x) => x.toLowerCase() === t.toLowerCase());
+  tokenKey(t) {
+    return t.toLowerCase();
   }
 
   /* ===== UI BUILDING ===== */
@@ -82,12 +83,7 @@ class KeywordDetector {
     this.visible.autocomplete = "off";
     this.visible.spellcheck = this.input.spellcheck;
     this.visible.placeholder = this.input.placeholder || "";
-    this.visible.setAttribute(
-      "aria-label",
-      this.input.getAttribute("aria-label") ||
-        this.input.name ||
-        "Search keywords"
-    );
+    this.copyAccessibilityAttributes();
 
     this.suggest = document.createElement("button");
     this.suggest.type = "button";
@@ -106,14 +102,43 @@ class KeywordDetector {
     this.input.insertAdjacentElement("afterend", this.root);
   }
 
-  /* ===== STATE MANAGEMENT ===== */
-  syncToOriginal() {
-    this.input.value = this.tokens.join(",");
-    this.input.dispatchEvent(new Event("input", { bubbles: true }));
-    this.input.dispatchEvent(new Event("change", { bubbles: true }));
+  copyAccessibilityAttributes() {
+    if (this.originalInputId) {
+      this.visible.id = this.originalInputId;
+      this.input.removeAttribute("id");
+    }
+
+    ["aria-describedby", "aria-labelledby", "aria-label"].forEach((attr) => {
+      const value = this.input.getAttribute(attr);
+      if (value) {
+        this.visible.setAttribute(attr, value);
+      }
+    });
+
+    if (
+      !this.visible.hasAttribute("aria-label") &&
+      !this.visible.hasAttribute("aria-labelledby")
+    ) {
+      this.visible.setAttribute("aria-label", this.input.name || "Search keywords");
+    }
   }
 
-  render() {
+  /* ===== STATE MANAGEMENT ===== */
+  syncToOriginal({ notify = true } = {}) {
+    const nextValue = this.tokens.join(",");
+
+    if (this.input.value === nextValue) {
+      return;
+    }
+
+    this.input.value = nextValue;
+
+    if (notify) {
+      this.input.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  }
+
+  render({ notify = true } = {}) {
     // Create document fragment for better performance
     const fragment = document.createDocumentFragment();
 
@@ -140,7 +165,7 @@ class KeywordDetector {
     this.list.innerHTML = "";
     this.list.appendChild(fragment);
 
-    this.syncToOriginal();
+    this.syncToOriginal({ notify });
   }
 
   removeToken(token) {
@@ -170,13 +195,16 @@ class KeywordDetector {
     if (!raw) return;
 
     const newTerms = [];
+    const existingTokens = new Set(this.tokens.map((token) => this.tokenKey(token)));
     this.splitTerms(raw).forEach((term) => {
       // Enforce max tokens limit
       if (this.tokens.length >= this.MAX_TOKENS) {
         return;
       }
-      if (!this.hasToken(term)) {
+      const key = this.tokenKey(term);
+      if (!existingTokens.has(key)) {
         this.tokens.push(term);
+        existingTokens.add(key);
         newTerms.push(term);
       }
     });
@@ -198,11 +226,16 @@ class KeywordDetector {
   seedTokens() {
     /* Seed from prefilled value */
     if (this.input.value) {
-      this.tokens = this.splitTerms(this.input.value).filter(
-        (t, i, arr) =>
-          arr.findIndex((x) => x.toLowerCase() === t.toLowerCase()) === i
-      );
-      this.render();
+      const seen = new Set();
+      this.tokens = this.splitTerms(this.input.value).filter((term) => {
+        const key = this.tokenKey(term);
+        if (seen.has(key)) {
+          return false;
+        }
+        seen.add(key);
+        return true;
+      });
+      this.render({ notify: false });
     }
   }
 

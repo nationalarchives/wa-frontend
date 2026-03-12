@@ -7,10 +7,27 @@
 
 .keyword-detector {
   $root: &;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  gap: $grid-xxs;
   border: 1px solid var(--theme-border);
   padding: $grid-xxs;
   border-radius: 4px;
   background-color: var(--color-white);
+
+  .featured-search__input-container & {
+    min-width: 0;
+    max-width: 80%;
+    flex: 1 1 auto;
+
+    @include media-query(medium) {
+      flex-basis: 75%;
+      max-width: 800px;
+    }
+  }
 
   &:focus-within {
     border-color: $focus-color;
@@ -21,14 +38,18 @@
     display: flex;
     flex-wrap: wrap;
     gap: $grid-xxs;
+    align-items: center;
     list-style: none;
     margin: 0;
     padding: 0;
+    flex: 0 1 auto;
+    min-width: 0;
   }
 
   &__token {
     display: inline-flex;
     align-items: center;
+    color: var(--theme-text-default);
     gap: $grid-xxs;
     padding: 2px $grid;
     border: 1px solid var(--color-grey-400);
@@ -37,15 +58,21 @@
   }
 
   &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: 0;
     background: transparent;
     cursor: pointer;
     font-size: 16px;
     line-height: 1;
-    padding: 2px;
-    margin: -2px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
+    margin: -4px;
     border-radius: 2px;
     transition: background-color $transition;
+    touch-action: manipulation;
 
     &:hover {
       background-color: var(--color-grey-200);
@@ -60,6 +87,8 @@
 
   &__entry {
     display: flex;
+    flex: 1 1 0;
+    min-width: 10ch;
   }
 
   &__field {
@@ -87,9 +116,16 @@
   }
 
   &__suggest {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     margin-top: $grid-xxs;
     width: 100%;
     text-align: left;
+    z-index: 1;
+    background-color: var(--color-white);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   // Status (ARIA live region - visually hidden)
