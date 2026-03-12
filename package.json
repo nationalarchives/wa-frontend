@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "compile:css": "sass --style=compressed --load-path=node_modules src/styles/config.scss:app/static/config.css src/styles/font-awesome.scss:app/static/font-awesome.css src/styles/ie.scss:app/static/ie.css --no-source-map",
+    "compile:css": "sass --style=compressed --load-path=node_modules src/styles/config.scss:app/static/config.css src/styles/font-awesome.scss:app/static/font-awesome.css src/styles/ie.scss:app/static/ie.css --no-source-map --quiet-deps --silence-deprecation=legacy-js-api",
     "compile:js": "webpack --mode=production",
     "compile": "npm run compile:js && npm run compile:css",
-    "dev:css": "sass --load-path=node_modules --watch src/styles/config.scss:app/static/config.css src/styles/font-awesome.scss:app/static/font-awesome.css src/styles/ie.scss:app/static/ie.css",
+    "dev:css": "sass --load-path=node_modules --watch --poll --quiet-deps --silence-deprecation=legacy-js-api src/styles/config.scss:app/static/config.css src/styles/font-awesome.scss:app/static/font-awesome.css src/styles/ie.scss:app/static/ie.css",
     "dev:js": "webpack --mode=development --watch",
     "dev": "npm run dev:css & npm run dev:js &"
   },

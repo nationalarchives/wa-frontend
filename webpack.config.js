@@ -60,6 +60,8 @@ const webpackConfig = (environment, argv) => {
                 sassOptions: {
                   outputStyle: "compressed",
                   includePaths: [path.resolve(__dirname, "node_modules")],
+                  quietDeps: true,
+                  silenceDeprecations: ["legacy-js-api"],
                 },
               },
             },
