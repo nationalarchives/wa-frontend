@@ -20,8 +20,9 @@ function initComponent(ComponentClass) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Cookie domain setup (required for tna-cookie-banner and YouTube usage gating)
-  const cookiesDomain =
-    document.documentElement.getAttribute("data-tna-cookies-domain");
+  const cookiesDomain = document.documentElement.getAttribute(
+    "data-tna-cookies-domain",
+  );
   new Cookies({ defaultDomain: cookiesDomain || undefined });
 
   // Init custom components
