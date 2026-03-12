@@ -1,10 +1,10 @@
 @use "../config" as *;
 
-.blockquote,
 .tna-blockquote {
   padding: $grid-m;
   text-align: center;
   background: var(--color-background-primary);
+  border: 0;
   border-bottom: 1px solid var(--theme-border);
   border-top: 1px solid var(--theme-border);
 

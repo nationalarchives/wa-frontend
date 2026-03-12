@@ -10,7 +10,6 @@
 // Components
 @use "components/accordion";
 @use "components/alert-banner";
-@use "components/blockquote";
 @use "components/button";
 @use "components/call-to-action";
 @use "components/card";
@@ -19,13 +18,14 @@
 @use "components/listing-page";
 @use "components/listing-item";
 @use "components/icon";
-@use "components/breadcrumb";
 @use "components/introduction";
 @use "components/page-header";
 @use "components/responsive-object";
 @use "components/rich-text";
 @use "components/sf";
 @use "components/sidebar";
+@use "components/tna-blockquote";
+@use "components/tna-breadcrumbs";
 @use "components/related-content";
 @use "components/hero";
 @use "components/featured-search";
