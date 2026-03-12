@@ -50,6 +50,7 @@ export function renderRecords(panel, records) {
   const list = document.createElement("ul");
   list.className = `accordion__list`.trim();
 
+  // Record fields are set via textContent/href only; server must sanitize record data.
   records.forEach((record) => {
     const item = document.createElement("li");
     item.className = CLASSES.listingItem;

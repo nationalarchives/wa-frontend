@@ -6,10 +6,14 @@ export function getDisplayLetter(letter) {
   return letter === "0-9" ? letter : letter.toUpperCase();
 }
 
+/** Max length for search query sent to server; must match server-side limit. */
+export const MAX_SEARCH_QUERY_LENGTH = 200;
+
 /**
  * Append FTS5-style prefix (*) to the last term so partial words match
  * (e.g. "sear" -> "sear*" so server returns "search"). Skips when query contains
- * a double-quote (phrase search).
+ * a double-quote (phrase search). Caller should pass a length-limited query;
+ * server must validate/sanitize for FTS5.
  */
 export function addPrefixToLastTerm(query) {
   if (!query || query.includes('"')) {
@@ -25,6 +29,33 @@ export function addPrefixToLastTerm(query) {
   }
   parts[parts.length - 1] = last + "*";
   return parts.join(" ");
+}
+
+/**
+ * Parse nodes with [data-az-static-record] into a Map of letter -> records.
+ * Used for both static page content and parsed search-result HTML.
+ */
+export function parseRecordNodes(nodes) {
+  const grouped = new Map();
+  nodes.forEach((node) => {
+    const letter = normalise(node.dataset.firstCharacter);
+    if (!letter) {
+      return;
+    }
+    const existing = grouped.get(letter) || [];
+    existing.push({
+      profile_name: node.dataset.profileName || "",
+      description: node.dataset.description || "",
+      record_url: node.dataset.recordUrl || "",
+      archive_link: node.dataset.archiveLink || "",
+      first_capture_display: node.dataset.firstCapture || "",
+      latest_capture_display: node.dataset.latestCapture || "",
+      ongoing: node.dataset.ongoing === "true",
+      first_character: letter,
+    });
+    grouped.set(letter, existing);
+  });
+  return grouped;
 }
 
 export function debounce(fn, ms) {

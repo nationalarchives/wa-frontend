@@ -2,7 +2,9 @@ import ArchiveApiClient from "./a-z-archive/api-client.js";
 import {
   addPrefixToLastTerm,
   debounce,
+  MAX_SEARCH_QUERY_LENGTH,
   normalise,
+  parseRecordNodes,
 } from "./a-z-archive/helpers.js";
 import {
   createAccordion,
@@ -79,33 +81,10 @@ export default class AtoZArchive {
   parseStaticRecords() {
     // Parse server-rendered records from the page so initial enhancement can reuse them
     // without refetching immediately.
-    const grouped = new Map();
     const nodes = this.staticContent.querySelectorAll(
       "[data-az-static-record]",
     );
-
-    nodes.forEach((node) => {
-      const letter = normalise(node.dataset.firstCharacter);
-      if (!letter) {
-        return;
-      }
-
-      const existing = grouped.get(letter) || [];
-      existing.push({
-        profile_name: node.dataset.profileName || "",
-        description: node.dataset.description || "",
-        record_url: node.dataset.recordUrl || "",
-        archive_link: node.dataset.archiveLink || "",
-        first_capture_display: node.dataset.firstCapture || "",
-        latest_capture_display: node.dataset.latestCapture || "",
-        ongoing: node.dataset.ongoing === "true",
-        first_character: letter,
-      });
-
-      grouped.set(letter, existing);
-    });
-
-    return grouped;
+    return parseRecordNodes(nodes);
   }
 
   abortInFlightSearch() {
@@ -133,7 +112,9 @@ export default class AtoZArchive {
     this.searchAbortController = new AbortController();
 
     // Send last term as prefix (e.g. sear -> sear*) so FTS5 returns partial-word matches.
-    const serverQuery = addPrefixToLastTerm(query);
+    // Limit length so we don't send unbounded input; server must validate/sanitize for FTS5.
+    const boundedQuery = query.slice(0, MAX_SEARCH_QUERY_LENGTH);
+    const serverQuery = addPrefixToLastTerm(boundedQuery);
     const searchUrl = this.buildSafeSearchUrl(serverQuery);
 
     const response = await fetch(searchUrl.toString(), {
@@ -158,30 +139,9 @@ export default class AtoZArchive {
 
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, "text/html");
-    const grouped = new Map();
+    // We only read data attributes from the response; server must serve sanitized HTML.
     const nodes = doc.querySelectorAll("[data-az-static-record]");
-
-    nodes.forEach((node) => {
-      const letter = normalise(node.dataset.firstCharacter);
-      if (!letter) {
-        return;
-      }
-
-      const existing = grouped.get(letter) || [];
-      existing.push({
-        profile_name: node.dataset.profileName || "",
-        description: node.dataset.description || "",
-        record_url: node.dataset.recordUrl || "",
-        archive_link: node.dataset.archiveLink || "",
-        first_capture_display: node.dataset.firstCapture || "",
-        latest_capture_display: node.dataset.latestCapture || "",
-        ongoing: node.dataset.ongoing === "true",
-        first_character: letter,
-      });
-      grouped.set(letter, existing);
-    });
-
-    return grouped;
+    return parseRecordNodes(nodes);
   }
 
   async loadLetterIntoPanel(details) {
@@ -418,7 +378,7 @@ export default class AtoZArchive {
         return;
       }
 
-      this.applySearch(
+      return this.applySearch(
         query,
         detailsElements,
         rawQuery,
@@ -435,10 +395,19 @@ export default class AtoZArchive {
       runSearch(false, true);
     });
 
+    let submitInProgress = false;
     this.form.addEventListener("submit", async (event) => {
       event.preventDefault();
       debouncedInputSearch.cancel();
-      runSearch(true, true);
+      if (submitInProgress) {
+        return;
+      }
+      submitInProgress = true;
+      try {
+        await runSearch(true, true);
+      } finally {
+        submitInProgress = false;
+      }
     });
 
     if (this.clearControl) {
@@ -453,12 +422,6 @@ export default class AtoZArchive {
   }
 
   async init() {
-    // Hide submit button when JS is enabled; results update as the user types.
-    const submitButton = this.form.querySelector('button[type="submit"]');
-    if (submitButton) {
-      submitButton.hidden = true;
-    }
-
     const staticGrouped = this.parseStaticRecords();
 
     // Only seed browse cache from a letter page, not from search result pages
@@ -497,6 +460,12 @@ export default class AtoZArchive {
 
     const initialQuery = this.initialSearchQuery;
     const selectedCharacter = this.selectedCharacter;
+
+    // Only hide submit once enhancement has succeeded and live-search handlers are bound.
+    const submitButton = this.form.querySelector('button[type="submit"]');
+    if (submitButton) {
+      submitButton.hidden = true;
+    }
 
     this.enhancedContent.hidden = false;
     this.staticContent.hidden = true;
