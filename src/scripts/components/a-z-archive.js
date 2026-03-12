@@ -226,6 +226,23 @@ export default class AtoZArchive {
     }
   }
 
+  /**
+   * Show user-visible message when the initial characters API fails.
+   * Keeps static (server-rendered) content visible; no enhanced A–Z.
+   */
+  showInitialLoadError() {
+    const fullMessage =
+      "The enhanced A–Z could not be loaded. Try refreshing the page, or use the list below.";
+    if (this.liveRegion) {
+      this.liveRegion.textContent = fullMessage;
+    }
+    const message = document.createElement("p");
+    message.className = "tna-!--margin-top-s supporting";
+    message.setAttribute("role", "alert");
+    message.textContent = fullMessage;
+    this.root.insertBefore(message, this.staticContent);
+  }
+
   resetBrowseMode(detailsElements, announceLiveRegion = true) {
     this.abortInFlightSearch();
     // Invalidate any in-flight search pipeline to prevent stale UI updates.
@@ -464,6 +481,7 @@ export default class AtoZArchive {
           ? letters
           : [...letters.filter((l) => l !== "0-9"), "0-9"];
     } catch (_error) {
+      this.showInitialLoadError();
       return;
     }
 
