@@ -54,7 +54,7 @@
   {{ wagtailFeaturedPage(content_item.value, next_heading_level) }}
   
   {%- elif content_item.type == 'youtube_video' %}
-  {{ wagtailYouTubeVideo(content_item.value, content_item.id) }}
+  {{ wagtailYouTubeVideo(content_item.value, content_item.id, cookie_preference('usage') == true if cookie_preference is defined else false) }}
 
   {%- elif content_item.type == 'bookmarklet' %}
   {# djlint:off H019 #}
