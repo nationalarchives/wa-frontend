@@ -226,7 +226,7 @@ export default class AtoZArchive {
     }
   }
 
-  resetBrowseMode(detailsElements) {
+  resetBrowseMode(detailsElements, announceLiveRegion = true) {
     this.abortInFlightSearch();
     // Invalidate any in-flight search pipeline to prevent stale UI updates.
     this.currentToken += 1;
@@ -245,7 +245,9 @@ export default class AtoZArchive {
       resetPanelToBrowseFallback(panel, details.dataset.letter, this.baseUrl);
     });
 
-    updateLiveRegion(this.liveRegion, 0, 0);
+    if (announceLiveRegion) {
+      this.liveRegion.textContent = "";
+    }
     history.replaceState({}, "", this.baseUrl);
     if (this.clearControl) {
       this.clearControl.hidden = true;
@@ -263,6 +265,7 @@ export default class AtoZArchive {
     detailsElements,
     urlQuery = query,
     fallbackToPageOnError = false,
+    announceLiveRegion = true,
   ) {
     // Run ID guards ensure only the newest async search can mutate UI state (not a security token).
     const runId = this.currentToken + 1;
@@ -340,7 +343,9 @@ export default class AtoZArchive {
       }
     }
 
-    updateLiveRegion(this.liveRegion, resultCount, letterCount);
+    if (announceLiveRegion) {
+      updateLiveRegion(this.liveRegion, resultCount, letterCount);
+    }
     history.replaceState(
       {},
       "",
@@ -381,27 +386,42 @@ export default class AtoZArchive {
       return;
     }
 
-    const runSearch = (fromSubmit = false) => {
+    // When true, update the live region for screen readers. We only announce on blur
+    // (and submit) so VoiceOver doesn't get the announcement overwritten by what the user is typing.
+    const runSearch = (fromSubmit = false, announceLiveRegion = false) => {
       const rawQuery = searchInput.value.trim();
       const query = normalise(rawQuery);
       if (!query) {
-        this.resetBrowseMode(detailsElements);
+        this.resetBrowseMode(detailsElements, announceLiveRegion);
         return;
       }
       if (!fromSubmit && query.length < MIN_LIVE_SEARCH_LENGTH) {
         // Keep live typing conservative at scale; users can still submit short terms.
-        this.resetBrowseMode(detailsElements);
+        this.resetBrowseMode(detailsElements, announceLiveRegion);
         return;
       }
 
-      this.applySearch(query, detailsElements, rawQuery, fromSubmit);
+      this.applySearch(
+        query,
+        detailsElements,
+        rawQuery,
+        fromSubmit,
+        announceLiveRegion,
+      );
     };
 
-    searchInput.addEventListener("input", debounce(runSearch, 300));
+    const debouncedInputSearch = debounce(() => runSearch(false, false), 300);
+
+    searchInput.addEventListener("input", debouncedInputSearch);
+    searchInput.addEventListener("blur", () => {
+      debouncedInputSearch.cancel();
+      runSearch(false, true);
+    });
 
     this.form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      runSearch(true);
+      debouncedInputSearch.cancel();
+      runSearch(true, true);
     });
 
     if (this.clearControl) {

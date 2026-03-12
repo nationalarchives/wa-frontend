@@ -29,7 +29,7 @@ export function addPrefixToLastTerm(query) {
 
 export function debounce(fn, ms) {
   let timeoutId = null;
-  return function (...args) {
+  function debounced(...args) {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
@@ -39,5 +39,14 @@ export function debounce(fn, ms) {
       timeoutId = null;
       fn.apply(context, args);
     }, ms);
+  }
+
+  debounced.cancel = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
   };
+
+  return debounced;
 }
