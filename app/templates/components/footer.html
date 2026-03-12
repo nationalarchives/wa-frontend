@@ -36,29 +36,23 @@
             </div>
             {% if footer_navigation.columns %}{{ footer_nav(footer_navigation.columns) }}{% endif %}
             <div class="tna-column tna-column--flex-1">
-                {% if social_media.twitter_handle or social_media.facebook_url %}
-                    <h3 class="tna-!--visually-hidden">Follow us on social media</h3>
-                    <ul class="footer__social tna-ul tna-ul--plain tna-footer__social-items">
-                        {% if social_media.twitter_handle %}
-                            <li class="tna-footer__social-item">
-                                <a class="tna-footer__social-item-link"
-                                   href="https://twitter.com/{{ social_media.twitter_handle }}"
-                                   aria-label="Follow us on X (formerly Twitter)">
-                                    {{ icon("twitter", classname="icon--footer-social", viewbox="0 0 512 512") }}
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% if social_media.facebook_url %}
-                            <li class="tna-footer__social-item">
-                                <a class="tna-footer__social-item-link"
-                                   href="{{ social_media.facebook_url }}"
-                                   aria-label="Follow us on Facebook">
-                                    {{ icon("facebook", classname="icon--footer-social", viewbox="0 0 26 23") }}
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                {% endif %}
+                <h3 class="tna-!--visually-hidden">Follow us on social media</h3>
+                <ul class="footer__social tna-ul tna-ul--plain tna-footer__social-items">
+                    <li class="tna-footer__social-item">
+                        <a class="tna-footer__social-item-link"
+                           href="https://x.com/UKNatArchives"
+                           aria-label="Follow us on X (formerly Twitter)">
+                            {{ icon("twitter", classname="icon--footer-social", viewbox="0 0 512 512") }}
+                        </a>
+                    </li>
+                    <li class="tna-footer__social-item">
+                        <a class="tna-footer__social-item-link"
+                           href="https://www.facebook.com/TheNationalArchives"
+                           aria-label="Follow us on Facebook">
+                            {{ icon("facebook", classname="icon--footer-social", viewbox="0 0 26 23") }}
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
         {% if footer_navigation.legal %}{{ footer_links(footer_navigation.legal) }}{% endif %}

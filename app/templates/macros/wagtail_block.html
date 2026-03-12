@@ -7,7 +7,7 @@
 
 {% macro wagtail_block(content_item, next_heading_level, plain_images, extra_classes, picture_itemprop) %}
   {%- if content_item.type == 'paragraph' %}
-  {{ content_item.value.text | tna_html | safe }}
+  <div class="rich-text">{{ content_item.value.text | tna_html | safe }}</div>
 
   {%- elif content_item.type == 'heading' or content_item.type == 'sub_heading' or content_item.type == 'sub_sub_heading' %}
   {%- if next_heading_level == 2 %}

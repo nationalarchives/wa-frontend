@@ -3,7 +3,6 @@
 .hero {
   $root: &;
   color: var(--theme-text-invert);
-
   background-color: var(--theme-primary);
   border-bottom: 1px solid var(--theme-border);
 
@@ -26,7 +25,6 @@
   &__background-image {
     width: 100%;
     height: auto;
-
     display: block;
 
     @include media-query(medium) {
@@ -43,7 +41,6 @@
       @include z-index(base);
       padding-top: 200px;
       padding-bottom: $grid-m;
-
       position: relative;
     }
 
@@ -56,9 +53,7 @@
   &__content {
     @include media-query(medium) {
       padding: $grid-m;
-
       color: var(--theme-text-default);
-
       background-color: var(--theme-primary-background);
     }
   }

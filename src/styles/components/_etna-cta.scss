@@ -1,0 +1,36 @@
+@use "../config" as *;
+// Component based on TNA Frontend etna-cta.scss (https://github.com/nationalarchives/ds-frontend)
+
+.etna-cta {
+  border-left: 4px solid var(--theme-primary);
+  padding: $grid-s $grid-m $grid-l;
+  background-color: var(--theme-secondary);
+
+  @include media-query(large) {
+    padding: $grid-m $grid-l $grid-m;
+  }
+
+  &__content {
+    padding: $grid-s $grid-m $grid-m;
+  }
+
+  p {
+    color: var(--theme-text-70);
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
+  strong {
+    @include font-size(heading-two);
+    font-weight: $weight-medium;
+    font-family: $font-primary;
+    line-height: 1.2;
+    color: var(--theme-text-default);
+    margin-bottom: $grid-xs;
+    display: block;
+  }
+
+  .tna-button-group {
+    margin-top: $grid-s;
+  }
+}
