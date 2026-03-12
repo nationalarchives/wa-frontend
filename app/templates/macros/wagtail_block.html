@@ -56,6 +56,11 @@
   {%- elif content_item.type == 'youtube_video' %}
   {{ wagtailYouTubeVideo(content_item.value, content_item.id) }}
 
+  {%- elif content_item.type == 'bookmarklet' %}
+  {# djlint:off H019 #}
+  {# `javascript:` is required here as this is a draggable bookmarklet #}
+  <a class="button bookmarklet" href="javascript:location%3Dlocation.href.replace(/%5E/,'https://webarchive.nationalarchives.gov.uk/ukgwa/timeline/')">Check UKGWA</a>
+  {# djlint:on H019 #} 
   {%- else %}
   <p class="tna-heading-xl" aria-hidden="true">===== {{ content_item.type }} =====</p>
   {%- endif %}
