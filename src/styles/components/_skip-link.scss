@@ -2,13 +2,10 @@
 
 .skip-link {
   padding: $grid;
-
   position: absolute;
   top: -200px;
   left: 0;
-
   color: var(--theme-text-default);
-
   background-color: var(--theme-primary-background);
 
   &:focus {

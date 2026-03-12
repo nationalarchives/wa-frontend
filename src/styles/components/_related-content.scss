@@ -26,26 +26,27 @@
   &__intro {
     margin-top: 0;
     margin-bottom: $grid-m;
-
     color: var(--theme-text-80);
   }
 
   &__list {
     margin: 0;
-    padding: 0;
-
     display: grid;
     grid-template-columns: 1fr;
     gap: $grid-s;
-
     list-style: none;
 
     @include media-query(medium) {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     @include media-query(large) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: $grid-m;
+    }
+
+    > * {
+      min-width: 0;
     }
   }
 }

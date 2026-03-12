@@ -1,0 +1,74 @@
+@use "../config" as *;
+
+.tna-breadcrumbs-wrapper {
+  background-color: var(--theme-primary);
+  border-bottom: 1px solid var(--theme-border);
+
+  .tna-breadcrumbs {
+    padding: $grid-s 0;
+    background-color: transparent;
+    border-bottom: 0;
+  }
+}
+
+.tna-breadcrumbs {
+  $root: &;
+  padding: $grid-s 0;
+  background-color: var(--theme-primary);
+  border-bottom: 1px solid var(--theme-border);
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: row wrap;
+    list-style: none;
+  }
+
+  &__item {
+    @include font-size(supporting);
+    margin: 0 5px 0 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+    color: var(--theme-text-invert);
+
+    // On small and medium breakpoints, only show the parent section/current page.
+    // We use a selector here because the markup comes from the TNA component
+    // (tnaBreadcrumbs macro); we can't add custom classes to items.
+    &:not(:nth-last-child(-n + 2)) {
+      display: none;
+
+      @include media-query(large) {
+        display: flex;
+      }
+    }
+
+    + #{$root}__item::before {
+      color: var(--theme-text-invert);
+    }
+  }
+
+  &__link {
+    color: var(--theme-link-invert);
+    text-decoration: underline;
+
+    &:link {
+      color: var(--theme-link-invert);
+    }
+
+    &:visited {
+      color: var(--theme-link-invert);
+    }
+
+    &:hover,
+    &:active {
+      color: var(--theme-link-invert-hover);
+    }
+
+    &:focus {
+      color: var(--theme-link-invert-focus);
+    }
+  }
+}

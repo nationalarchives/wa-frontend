@@ -1,11 +1,18 @@
-import { initAll, Cookies } from "@nationalarchives/frontend/nationalarchives/all.mjs";
+// Must be set before video.js / YouTube tech load (ds-frontend media logic)
+window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
+window.VIDEOJS_NO_DYNAMIC_STYLE = true;
+
+import {
+  initAll,
+  Cookies,
+} from "@nationalarchives/frontend/nationalarchives/all.mjs";
 
 import "../styles/main.scss";
 
 import Header from "./components/header.js";
+import Media from "./media.js";
 import SkipLink from "./components/skip-link.js";
-import YouTubeConsentManager from "./components/youtube-consent-manager.js";
-import TableHint from "./components/table-hint.js";
+import AtoZArchive from "./components/a-z-archive.js";
 import KeywordDetector from "./components/keyword-detector.js";
 
 function initComponent(ComponentClass) {
@@ -15,20 +22,18 @@ function initComponent(ComponentClass) {
 
 document.addEventListener("DOMContentLoaded", () => {
   // Cookie domain setup
-  const cookiesDomain = document.documentElement.getAttribute("data-cookiesdomain");
+  const cookiesDomain =
+    document.documentElement.getAttribute("data-cookiesdomain");
   if (cookiesDomain) {
     new Cookies({ domain: cookiesDomain });
   }
 
   // Init custom components
   initComponent(SkipLink);
-  initComponent(YouTubeConsentManager);
-  initComponent(TableHint);
-  initComponent(KeywordDetector);
-
-  // Initialise custom header with extended mobile breakpoint
-  // Must be initialised before initAll() to prevent TNA's default header from taking over
   initComponent(Header);
+  initComponent(AtoZArchive);
+  initComponent(KeywordDetector);
+  initComponent(Media);
 
   // Initialise TNA Frontend components
   initAll();

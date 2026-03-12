@@ -7,16 +7,41 @@ from flask import current_app
 
 def wagtail_request_handler(uri, params={}):
     api_url = current_app.config.get("WAGTAIL_API_URL")
+    api_key = current_app.config.get("WAGTAIL_API_KEY")
+    api_unthrottled_header = current_app.config.get("API_UNTHROTTLED_HEADER")
+    default_headers = {}
+    default_params = {"format": "json"}
+
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
         raise Exception("WAGTAIL_API_URL not set")
-    client = JSONAPIClient(api_url)
-    client.add_parameter("format", "json")
+
+    if not api_key:
+        current_app.logger.critical("WAGTAIL_API_KEY not set")
+        raise Exception("WAGTAIL_API_KEY not set")
+
+    default_headers["Authorization"] = f"Token {api_key}"
+    if api_unthrottled_header:
+        default_headers["X-Api-Unthrottled"] = api_unthrottled_header
+
+    client = JSONAPIClient(
+        api_url, default_headers=default_headers, default_params=default_params
+    )
+
     if site_hostname := current_app.config.get("WAGTAIL_SITE_HOSTNAME"):
         client.add_parameter("site", site_hostname)
     client.add_parameters(params)
     data = client.get(uri)
     return data
+
+
+def all_pages(params={}, batch=1, limit=None):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = (batch - 1) * limit
+    params = params | {"offset": offset, "limit": limit}
+    uri = "pages/"
+    return wagtail_request_handler(uri, params)
 
 
 def page_details(page_id, params={}):
@@ -53,6 +78,55 @@ def redirect_by_uri(path, params={}):
         "html_path": unquote(path),
     }
     return wagtail_request_handler(uri, params)
+
+
+def page_children(page_id, params={}, limit=None):
+    if not page_id:
+        return {}
+    uri = "pages/"
+    params = params | {
+        "child_of": page_id,
+        "limit": limit or current_app.config.get("WAGTAILAPI_LIMIT_MAX"),
+        "include_aliases": "",
+    }
+    return wagtail_request_handler(uri, params)
+
+
+def pages_paginated(
+    page,
+    limit=None,
+    initial_offset=0,
+    params={},
+):
+    if not limit:
+        limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
+    offset = ((page - 1) * limit) + initial_offset
+    uri = "pages/"
+    params = params | {
+        "offset": offset,
+        "limit": limit,
+    }
+    return wagtail_request_handler(uri, params)
+
+
+def page_children_paginated(
+    page_id,
+    page,
+    limit=None,
+    initial_offset=0,
+    params={},
+):
+    if not page_id:
+        return {"items": [], "meta": {"total_count": 0}}
+    return pages_paginated(
+        page=page,
+        limit=limit,
+        initial_offset=initial_offset,
+        params=params
+        | {
+            "child_of": page_id,
+        },
+    )
 
 
 def _get_navigation_cache_key():

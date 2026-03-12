@@ -6,6 +6,7 @@ from app.lib.context_processor import (
     get_social_media_data,
     now_iso_8601,
 )
+from app.lib.database import init_db
 from app.lib.navigation import build_footer_navigation, build_header_navigation
 from app.lib.talisman import talisman
 from app.lib.template_filters import (
@@ -40,6 +41,8 @@ def create_app(config_class):
         },
     )
 
+    init_db(app)
+
     csp_self = "'self'"
     csp_none = "'none'"
     default_csp = csp_self
@@ -66,6 +69,12 @@ def create_app(config_class):
             ),
         },
         force_https=app.config["FORCE_HTTPS"],
+        # This sets the deprecated X-Frame-Options header to allow embedding in iframes on any domain, which is required for previewing the site in the Wagtail admin interface
+        # https://github.com/wntrblm/flask-talisman/issues/31
+        # An updated TNA-specific Talisman implementation will address this issue properly in the future:
+        # https://github.com/nationalarchives/python-utilities/pull/9
+        frame_options="ALLOW_FROM",
+        frame_options_allow_from="*",
     )
 
     @app.after_request
@@ -117,12 +126,21 @@ def create_app(config_class):
             feature={},
         )
 
+    from .api import bp as api_bp
     from .healthcheck import bp as healthcheck_bp
     from .main import bp as site_bp
+    from .sitemaps import bp as sitemaps_bp
     from .wagtail import bp as wagtail_bp
 
+    app.register_blueprint(api_bp)
     app.register_blueprint(site_bp)
     app.register_blueprint(healthcheck_bp, url_prefix="/healthcheck")
+    app.register_blueprint(sitemaps_bp)
     app.register_blueprint(wagtail_bp)
+
+    from app import commands
+
+    app.cli.add_command(commands.sync_archive_data)
+    app.cli.add_command(commands.clear_archive_cache)
 
     return app

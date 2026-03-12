@@ -10,7 +10,7 @@
     {% endif %}
     {% if page_data.subpages %}
         <section class="card-listing">
-            <ul class="card-listing__grid u-layout">
+            <ul class="card-listing__grid tna-container">
                 {% for subpage in page_data.subpages %}
                     {% set card_title = subpage.title %}
                     {% set card_summary = subpage.teaser_text or '' %}
