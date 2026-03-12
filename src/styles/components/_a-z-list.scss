@@ -1,0 +1,21 @@
+@use "../config" as *;
+
+// Styles the no-js version of the A-Z list
+.a-z-list {
+  $root: &;
+  display: flex;
+  flex-flow: row wrap;
+  gap: $grid-xxs;
+  margin-bottom: $grid-xl;
+
+  &__item {
+    list-style: none;
+  }
+
+  &__link {
+    &[aria-current="page"] {
+      text-decoration: underline;
+      color: var(--theme-text-meta);
+    }
+  }
+}
