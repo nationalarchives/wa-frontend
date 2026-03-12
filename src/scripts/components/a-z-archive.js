@@ -416,6 +416,12 @@ export default class AtoZArchive {
   }
 
   async init() {
+    // Hide submit button when JS is enabled; results update as the user types.
+    const submitButton = this.form.querySelector('button[type="submit"]');
+    if (submitButton) {
+      submitButton.hidden = true;
+    }
+
     const staticGrouped = this.parseStaticRecords();
 
     // Only seed browse cache from a letter page, not from search result pages
