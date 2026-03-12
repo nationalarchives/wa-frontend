@@ -119,7 +119,10 @@ class KeywordDetector {
       !this.visible.hasAttribute("aria-label") &&
       !this.visible.hasAttribute("aria-labelledby")
     ) {
-      this.visible.setAttribute("aria-label", this.input.name || "Search keywords");
+      this.visible.setAttribute(
+        "aria-label",
+        this.input.name || "Search keywords",
+      );
     }
   }
 
@@ -168,14 +171,21 @@ class KeywordDetector {
     this.syncToOriginal({ notify });
   }
 
-  removeToken(token) {
-    this.tokens = this.tokens.filter((x) => x !== token);
+  removeToken(index) {
+    const token = this.tokens[index];
+    if (typeof token !== "string") {
+      return;
+    }
+
+    this.tokens.splice(index, 1);
     this.render();
     // Return focus to the input field for better UX
     requestAnimationFrame(() => {
       this.visible.focus();
     });
-    this.announceToScreenReader(`Removed ${token}. ${this.tokens.length} keyword${this.tokens.length !== 1 ? "s" : ""} remaining.`);
+    this.announceToScreenReader(
+      `Removed ${token}. ${this.tokens.length} keyword${this.tokens.length !== 1 ? "s" : ""} remaining.`,
+    );
   }
 
   updateSuggest() {
@@ -195,7 +205,9 @@ class KeywordDetector {
     if (!raw) return;
 
     const newTerms = [];
-    const existingTokens = new Set(this.tokens.map((token) => this.tokenKey(token)));
+    const existingTokens = new Set(
+      this.tokens.map((token) => this.tokenKey(token)),
+    );
     this.splitTerms(raw).forEach((term) => {
       // Enforce max tokens limit
       if (this.tokens.length >= this.MAX_TOKENS) {
@@ -214,9 +226,10 @@ class KeywordDetector {
     this.render();
 
     if (newTerms.length > 0) {
-      const message = newTerms.length === 1
-        ? `Added ${newTerms[0]}`
-        : `Added ${newTerms.length} keywords`;
+      const message =
+        newTerms.length === 1
+          ? `Added ${newTerms[0]}`
+          : `Added ${newTerms.length} keywords`;
       this.announceToScreenReader(message);
     } else if (this.tokens.length >= this.MAX_TOKENS) {
       this.announceToScreenReader("Maximum number of keywords reached");
@@ -258,9 +271,8 @@ class KeywordDetector {
       const button = e.target.closest(`.${this.CLASS_REMOVE}`);
       if (button && button.dataset.tokenIndex !== undefined) {
         const index = parseInt(button.dataset.tokenIndex, 10);
-        const token = this.tokens[index];
-        if (token) {
-          this.removeToken(token);
+        if (!Number.isNaN(index)) {
+          this.removeToken(index);
         }
       }
     });
@@ -286,7 +298,9 @@ class KeywordDetector {
       const removedToken = this.tokens.pop();
       this.render();
       if (removedToken) {
-        this.announceToScreenReader(`Removed ${removedToken}. ${this.tokens.length} keyword${this.tokens.length !== 1 ? "s" : ""} remaining.`);
+        this.announceToScreenReader(
+          `Removed ${removedToken}. ${this.tokens.length} keyword${this.tokens.length !== 1 ? "s" : ""} remaining.`,
+        );
       }
     }
   }
