@@ -12,31 +12,30 @@
 @use "components/accordion-group";
 @use "components/alert-banner";
 @use "components/a-z-list";
-@use "components/blockquote";
 @use "components/button";
 @use "components/call-to-action";
 @use "components/card";
 @use "components/card-listing";
+@use "components/etna-cta";
 @use "components/listing-page";
 @use "components/listing-item";
 @use "components/icon";
-@use "components/breadcrumb";
 @use "components/introduction";
 @use "components/page-header";
 @use "components/responsive-object";
 @use "components/rich-text";
 @use "components/sf";
 @use "components/sidebar";
+@use "components/tna-blockquote";
+@use "components/tna-breadcrumbs";
 @use "components/related-content";
 @use "components/hero";
 @use "components/featured-search";
 @use "components/image-block";
 @use "components/skip-link";
-@use "components/stat-block";
-@use "components/sprites-preview-icons";
-@use "components/table";
 @use "components/utilities";
-@use "components/video-embed";
+// Etna media/video block from ds-frontend (https://github.com/nationalarchives/ds-frontend)
+@use "ds-frontend/src/styles/media";
 
 // Layout
 @use "global/header";

@@ -3,6 +3,19 @@
 // Uses https://design-system.nationalarchives.gov.uk/components/footer/ as a base, these are just subtle overrides
 
 .footer {
+  .tna-footer__navigation {
+    margin-top: $grid-m;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: $grid-m;
+
+    @include media-query(medium) {
+      padding-left: $grid-s;
+      padding-right: $grid-s;
+      margin-bottom: 0;
+    }
+  }
+
   &__strapline {
     margin-bottom: $grid-m;
   }

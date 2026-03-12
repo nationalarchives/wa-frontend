@@ -1,3 +1,7 @@
+// Must be set before video.js / YouTube tech load (ds-frontend media logic)
+window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
+window.VIDEOJS_NO_DYNAMIC_STYLE = true;
+
 import {
   initAll,
   Cookies,
@@ -6,9 +10,8 @@ import {
 import "../styles/main.scss";
 
 import Header from "./components/header.js";
+import Media from "./media.js";
 import SkipLink from "./components/skip-link.js";
-import YouTubeConsentManager from "./components/youtube-consent-manager.js";
-import TableHint from "./components/table-hint.js";
 import AtoZArchive from "./components/a-z-archive.js";
 
 function initComponent(ComponentClass) {
@@ -26,13 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Init custom components
   initComponent(SkipLink);
-  initComponent(YouTubeConsentManager);
-  initComponent(TableHint);
-  initComponent(AtoZArchive);
-
-  // Initialise custom header with extended mobile breakpoint
-  // Must be initialised before initAll() to prevent TNA's default header from taking over
   initComponent(Header);
+  initComponent(AtoZArchive);
+  initComponent(Media);
 
   // Initialise TNA Frontend components
   initAll();

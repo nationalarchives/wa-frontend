@@ -33,7 +33,6 @@
 
   &__summary {
     padding: $grid-s 0;
-
     display: block;
     transition: color 0.2s ease;
 
@@ -58,11 +57,9 @@
   &__header {
     margin: 0;
     padding: 0;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     font-size: inherit;
     font-weight: $weight-bold;
   }
@@ -70,7 +67,6 @@
   &__title {
     margin: 0;
     padding: 0;
-
     color: var(--theme-text-default);
   }
 
@@ -78,7 +74,6 @@
     display: flex;
     align-items: center;
     gap: $grid-xxs;
-
     color: var(--theme-text-default);
     font-family: $font-secondary;
     font-weight: $weight-normal;
@@ -91,7 +86,6 @@
 
     &::before {
       content: attr(data-show);
-
       font-size: map.get($large-font-sizes, supporting);
     }
   }
@@ -100,9 +94,7 @@
     width: 24px;
     height: 24px;
     padding: 2px;
-
     fill: currentColor;
-
     border: 1px solid currentColor;
     border-radius: 50%;
     transition:

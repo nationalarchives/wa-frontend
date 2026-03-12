@@ -29,9 +29,7 @@
 
   &__category {
     margin-bottom: $grid-xxs;
-
     display: block;
-
     color: var(--theme-primary);
     font-family: $font-tertiary;
     letter-spacing: 0.05em;
@@ -40,7 +38,6 @@
 
   &__link {
     display: block;
-
     color: var(--theme-link);
     text-decoration: underline;
     text-decoration-thickness: 1px;
@@ -55,7 +52,6 @@
 
   &__title {
     margin: 0;
-
     font-family: $font-tertiary;
     font-weight: $weight-medium;
   }

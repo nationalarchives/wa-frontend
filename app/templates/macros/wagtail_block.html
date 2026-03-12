@@ -7,7 +7,7 @@
 
 {% macro wagtail_block(content_item, next_heading_level, plain_images, extra_classes, picture_itemprop) %}
   {%- if content_item.type == 'paragraph' %}
-  {{ content_item.value.text | tna_html | safe }}
+  <div class="rich-text">{{ content_item.value.text | tna_html | safe }}</div>
 
   {%- elif content_item.type == 'heading' or content_item.type == 'sub_heading' or content_item.type == 'sub_sub_heading' %}
   {%- if next_heading_level == 2 %}
@@ -56,6 +56,11 @@
   {%- elif content_item.type == 'youtube_video' %}
   {{ wagtailYouTubeVideo(content_item.value, content_item.id) }}
 
+  {%- elif content_item.type == 'bookmarklet' %}
+  {# djlint:off H019 #}
+  {# `javascript:` is required here as this is a draggable bookmarklet #}
+  <a class="button bookmarklet" href="javascript:location%3Dlocation.href.replace(/%5E/,'https://webarchive.nationalarchives.gov.uk/ukgwa/timeline/')">Check UKGWA</a>
+  {# djlint:on H019 #} 
   {%- else %}
   <p class="tna-heading-xl" aria-hidden="true">===== {{ content_item.type }} =====</p>
   {%- endif %}
