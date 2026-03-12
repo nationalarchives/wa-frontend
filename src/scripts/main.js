@@ -20,12 +20,11 @@ function initComponent(ComponentClass) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Cookie domain setup
-  const cookiesDomain =
-    document.documentElement.getAttribute("data-cookiesdomain");
-  if (cookiesDomain) {
-    new Cookies({ domain: cookiesDomain });
-  }
+  // Cookie domain setup (required for tna-cookie-banner and YouTube usage gating)
+  const cookiesDomain = document.documentElement.getAttribute(
+    "data-tna-cookies-domain",
+  );
+  new Cookies({ defaultDomain: cookiesDomain || undefined });
 
   // Init custom components
   initComponent(SkipLink);
@@ -33,6 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initComponent(AtoZArchive);
   initComponent(Media);
 
-  // Initialise TNA Frontend components
+  // Initialise TNA Frontend components (includes tna-cookie-banner)
   initAll();
 });

@@ -1,13 +1,36 @@
 /**
  * YouTube video.js player init – mostly from ds-frontend media.js.
+ * Only inits when TNA usage cookie is accepted (works with tna-cookie-banner).
  */
 import videojs from "video.js";
 import { initYoutubeEmbedApi } from "ds-frontend/src/scripts/lib/videojs-youtube-modified.js";
 
 let videoJsInstances = {};
 
+/** Returns true if usage cookies are accepted (TNA cookies_policy). */
+const isUsageAccepted = () => {
+  const cookies = window.TNAFrontendCookies;
+  if (cookies && typeof cookies.isPolicyAccepted === "function") {
+    return cookies.isPolicyAccepted("usage") === true;
+  }
+  try {
+    const match = document.cookie.match(/cookies_policy=([^;]+)/);
+    if (!match) return false;
+    const policy = JSON.parse(decodeURIComponent(match[1]));
+    return policy.usage === true;
+  } catch {
+    return false;
+  }
+};
+
 const getYouTubeVideoLinks = () =>
   document.querySelectorAll("a.etna-video--youtube[id]");
+
+const updateYoutubeVideoMessages = ($youTubeVideoInstances) => {
+  $youTubeVideoInstances.forEach(($video) => {
+    $video.querySelector(".etna-video__label-cookies-message-js")?.remove();
+  });
+};
 
 const initYouTubeVideos = ($youTubeVideoInstances) => {
   const links = Array.from($youTubeVideoInstances);
@@ -28,7 +51,7 @@ const initYouTubeVideos = ($youTubeVideoInstances) => {
       const player = videojs(
         $newVideo,
         {
-          techOrder: ["Youtube"],
+          techOrder: ["youtube"],
           sources: [
             {
               type: "video/youtube",
@@ -76,7 +99,8 @@ const initYouTubeVideos = ($youTubeVideoInstances) => {
 };
 
 /**
- * Media component: inits YouTube video.js players for a.etna-video--youtube links.
+ * Media component: inits YouTube video.js players for a.etna-video--youtube links
+ * only when usage cookies are accepted. Listens for cookie acceptance to init without reload.
  */
 class Media {
   static selector() {
@@ -86,7 +110,29 @@ class Media {
   constructor() {
     const $links = getYouTubeVideoLinks();
     if (!$links.length) return;
-    initYoutubeEmbedApi(() => initYouTubeVideos($links));
+    const cookies = window.TNAFrontendCookies;
+
+    const tryInit = () => {
+      if (!isUsageAccepted()) {
+        // Leave links pointing to YouTube and remove the JS-only copy from the fallback message.
+        updateYoutubeVideoMessages($links);
+        return;
+      }
+      initYoutubeEmbedApi(() => initYouTubeVideos($links));
+    };
+
+    tryInit();
+
+    if (cookies && typeof cookies.once === "function") {
+      cookies.once("changePolicy", (policies) => {
+        if (policies.usage === true) {
+          const $linksNow = getYouTubeVideoLinks();
+          if ($linksNow.length) {
+            initYoutubeEmbedApi(() => initYouTubeVideos($linksNow));
+          }
+        }
+      });
+    }
   }
 }
 
