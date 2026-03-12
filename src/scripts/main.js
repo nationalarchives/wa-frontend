@@ -12,6 +12,7 @@ import "../styles/main.scss";
 import Header from "./components/header.js";
 import Media from "./media.js";
 import SkipLink from "./components/skip-link.js";
+import AtoZArchive from "./components/a-z-archive.js";
 
 function initComponent(ComponentClass) {
   const items = document.querySelectorAll(ComponentClass.selector());
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Init custom components
   initComponent(SkipLink);
   initComponent(Header);
+  initComponent(AtoZArchive);
   initComponent(Media);
 
   // Initialise TNA Frontend components
