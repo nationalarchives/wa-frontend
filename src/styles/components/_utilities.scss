@@ -2,8 +2,8 @@
 
 // Ensure TNA containers have proper horizontal padding
 .tna-container {
-  padding-right: $grid-s;
-  padding-left: $grid-s;
+  padding-right: $grid-xs;
+  padding-left: $grid-xs;
 
   @include media-query(large) {
     padding-right: $grid-m;
