@@ -30,7 +30,7 @@ class KeywordDetector {
     this.CLASS_ENTRY = `${this.CLASS_BLOCK}__entry`;
     this.CLASS_FIELD = `${this.CLASS_BLOCK}__field`;
     this.CLASS_SUGGEST = `${this.CLASS_BLOCK}__suggest`;
-    this.CLASS_HIDDEN_SOURCE = `${this.CLASS_BLOCK}__field--hidden-source`;
+    this.CLASS_HIDDEN_SOURCE = "tna-visually-hidden";
     this.CLASS_STATUS = `${this.CLASS_BLOCK}__status`;
 
     this.input = input;
