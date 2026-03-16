@@ -10,16 +10,15 @@
     padding: $grid-m $grid-l $grid-m;
   }
 
-  &__content {
-    padding: $grid-s $grid-m $grid-m;
+  &__body {
+    p {
+      color: var(--theme-text-70);
+      margin-bottom: 0;
+      margin-top: 0;
+    }
   }
 
-  p {
-    color: var(--theme-text-70);
-    margin-bottom: 0;
-    margin-top: 0;
-  }
-
+  &__title,
   strong {
     @include font-size(heading-two);
     font-weight: $weight-medium;
@@ -30,7 +29,49 @@
     display: block;
   }
 
+  p {
+    color: var(--theme-text-70);
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+
   .tna-button-group {
     margin-top: $grid-s;
+  }
+
+  &--compact {
+    border-top: 4px solid var(--theme-primary);
+    border-left: 0;
+    padding: $grid-m $grid-s;
+    background-color: var(--theme-secondary);
+
+    @include media-query(large) {
+      padding: $grid-m $grid-s $grid-s;
+    }
+
+    &__title {
+      @include font-size(heading-two);
+      margin: 0;
+      font-family: $font-primary;
+      font-weight: $weight-medium;
+      line-height: 1.2;
+      color: var(--theme-text-default);
+    }
+
+    &__body {
+      margin-top: $grid-s;
+    }
+
+    &__body {
+      p {
+        @include font-size(body-feature);
+        color: var(--theme-text-60);
+        line-height: 1.45;
+      }
+    }
+
+    &__button {
+      font-family: $font-primary;
+    }
   }
 }
