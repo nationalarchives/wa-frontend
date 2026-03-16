@@ -62,7 +62,9 @@ class JSONAPIClient:
             if response.history:
                 final_url = response.history[-1].headers.get("Location", url)
                 final_url = final_url.replace("http://", "https://")
-                final_url = final_url.replace("web-wagtail.live.local", "wagtail.nationalarchives.gov.uk")
+                final_url = final_url.replace(
+                    "web-wagtail.live.local", "wagtail.nationalarchives.gov.uk"
+                )
                 response = get(final_url, params=self.params, headers=self.headers)
         except (ConnectionError, Timeout, TooManyRedirects) as e:
             current_app.logger.error(f"Network error calling {url}: {type(e).__name__}")
