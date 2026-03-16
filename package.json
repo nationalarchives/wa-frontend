@@ -11,7 +11,7 @@
     "dev": "npm run dev:css & npm run dev:js &"
   },
   "dependencies": {
-    "@nationalarchives/frontend": "0.36.0",
+    "@nationalarchives/frontend": "0.37.0",
     "ds-frontend": "git+https://github.com/nationalarchives/ds-frontend.git#main",
     "video.js": "^8.21.1"
   },
