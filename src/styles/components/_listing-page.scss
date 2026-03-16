@@ -12,7 +12,7 @@
   &__main {
     margin-bottom: $grid-l;
 
-    @include media-query(medium) {
+    @include media-query(large) {
       margin-bottom: 0;
     }
   }
@@ -24,7 +24,7 @@
   }
 
   &__sidebar {
-    @include media-query(medium) {
+    @include media-query(large) {
       padding-left: $grid-m;
     }
   }
