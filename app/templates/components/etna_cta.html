@@ -1,0 +1,18 @@
+{%- from 'components/button/macro.html' import tnaButton -%}
+
+{% macro etna_cta(body, button_text, button_href, title='', heading_level=2, accent=False, compact=False) %}
+  <div class="tna-aside tna-background-tint etna-cta{% if compact %} etna-cta--compact{% endif %}">
+    {% if title %}
+      <h{{ heading_level }} class="etna-cta__title">{{ title }}</h{{ heading_level }}>
+    {% endif %}
+    <div class="etna-cta__body">{{ body | safe }}</div>
+    <div class="tna-button-group">
+      {{ tnaButton({
+        'text': button_text,
+        'href': button_href,
+        'accent': accent,
+        'classes': 'etna-cta__button'
+      }) }}
+    </div>
+  </div>
+{% endmacro %}

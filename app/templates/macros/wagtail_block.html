@@ -1,6 +1,6 @@
-{%- from 'components/button/macro.html' import tnaButton -%}
 {%- from 'components/details/macro.html' import tnaDetails -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
+{%- from 'components/etna_cta.html' import etna_cta -%}
 
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
@@ -23,16 +23,12 @@
   {%- endif %}
 
   {%- elif content_item.type == 'call_to_action' %}
-  <div class="tna-aside tna-background-tint etna-cta">
-    {{ content_item.value.body | tna_html | safe }}
-    <div class="tna-button-group">
-      {{ tnaButton({
-        'text': content_item.value.button.label,
-        'href': content_item.value.button.href,
-        'accent': content_item.value.button.accent
-      }) }}
-    </div>
-  </div>
+  {{ etna_cta(
+    content_item.value.body | tna_html,
+    content_item.value.button.label,
+    content_item.value.button.href,
+    accent=content_item.value.button.accent
+  ) }}
 
   {%- elif content_item.type == 'image' %}
   {{ wagtailImage(content_item.value, content_item.id, plain_images, False, picture_itemprop) }}

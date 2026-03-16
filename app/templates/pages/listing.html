@@ -2,7 +2,7 @@
 {% from "components/page_header.html" import page_header %}
 {% from "components/listing_item.html" import listing_item %}
 {% from "components/pagination/macro.html" import tnaPagination %}
-{% from "components/card/macro.html" import tnaCard %}
+{% from "components/etna_cta.html" import etna_cta %}
 {% from "components/navigation.html" import sidebar %}
 {% from "components/related_content.html" import related_content %}
 {% block content %}
@@ -24,17 +24,14 @@
                     {{ sidebar(page_data.sidebar_navigation.subpages, page_data.sidebar_navigation.parent_page_title, sidebar_cta) }}
                 {% endif %}
                 {% if page_data.bookmarklet_cta %}
-                    {{ tnaCard({
-                        "title": page_data.bookmarklet_cta.heading,
-                        "body": page_data.bookmarklet_cta.body,
-                        "actions": [
-                            {
-                                "text": page_data.bookmarklet_cta.button_text,
-                                "href": page_data.bookmarklet_cta.button_link
-                            }
-                        ],
-                        "style": "contrast"
-                    }) }}
+                    {{ etna_cta(
+                        page_data.bookmarklet_cta.body,
+                        page_data.bookmarklet_cta.button_text,
+                        page_data.bookmarklet_cta.button_link,
+                        title=page_data.bookmarklet_cta.heading,
+                        heading_level=2,
+                        compact=True
+                    ) }}
                 {% endif %}
             </aside>
         </div>
