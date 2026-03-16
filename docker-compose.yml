@@ -26,8 +26,14 @@ services:
       - CACHE_REDIS_URL=redis://redis:6379/0
       - COOKIE_DOMAIN=localhost
       - CSP_IMG_SRC='self',localhost:8000,localhost:65529,*.google-analytics.com,*.gstatic.com,*.nationalarchives.gov.uk,i.ytimg.com,img.youtube.com,maps.googleapis.com
+      - CSP_SCRIPT_SRC='self',*.youtube.com,localhost:65529
       - CSP_STYLE_SRC='self',fonts.googleapis.com,p.typekit.net,use.typekit.net
       - CSP_FONT_SRC='self',fonts.gstatic.com,use.typekit.net
+      - CSP_CONNECT_SRC='self',localhost:65529,*.google-analytics.com,*.analytics.google.com,noembed.com,sentry.io
+      - CSP_MEDIA_SRC='self',localhost:8000
+      - CSP_WORKER_SRC='self',blob:,localhost:65497
+      - CSP_FRAME_SRC='self',*.youtube-nocookie.com,https://www.openstreetmap.org
+      - CSP_FEATURE_PICTURE_IN_PICTURE='self',https://www.youtube-nocookie.com
       - CSP_FRAME_ANCESTORS=localhost:8000
     ports:
       - 65500:8080
