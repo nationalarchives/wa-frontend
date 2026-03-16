@@ -17,11 +17,13 @@
                         <legend class="tna-visually-hidden">Search type</legend>
                         <label class="featured-search__radio">
                             <input type="radio" name="search_type" value="keyword" checked />
-                            Keyword search
+                            <span aria-hidden="true">Keyword<span class="featured-search__radio-optional">&nbsp;search</span></span>
+                            <span class="tna-visually-hidden">Keyword search</span>
                         </label>
                         <label class="featured-search__radio">
                             <input type="radio" name="search_type" value="url" />
-                            Search by Website URL
+                            <span aria-hidden="true"><span class="featured-search__radio-optional">Search by&nbsp;</span>website URL</span>
+                            <span class="tna-visually-hidden">Search by website URL</span>
                         </label>
                     </fieldset>
                     {% endif %}
@@ -30,6 +32,7 @@
                                id="featured-search-input"
                                name="q"
                                class="featured-search__input"
+                               data-search-keywords
                                {% if help_text %}aria-describedby="featured-search-help"{% endif %} />
                         <input type="hidden" name="archive_type" value="{{ archive_type }}" />
                         <button type="submit" class="featured-search__button button button--primary">{{ button_text }}</button>

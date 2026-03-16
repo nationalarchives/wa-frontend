@@ -1,0 +1,49 @@
+@use "../config" as *;
+
+.bookmarklet {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: $grid-xs $grid-s;
+  color: var(--theme-link);
+  font-weight: $weight-bold;
+  text-decoration: none;
+  background-color: var(--theme-secondary-background);
+  border: 2px solid var(--theme-link);
+  cursor: move;
+
+  &::before,
+  &::after {
+    display: block;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    content: "";
+  }
+
+  &::before {
+    width: 9px;
+    height: 13px;
+    margin-right: 0.75rem;
+    background-image: url("../images/cssBackgrounds/bookmarklet-dots.png");
+    flex-shrink: 0;
+  }
+
+  &::after {
+    position: absolute;
+    right: -70px;
+    width: 55px;
+    height: 36px;
+    background-image: url("../images/cssBackgrounds/bookmarklet-drag.png");
+  }
+
+  &:visited,
+  &:hover {
+    color: var(--color-grey-700);
+    text-decoration: none;
+  }
+
+  &:focus {
+    text-decoration: none;
+  }
+}

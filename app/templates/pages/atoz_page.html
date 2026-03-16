@@ -1,5 +1,7 @@
 {% extends "layouts/base_page.html" %}
+{% from "components/page_header.html" import page_header %}
 {% from "components/related_content.html" import related_content %}
+{% from "components/breadcrumbs/macro.html" import tnaBreadcrumbs %}
 
 {% block meta_tags %}
   {{ super() }}
@@ -7,90 +9,134 @@
 {% endblock %}
 
 {% block content %}
-  <main class="tna-main" id="main-content">
+{% if page_data.meta.breadcrumbs %}
+  <div class="tna-breadcrumbs-wrapper">
     <div class="tna-container">
       <div class="tna-column tna-column--full">
-        <h1 class="tna-heading-xl">{{ page_data.title }}</h1>
+        {{ tnaBreadcrumbs({
+            "items": page_data.meta.breadcrumbs,
+            "labelText": "Breadcrumb navigation"
+        }) }}
+      </div>
+    </div>
+  </div>
+{% endif %}
+{{ page_header(page_data.title, page_data.intro | tna_html | safe, True, "flush") }}
+  <div class="page tna-main">
 
-        {%- if page_data.intro %}
-        <div class="tna-large-paragraph tna-!--margin-top-s">
-          {{ page_data.intro | tna_html | safe }}
-        </div>
-        {%- endif %}
-
+    <div class="tna-container">
+      <div class="tna-column tna-column--full-tiny tna-column--full-small tna-column--full-medium tna-column--width-3-4">
         <div class="tna-!--margin-top-l">
-          <form method="get" action="{{ page_data.meta.url }}">
-            <div class="tna-form__group">
-              <label for="search" class="tna-form__label">
-                Search archive records
+          <form method="get"
+                action="{{ page_data.meta.url }}"
+                data-az-search-form
+                data-az-base-url="{{ page_data.meta.url }}">
+            <div class="tna-form__group featured-search featured-search--transparent">
+              <label for="search" class="tna-form__label featured-search__label">
+                Search the A-Z
               </label>
-              <div class="tna-search">
+              <div class="featured-search__input-container">
                 <input
                   type="search"
                   id="search"
                   name="q"
-                  class="tna-search__input"
+                  class="tna-search__input featured-search__input"
                   value="{{ search_query or '' }}"
-                  placeholder="Search by name or description"
                   maxlength="{{ search_max_length }}"
                 />
-                <button type="submit" class="tna-search__button">
+                <button type="submit" class="tna-search__button featured-search__button button button--primary">
                   Search
                 </button>
+                <a class="featured-search__clear" href="{{ page_data.meta.url }}" data-az-clear hidden>Clear</a>
               </div>
             </div>
           </form>
         </div>
 
-        <h2 class="tna-heading-m tna-!--margin-top-l">Browse by character</h2>
-        <ul class="breadcrumb__list tna-!--margin-top-s">
-          {%- for char in available_characters %}
-          <li class="breadcrumb__item">
-            <a href="?character={{ char }}"{% if char == selected_character %} aria-current="page"{% endif %}>
-              {{ char if char == '0-9' else char | upper }}
-            </a>
-          </li>
-          {%- endfor %}
-        </ul>
+        <p class="tna-visually-hidden"
+           role="status"
+           aria-live="polite"
+           data-az-live-region></p>
 
-        {% if display_mode == DisplayMode.SEARCH %}
-          <h2 class="tna-heading-l tna-!--margin-top-l">
-            Search results for "{{ search_query }}"
-            <span class="tna-!--margin-left-s">({{ records | length }} found)</span>
-          </h2>
-        {% elif display_mode == DisplayMode.LISTING %}
-          <h2 class="tna-heading-l tna-!--margin-top-l">
-            Records starting with {{ display_character }}
-          </h2>
-        {% endif %}
-
-        {% if records %}
-          <ul class="tna-!--margin-top-m">
-            {%- for record in records %}
-              <li class="tna-!--margin-bottom-s">
-                <h3 class="tna-heading-m">
-                  <a href="{{ record.archive_link }}">{{ record.profile_name }}</a>
-                </h3>
-                <ul>
-                  <li>Original URL: {{ record.record_url }}</li>
-                  <li>Description: {{ record.description }}</li>
-                  <li>First capture: {{ record.first_capture_display }}</li>
-                  <li>Latest captured: {% if record.ongoing %}Ongoing{% else %}{{ record.latest_capture_display }}{% endif %}</li>
-                </ul>
-              </li>
+        <section data-az-static-content aria-labelledby="az-browse-heading">
+          <h2 id="az-browse-heading" class="tna-heading-m tna-!--margin-top-l tna-visually-hidden">Browse by character</h2>
+          <ul class="a-z-list tna-!--margin-top-s">
+            {%- for char in available_characters %}
+            <li class="a-z-list__item">
+              <a class="a-z-list__link heading heading--two" href="?character={{ char }}"{% if char == selected_character %} aria-current="page"{% endif %}>
+                {{ char if char == '0-9' else char | upper }}
+              </a>
+            </li>
             {%- endfor %}
           </ul>
-        {% else %}
+
           {% if display_mode == DisplayMode.SEARCH %}
-            <p class="tna-!--margin-top-m">No records found for "{{ search_query }}".</p>
-            <p class="tna-!--margin-top-s">
-              <a href="{{ page_data.meta.url }}">Clear search</a>
-            </p>
+            <h2 class="tna-heading-l tna-!--margin-top-l">
+              Search results for "{{ search_query }}"
+              <span class="tna-!--margin-left-s">({{ records | length }} found)</span>
+            </h2>
+          {% elif display_mode == DisplayMode.LISTING %}
+            <h2 class="tna-heading-l tna-!--margin-top-l">
+              Records starting with {{ display_character }}
+            </h2>
           {% endif %}
-        {% endif %}
+
+          {% if records is not none %}
+            {% if records %}
+              <ul class="tna-!--margin-top-m" data-az-static-records>
+                {%- for record in records %}
+                  <li class="listing-item listing-item--a-z"
+                      data-az-static-record
+                      data-first-character="{{ record.first_character }}"
+                      data-profile-name="{{ record.profile_name }}"
+                      data-description="{{ record.description or '' }}"
+                      data-record-url="{{ record.record_url or '' }}"
+                      data-archive-link="{{ record.archive_link or '' }}"
+                      data-first-capture="{{ record.first_capture_display or '' }}"
+                      data-latest-capture="{{ record.latest_capture_display or '' }}"
+                      data-ongoing="{{ 'true' if record.ongoing else 'false' }}">
+                    {% if record.archive_link %}
+                      <a class="listing-item__link" href="{{ record.archive_link }}">
+                        <h2 class="listing-item__title heading heading--four">{{ record.profile_name }}</h2>
+                      </a>
+                    {% else %}
+                      <h2 class="listing-item__title heading heading--four">{{ record.profile_name }}</h2>
+                    {% endif %}
+                    {% if record.record_url %}<p class="listing-item__url supporting">{{ record.record_url }}</p>{% endif %}
+                    <p class="listing-item__date supporting">Captures from {{ record.first_capture_display or '' }} to{% if record.ongoing %} Ongoing{% else %} {{ record.latest_capture_display or '' }}{% endif %}</p>
+                  </li>
+                {%- endfor %}
+              </ul>
+            {% else %}
+              {% if display_mode == DisplayMode.SEARCH %}
+                <p class="tna-!--margin-top-m">No records found for "{{ search_query }}".</p>
+                <p class="tna-!--margin-top-s">
+                  <a href="{{ page_data.meta.url }}">Clear search</a>
+                </p>
+              {% elif display_mode == DisplayMode.LISTING %}
+                <p class="tna-!--margin-top-m">No records found for this character.</p>
+                <p class="tna-!--margin-top-s">
+                  <a href="{{ page_data.meta.url }}">View all characters</a>
+                </p>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        </section>
+
+        <section data-az-enhanced-content
+                 data-az-characters-api="{{ url_for('api.archive_characters') }}"
+                 data-az-records-api="{{ url_for('api.archive_records') }}"
+                 data-search-query="{{ search_query or '' }}"
+                 data-selected-character="{{ selected_character or '' }}"
+                 aria-labelledby="az-browse-heading-enhanced"
+                 hidden>
+          <h2 id="az-browse-heading-enhanced" class="tna-heading-m tna-!--margin-top-l tna-visually-hidden">Browse by character</h2>
+          <p class="tna-!--margin-top-m tna-!--margin-bottom-xl heading heading--three" data-az-no-results hidden></p>
+          <div class="accordion-group tna-!--margin-top-s tna-!--margin-bottom-xl" data-az-accordion-list></div>
+        </section>
 
       </div>
     </div>
     {% if page_data.featured_links %}{{ related_content(page_data.featured_links) }}{% endif %}
-  </main>
+  </div>
 {% endblock content %}

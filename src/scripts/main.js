@@ -1,3 +1,7 @@
+// Must be set before video.js / YouTube tech load (ds-frontend media logic)
+window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
+window.VIDEOJS_NO_DYNAMIC_STYLE = true;
+
 import {
   initAll,
   Cookies,
@@ -6,9 +10,10 @@ import {
 import "../styles/main.scss";
 
 import Header from "./components/header.js";
+import Media from "./media.js";
 import SkipLink from "./components/skip-link.js";
-import YouTubeConsentManager from "./components/youtube-consent-manager.js";
-import TableHint from "./components/table-hint.js";
+import AtoZArchive from "./components/a-z-archive.js";
+import KeywordDetector from "./components/keyword-detector.js";
 
 function initComponent(ComponentClass) {
   const items = document.querySelectorAll(ComponentClass.selector());
@@ -16,22 +21,19 @@ function initComponent(ComponentClass) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Cookie domain setup
-  const cookiesDomain =
-    document.documentElement.getAttribute("data-cookiesdomain");
-  if (cookiesDomain) {
-    new Cookies({ domain: cookiesDomain });
-  }
+  // Cookie domain setup (required for tna-cookie-banner and YouTube usage gating)
+  const cookiesDomain = document.documentElement.getAttribute(
+    "data-tna-cookies-domain",
+  );
+  new Cookies({ defaultDomain: cookiesDomain || undefined });
 
   // Init custom components
   initComponent(SkipLink);
-  initComponent(YouTubeConsentManager);
-  initComponent(TableHint);
-
-  // Initialise custom header with extended mobile breakpoint
-  // Must be initialised before initAll() to prevent TNA's default header from taking over
   initComponent(Header);
+  initComponent(AtoZArchive);
+  initComponent(KeywordDetector);
+  initComponent(Media);
 
-  // Initialise TNA Frontend components
+  // Initialise TNA Frontend components (includes tna-cookie-banner)
   initAll();
 });

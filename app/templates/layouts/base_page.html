@@ -1,4 +1,10 @@
 {% extends "layouts/base.html" %}
+{% block title %}
+  {% if page_data %}{{ page_data.meta.seo_title if page_data.meta and page_data.meta.seo_title else page_data.title or '' }}{% endif %}
+{% endblock %}
+{% block meta_description %}
+  {% if page_data and page_data.meta %}{{ page_data.meta.search_description or page_data.meta.teaser_text or '' }}{% endif %}
+{% endblock %}
 {% block meta_tags %}
     {% if config.GOOGLE_TAG_MANAGER_ID %}
         {# Google Tag Manager #}
