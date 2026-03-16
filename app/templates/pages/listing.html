@@ -2,42 +2,56 @@
 {% from "components/page_header.html" import page_header %}
 {% from "components/listing_item.html" import listing_item %}
 {% from "components/pagination/macro.html" import tnaPagination %}
-{% from "components/card/macro.html" import tnaCard %}
+{% from "components/etna_cta.html" import etna_cta %}
+{% from "components/breadcrumbs/macro.html" import tnaBreadcrumbs %}
 {% from "components/navigation.html" import sidebar %}
 {% from "components/related_content.html" import related_content %}
 {% block content %}
-    {{ page_header(page_data.title, page_data.intro | tna_html | safe, True, "flush") }}
-    <div class="listing-page tna-container">
-        <div class="listing-page__main tna-column tna-column--full tna-column--width-2-3-medium">
-            {% if children %}
-                <ul class="listing-page__list">
-                    {% for child in children %}{{ listing_item(child, child.url) }}{% endfor %}
-                </ul>
-                {% if pages > 1 %}
-                    {{ tnaPagination(pagination) }}
-                {% endif %}
+    <div class="page">
+        {% block breadcrumbs %}
+            {% if page_data.meta.breadcrumbs %}
+                <div class="tna-breadcrumbs-wrapper">
+                    <div class="tna-container">
+                        <div class="tna-column tna-column--full">
+                            {{ tnaBreadcrumbs({
+                                "items": page_data.meta.breadcrumbs,
+                                "labelText": "Breadcrumb navigation"
+                            }) }}
+                        </div>
+                    </div>
+                </div>
             {% endif %}
+        {% endblock %}
+        {{ page_header(page_data.title, page_data.intro | tna_html | safe, True, "flush") }}
+        <div class="listing-page tna-container">
+            <div class="listing-page__main tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
+                {% if children %}
+                    <ul class="listing-page__list">
+                        {% for child in children %}{{ listing_item(child, child.url) }}{% endfor %}
+                    </ul>
+                    {% if pages > 1 %}
+                        {{ tnaPagination(pagination) }}
+                    {% endif %}
+                {% endif %}
+            </div>
+            <aside class="listing-page__sidebar tna-column tna-column--width-1-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
+                {% if page_data.sidebar_navigation %}
+                    {{ sidebar(page_data.sidebar_navigation.subpages, page_data.sidebar_navigation.parent_page_title, sidebar_cta) }}
+                {% endif %}
+                {% if page_data.bookmarklet_cta %}
+                    {{ etna_cta(
+                        page_data.bookmarklet_cta.body,
+                        page_data.bookmarklet_cta.button_text,
+                        page_data.bookmarklet_cta.button_link,
+                        title=page_data.bookmarklet_cta.heading,
+                        heading_level=2,
+                        compact=True
+                    ) }}
+                {% endif %}
+            </aside>
         </div>
-        <aside class="listing-page__sidebar tna-column tna-column--full tna-column--width-1-3-medium">
-            {% if page_data.sidebar_navigation %}
-                {{ sidebar(page_data.sidebar_navigation.subpages, page_data.sidebar_navigation.parent_page_title, sidebar_cta) }}
-            {% endif %}
-            {% if page_data.bookmarklet_cta %}
-                    {{ tnaCard({
-                        "title": page_data.bookmarklet_cta.heading,
-                        "body": page_data.bookmarklet_cta.body,
-                        "actions": [
-                            {
-                                "text": page_data.bookmarklet_cta.button_text,
-                                "href": page_data.bookmarklet_cta.button_link
-                            }
-                        ],
-                        "style": "contrast"
-                    }) }}
-                {% endif %}
-        </aside>
+        {% if related_pages %}
+            {{ related_content(related_pages, heading="Also of interest", modifier="archive-highlights") }}
+        {% endif %}
     </div>
-    {% if related_pages %}
-        {{ related_content(related_pages, heading="Also of interest", modifier="archive-highlights") }}
-    {% endif %}
 {% endblock %}

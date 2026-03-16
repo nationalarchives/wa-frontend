@@ -3,7 +3,7 @@
 {% from "components/navigation.html" import sidebar %}
 {% from "components/related_content.html" import related_content %}
 {% from "components/breadcrumbs/macro.html" import tnaBreadcrumbs %}
-{% from "components/card/macro.html" import tnaCard %}
+{% from "components/etna_cta.html" import etna_cta %}
 {%- from 'macros/wagtail_streamfield.html' import wagtail_streamfield -%}
 
 {% block content %}
@@ -35,17 +35,14 @@
             <div class="tna-column tna-column--full-tiny tna-column--full-small tna-column--width-1-3 tna-column--width-1-3-medium">
                 {% if page_data.sidebar_navigation %}{{ sidebar(page_data.sidebar_navigation.subpages, page_data.sidebar_navigation.parent_page_title, sidebar_cta) }}{% endif %}
                 {% if page_data.bookmarklet_cta %}
-                    {{ tnaCard({
-                        "title": page_data.bookmarklet_cta.heading,
-                        "body": page_data.bookmarklet_cta.body,
-                        "actions": [
-                            {
-                                "text": page_data.bookmarklet_cta.button_text,
-                                "href": page_data.bookmarklet_cta.button_link
-                            }
-                        ],
-                        "style": "contrast"
-                    }) }}
+                    {{ etna_cta(
+                        page_data.bookmarklet_cta.body,
+                        page_data.bookmarklet_cta.button_text,
+                        page_data.bookmarklet_cta.button_link,
+                        title=page_data.bookmarklet_cta.heading,
+                        heading_level=2,
+                        compact=True
+                    ) }}
                 {% endif %}
             </div>
         </div>
