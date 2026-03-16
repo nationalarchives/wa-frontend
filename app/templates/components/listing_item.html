@@ -6,7 +6,7 @@
             <a class="listing-item__link" href="{{ url or item.url or '#' }}">
                 <h2 class="listing-item__title heading heading--three">{{ item.listing_title or item.title }}</h2>
             </a>
-            {% if item.published_at %}<p class="listing-item__date supporting">Posted {{ item.published_at }}</p>{% endif %}
+            {% if item.last_published_at %}<p class="listing-item__date supporting">Posted {{ item.last_published_at | humanise_date }}</p>{% endif %}
         </article>
     </li>
 {% endmacro %}
