@@ -3,10 +3,25 @@
 {% from "components/listing_item.html" import listing_item %}
 {% from "components/pagination/macro.html" import tnaPagination %}
 {% from "components/card/macro.html" import tnaCard %}
+{% from "components/breadcrumbs/macro.html" import tnaBreadcrumbs %}
 {% from "components/navigation.html" import sidebar %}
 {% from "components/related_content.html" import related_content %}
 {% block content %}
     <div class="page">
+        {% block breadcrumbs %}
+            {% if page_data.meta.breadcrumbs %}
+                <div class="tna-breadcrumbs-wrapper">
+                    <div class="tna-container">
+                        <div class="tna-column tna-column--full">
+                            {{ tnaBreadcrumbs({
+                                "items": page_data.meta.breadcrumbs,
+                                "labelText": "Breadcrumb navigation"
+                            }) }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endblock %}
         {{ page_header(page_data.title, page_data.intro | tna_html | safe, True, "flush") }}
         <div class="listing-page tna-container">
             <div class="listing-page__main tna-column tna-column--width-2-3 tna-column--full-medium tna-column--full-small tna-column--full-tiny">
