@@ -21,12 +21,12 @@ def tna_html(s):
     return s
 
 
-def humanise_date(value):
+def humanise_date(value: str | datetime) -> str:
     if isinstance(value, str):
         value = datetime.fromisoformat(value.replace("Z", "+00:00"))
     if isinstance(value, datetime):
         return value.strftime("%-d %B '%y")
-    return None
+    return ""
 
 
 def slugify(s):
