@@ -8,14 +8,23 @@
     {% if page_data.search_configuration %}
         {{ featured_search(page_data.search_configuration.heading, page_data.search_configuration.button_text, page_data.search_configuration.help_text, page_data.search_configuration.archive_type, "secondary") }}
     {% endif %}
-    {% if page_data.subpages %}
+    {% if page_data.subpages or page_data.additional_links %}
         <section class="card-listing">
             <ul class="card-listing__grid tna-container">
-                {% for subpage in page_data.subpages %}
-                    {% set card_title = subpage.title %}
-                    {% set card_summary = subpage.teaser_text or '' %}
-                    {{ card(card_title, subpage.url, card_summary, modifier="listing", clickable=True, grid_classes="col-span-12 md:col-span-6") }}
-                {% endfor %}
+                {% if page_data.subpages %}
+                    {% for subpage in page_data.subpages %}
+                        {% set card_title = subpage.title %}
+                        {% set card_summary = subpage.teaser_text or '' %}
+                        {{ card(card_title, subpage.url, card_summary, modifier="listing", clickable=True, grid_classes="col-span-12 md:col-span-6") }}
+                    {% endfor %}
+                {% endif %}
+                {% if page_data.additional_links %}
+                    {% for link in page_data.additional_links %}
+                        {% set card_title = link.value.text %}
+                        {% set card_summary = link.value.description or '' %}
+                        {{ card(card_title, link.value.url, card_summary, modifier="listing", clickable=True, grid_classes="col-span-12 md:col-span-6") }}
+                    {% endfor %}
+                {% endif %}
             </ul>
         </section>
         {# {{ pagination(page_data.subpages) }} #}
