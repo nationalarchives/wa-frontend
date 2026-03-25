@@ -55,7 +55,7 @@ class KeywordDetector {
     let inQuotes = false;
 
     for (const char of s.trim()) {
-      if (char === "\"") {
+      if (char === '"') {
         inQuotes = !inQuotes;
         continue;
       }
