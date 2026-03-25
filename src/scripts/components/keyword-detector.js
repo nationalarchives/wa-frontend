@@ -49,14 +49,63 @@ class KeywordDetector {
     return s.trim().replace(/\s+/g, " ");
   }
 
+  parseTerms(s) {
+    const terms = [];
+    let current = "";
+    let inQuotes = false;
+
+    for (const char of s.trim()) {
+      if (char === "\"") {
+        inQuotes = !inQuotes;
+        continue;
+      }
+
+      if (!inQuotes && /[,\s]/.test(char)) {
+        const term = this.normalise(current);
+        if (term) {
+          terms.push(term);
+        }
+        current = "";
+        continue;
+      }
+
+      current += char;
+    }
+
+    const trailingTerm = this.normalise(current);
+    if (trailingTerm) {
+      terms.push(trailingTerm);
+    }
+
+    return { terms, inQuotes };
+  }
+
   splitTerms(s) {
-    return this.normalise(s)
-      .split(/[,\s]+/)
-      .filter(Boolean);
+    return this.parseTerms(s).terms;
   }
 
   tokenKey(t) {
     return t.toLowerCase();
+  }
+
+  tokenNeedsQuotes(token) {
+    return /[\s,]/.test(token);
+  }
+
+  serialiseToken(token) {
+    const normalisedToken = this.normalise(token).replace(/"/g, "");
+
+    if (!normalisedToken) {
+      return "";
+    }
+
+    return this.tokenNeedsQuotes(normalisedToken)
+      ? `"${normalisedToken}"`
+      : normalisedToken;
+  }
+
+  hasUnclosedQuote(s) {
+    return this.parseTerms(s).inQuotes;
   }
 
   /* ===== UI BUILDING ===== */
@@ -128,7 +177,10 @@ class KeywordDetector {
 
   /* ===== STATE MANAGEMENT ===== */
   syncToOriginal({ notify = true } = {}) {
-    const nextValue = this.tokens.join(",");
+    const nextValue = this.tokens
+      .map((token) => this.serialiseToken(token))
+      .filter(Boolean)
+      .join(" ");
 
     if (this.input.value === nextValue) {
       return;
@@ -279,8 +331,13 @@ class KeywordDetector {
   }
 
   handleKeydown(e) {
+    const hasUnclosedQuote = this.hasUnclosedQuote(this.visible.value);
+
     // Space, Enter, or comma triggers commit
     if ([" ", "Enter", ","].includes(e.key)) {
+      if (hasUnclosedQuote && [" ", ","].includes(e.key)) {
+        return;
+      }
       e.preventDefault();
       this.commitFromVisible();
       return;
