@@ -25,5 +25,5 @@
   {% set firstLinkBlock = page_data.featured_links_sections[0] or None %}
   {% set secondLinkBlock = page_data.featured_links_sections[1] or None %}
   {{ related_content(firstLinkBlock.links, heading=firstLinkBlock.heading, heading_id="archive-highlights", modifier="archive-highlights") }}
-  {{ related_content(secondLinkBlock.links, heading=secondLinkBlock.heading, heading_id="recently-archived", intro="test", modifier="recently-archived") }}
+  {{ related_content(secondLinkBlock.links, heading=secondLinkBlock.heading, heading_id="recently-archived", modifier="recently-archived") }}
 {% endblock content %}
