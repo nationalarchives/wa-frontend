@@ -12,7 +12,7 @@
                     {% for item in related_pages %}
                         {% set card_title = item.listing_title or item.value.text %}
                         {% set card_summary = item.listing_summary or item.introduction or '' %}
-                        {{ card(card_title, item.value.url, card_summary, item.category or '', item.value.url or '', modifier, 'h3', True) }}
+                        {{ card(card_title, item.value.url, card_summary, item.category or '', item.value.domain|truncate(28, True, "…") or '', modifier, 'h3', True) }}
                     {% endfor %}
                 </ul>
             </div>
