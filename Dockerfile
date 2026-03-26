@@ -29,4 +29,6 @@ RUN rm -fR /app/src
 RUN tna-clean
 
 # Run the application
+RUN chmod +x /app/docker-entrypoint.sh
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
 CMD ["tna-wsgi", "main:app"]
