@@ -5,8 +5,6 @@
 .footer {
   .tna-footer__navigation {
     margin-top: $grid-m;
-    padding-left: 0;
-    padding-right: 0;
     margin-bottom: $grid-m;
 
     @include media-query(medium) {
@@ -14,6 +12,10 @@
       padding-right: $grid-s;
       margin-bottom: 0;
     }
+  }
+
+  .tna-footer__navigation-block {
+    padding-top: 0;
   }
 
   &__strapline {
