@@ -50,17 +50,18 @@
 {% macro footer_nav(sections) %}
     <div class="tna-footer__navigation tna-column tna-column--flex-2 tna-column--full-medium tna-column--full-small tna-column--full-tiny tna-columns tna-columns--2 tna-columns--1-tiny">
         {% for section in sections %}
-            <div class="tna-column">
-                <h3 class="tna-footer__heading">{{ section.title }}</h3>
-                <ul class="tna-footer__list tna-ul tna-ul--plain">
+            <nav class="tna-footer__navigation-block tna-columns__block"
+                 aria-label="{{ section.title }}">
+                <h3 class="tna-footer__navigation-block-heading tna-heading-m footer__heading">{{ section.title }}</h3>
+                <ul class="tna-footer__navigation-block-items tna-footer__list tna-ul tna-ul--plain">
                     {% for link in section['items'] %}
-
-                        <li class="tna-footer__list-item">
-                            <a href="{{ link.href }}" class="tna-footer__link">{{ link.text }}</a>
+                        <li class="tna-footer__navigation-block-item tna-footer__list-item">
+                            <a href="{{ link.href }}"
+                               class="tna-footer__navigation-block-item-link tna-footer__link">{{ link.text }}</a>
                         </li>
                     {% endfor %}
                 </ul>
-            </div>
+            </nav>
         {% endfor %}
     </div>
 {% endmacro %}
