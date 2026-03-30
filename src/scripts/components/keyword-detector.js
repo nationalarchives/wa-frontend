@@ -34,6 +34,7 @@ class KeywordDetector {
     this.CLASS_STATUS = `${this.CLASS_BLOCK}__status`;
 
     this.input = input;
+    this.form = this.input.form;
     this.tokens = [];
     this.announceTimeout = null;
     this.MAX_TOKENS = 50; // Reasonable limit to prevent abuse
@@ -323,6 +324,12 @@ class KeywordDetector {
     });
 
     this.input.addEventListener("focus", () => this.visible.focus());
+
+    if (this.form) {
+      this.form.addEventListener("submit", () => {
+        this.commitFromVisible();
+      });
+    }
 
     // Event delegation for remove buttons (prevents memory leaks)
     this.list.addEventListener("click", (e) => {
