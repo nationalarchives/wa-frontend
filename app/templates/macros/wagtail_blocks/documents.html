@@ -1,0 +1,21 @@
+{%- from 'components/files-list/macro.html' import tnaFilesList -%}
+{% macro wagtailDocuments(block_value, block_id, itemHeadingLevel) %}
+  {% set files = [] %}
+{%- for document in block_value.documents %}
+  {% set files = files + [{
+    'id': 'doc-' ~ block_id ~ '-' ~ (document.file.id | string) ~ '-' ~ (loop.index | string),
+    'text': document.file.title,
+    'href': document.file.url,
+    'fileType': document.file.type | upper,
+    'fileSize': document.file.pretty_file_size,
+    'fileExtent': document.file.extent,
+    'description': document.file.description,
+    'icon': document.file.type | file_type_icon
+}] %}
+{%- endfor %}
+{{ tnaFilesList({
+  'itemHeadingLevel': itemHeadingLevel,
+  'items': files,
+  'fullAreaClick': True
+  }) }}
+{% endmacro %}
