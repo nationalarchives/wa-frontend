@@ -1,7 +1,7 @@
 {%- from 'components/details/macro.html' import tnaDetails -%}
 {%- from 'components/warning/macro.html' import tnaWarning -%}
 {%- from 'components/etna_cta.html' import etna_cta -%}
-
+{%- from 'macros/wagtail_blocks/documents.html' import wagtailDocuments -%}
 {%- from 'macros/wagtail_blocks/image.html' import wagtailImage -%}
 {%- from 'macros/wagtail_blocks/youtube_video.html' import wagtailYouTubeVideo -%}
 
@@ -29,6 +29,9 @@
     content_item.value.button.href,
     accent=content_item.value.button.accent
   ) }}
+
+  {%- elif content_item.type == 'document' %}
+    {{ wagtailDocuments(content_item.value, content_item.id, next_heading_level) }}
 
   {%- elif content_item.type == 'image' %}
   {{ wagtailImage(content_item.value, content_item.id, plain_images, False, picture_itemprop) }}

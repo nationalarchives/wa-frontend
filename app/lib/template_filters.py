@@ -37,3 +37,20 @@ def slugify(s):
     s = re.sub(r"[\s_-]+", "-", s)
     s = re.sub(r"^-+|-+$", "", s)
     return s
+
+
+def file_type_icon(s: str) -> str:
+    if not s:
+        return ""
+    s = s.lower()
+    if s in ["pdf", "csv"]:
+        return s
+    if s in ["doc", "docx"]:
+        return "word"
+    if s in ["xls", "xlsx"]:
+        return "excel"
+    if s in ["ppt", "pptx"]:
+        return "powerpoint"
+    if s in ["txt"]:
+        return "lines"
+    return ""
