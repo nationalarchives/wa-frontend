@@ -38,6 +38,7 @@ class KeywordDetector {
     this.announceTimeout = null;
     this.MAX_TOKENS = 50; // Reasonable limit to prevent abuse
     this.originalInputId = this.input.id || "";
+    this.wasInQuotes = false;
 
     this.buildUI();
     this.seedTokens();
@@ -88,20 +89,10 @@ class KeywordDetector {
     return t.toLowerCase();
   }
 
-  tokenNeedsQuotes(token) {
-    return /[\s,]/.test(token);
-  }
-
   serialiseToken(token) {
     const normalisedToken = this.normalise(token).replace(/"/g, "");
 
-    if (!normalisedToken) {
-      return "";
-    }
-
-    return this.tokenNeedsQuotes(normalisedToken)
-      ? `"${normalisedToken}"`
-      : normalisedToken;
+    return normalisedToken || "";
   }
 
   hasUnclosedQuote(s) {
@@ -180,7 +171,7 @@ class KeywordDetector {
     const nextValue = this.tokens
       .map((token) => this.serialiseToken(token))
       .filter(Boolean)
-      .join(" ");
+      .join(",");
 
     if (this.input.value === nextValue) {
       return;
@@ -252,6 +243,20 @@ class KeywordDetector {
     this.suggest.textContent = `Add ${displayText}…`;
   }
 
+  handleVisibleInput() {
+    const { inQuotes } = this.parseTerms(this.visible.value);
+    const justClosedQuote = this.wasInQuotes && !inQuotes;
+
+    this.wasInQuotes = inQuotes;
+
+    if (justClosedQuote) {
+      this.commitFromVisible();
+      return;
+    }
+
+    this.updateSuggest();
+  }
+
   commitFromVisible() {
     const raw = this.normalise(this.visible.value);
     if (!raw) return;
@@ -275,6 +280,7 @@ class KeywordDetector {
 
     this.visible.value = "";
     this.suggest.hidden = true;
+    this.wasInQuotes = false;
     this.render();
 
     if (newTerms.length > 0) {
@@ -308,7 +314,7 @@ class KeywordDetector {
   bindEvents() {
     /* Key handling */
     this.visible.addEventListener("keydown", (e) => this.handleKeydown(e));
-    this.visible.addEventListener("input", () => this.updateSuggest());
+    this.visible.addEventListener("input", () => this.handleVisibleInput());
     this.visible.addEventListener("paste", (e) => this.handlePaste(e));
 
     this.suggest.addEventListener("click", () => {
@@ -366,6 +372,7 @@ class KeywordDetector {
     e.preventDefault();
     const text = (e.clipboardData || window.clipboardData).getData("text");
     this.visible.value = this.normalise(text);
+    this.wasInQuotes = this.hasUnclosedQuote(this.visible.value);
     this.commitFromVisible();
   }
 
