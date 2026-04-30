@@ -17,7 +17,9 @@ export default class FeaturedSearchKeywordToggle {
 
   constructor(form) {
     this.form = form;
-    this.input = form.querySelector(FeaturedSearchKeywordToggle.SEARCH_INPUT_SELECTOR);
+    this.input = form.querySelector(
+      FeaturedSearchKeywordToggle.SEARCH_INPUT_SELECTOR,
+    );
     this.detector = null;
 
     if (!this.input || this.input.tagName !== "INPUT") {
@@ -46,7 +48,10 @@ export default class FeaturedSearchKeywordToggle {
   }
 
   applyMode() {
-    if (this._checkedSearchType() === FeaturedSearchKeywordToggle.SEARCH_TYPE_KEYWORD) {
+    if (
+      this._checkedSearchType() ===
+      FeaturedSearchKeywordToggle.SEARCH_TYPE_KEYWORD
+    ) {
       this.enableKeywordTokens();
     } else {
       this.disableKeywordTokens();
@@ -57,7 +62,10 @@ export default class FeaturedSearchKeywordToggle {
     if (this.detector) {
       return;
     }
-    this.input.setAttribute(FeaturedSearchKeywordToggle.ATTR_SEARCH_KEYWORDS, "");
+    this.input.setAttribute(
+      FeaturedSearchKeywordToggle.ATTR_SEARCH_KEYWORDS,
+      "",
+    );
     this.detector = new KeywordDetector(this.input);
   }
 
@@ -66,6 +74,8 @@ export default class FeaturedSearchKeywordToggle {
       this.detector.destroy();
       this.detector = null;
     }
-    this.input.removeAttribute(FeaturedSearchKeywordToggle.ATTR_SEARCH_KEYWORDS);
+    this.input.removeAttribute(
+      FeaturedSearchKeywordToggle.ATTR_SEARCH_KEYWORDS,
+    );
   }
 }
