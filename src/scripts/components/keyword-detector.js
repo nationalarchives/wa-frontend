@@ -17,7 +17,7 @@ class KeywordDetector {
 
   constructor(input) {
     // Validate input element
-    if (!input || !(input instanceof HTMLInputElement)) {
+    if (!input || input.tagName !== "INPUT") {
       console.error("KeywordDetector: Invalid input element provided");
       return;
     }
@@ -41,6 +41,8 @@ class KeywordDetector {
     this.originalInputId = this.input.id || "";
     this.wasInQuotes = false;
 
+    this._destroyed = false;
+    this._originalAriaSnapshot = this._captureOriginalAriaSnapshot();
     this.buildUI();
     this.seedTokens();
     this.bindEvents();
@@ -98,6 +100,25 @@ class KeywordDetector {
 
   hasUnclosedQuote(s) {
     return this.parseTerms(s).inQuotes;
+  }
+
+  _captureOriginalAriaSnapshot() {
+    const snapshot = {};
+    for (const attr of ["aria-describedby", "aria-labelledby", "aria-label"]) {
+      snapshot[attr] = this.input.getAttribute(attr);
+    }
+    return snapshot;
+  }
+
+  _restoreOriginalAria() {
+    for (const attr of ["aria-describedby", "aria-labelledby", "aria-label"]) {
+      const value = this._originalAriaSnapshot[attr];
+      if (value === null) {
+        this.input.removeAttribute(attr);
+      } else {
+        this.input.setAttribute(attr, value);
+      }
+    }
   }
 
   /* ===== UI BUILDING ===== */
@@ -314,25 +335,28 @@ class KeywordDetector {
   /* ===== EVENT BINDING ===== */
   bindEvents() {
     /* Key handling */
-    this.visible.addEventListener("keydown", (e) => this.handleKeydown(e));
-    this.visible.addEventListener("input", () => this.handleVisibleInput());
-    this.visible.addEventListener("paste", (e) => this.handlePaste(e));
+    this._onVisibleKeydown = (e) => this.handleKeydown(e);
+    this._onVisibleInput = () => this.handleVisibleInput();
+    this._onVisiblePaste = (e) => this.handlePaste(e);
+    this.visible.addEventListener("keydown", this._onVisibleKeydown);
+    this.visible.addEventListener("input", this._onVisibleInput);
+    this.visible.addEventListener("paste", this._onVisiblePaste);
 
-    this.suggest.addEventListener("click", () => {
+    this._onSuggestClick = () => {
       this.commitFromVisible();
       this.visible.focus();
-    });
+    };
+    this.suggest.addEventListener("click", this._onSuggestClick);
 
-    this.input.addEventListener("focus", () => this.visible.focus());
+    this._onOriginalFocus = () => this.visible.focus();
+    this.input.addEventListener("focus", this._onOriginalFocus);
 
     if (this.form) {
-      this.form.addEventListener("submit", () => {
-        this.commitFromVisible();
-      });
+      this._onFormSubmit = () => this.commitFromVisible();
+      this.form.addEventListener("submit", this._onFormSubmit);
     }
 
-    // Event delegation for remove buttons (prevents memory leaks)
-    this.list.addEventListener("click", (e) => {
+    this._onListClick = (e) => {
       const button = e.target.closest(`.${this.CLASS_REMOVE}`);
       if (button && button.dataset.tokenIndex !== undefined) {
         const index = parseInt(button.dataset.tokenIndex, 10);
@@ -340,7 +364,8 @@ class KeywordDetector {
           this.removeToken(index);
         }
       }
-    });
+    };
+    this.list.addEventListener("click", this._onListClick);
   }
 
   handleKeydown(e) {
@@ -399,11 +424,54 @@ class KeywordDetector {
     }, 1000);
   }
 
-  // Cleanup method for when component is destroyed
+  /**
+   * Tear down the token UI and restore the original input for plain-text use.
+   * Flushes any text in the visible field into tokens before serialising to the source input.
+   */
   destroy() {
+    if (this._destroyed || !this.root) {
+      return;
+    }
+    this._destroyed = true;
+
     if (this.announceTimeout) {
       clearTimeout(this.announceTimeout);
+      this.announceTimeout = null;
     }
+
+    this.commitFromVisible();
+
+    this.visible.removeEventListener("keydown", this._onVisibleKeydown);
+    this.visible.removeEventListener("input", this._onVisibleInput);
+    this.visible.removeEventListener("paste", this._onVisiblePaste);
+    this.suggest.removeEventListener("click", this._onSuggestClick);
+    this.input.removeEventListener("focus", this._onOriginalFocus);
+    if (this.form && this._onFormSubmit) {
+      this.form.removeEventListener("submit", this._onFormSubmit);
+    }
+    this.list.removeEventListener("click", this._onListClick);
+
+    this.root.remove();
+
+    this.input.classList.remove(this.CLASS_HIDDEN_SOURCE);
+    this.input.removeAttribute("aria-hidden");
+    this.input.tabIndex = 0;
+
+    if (this.originalInputId) {
+      this.visible.removeAttribute("id");
+      this.input.id = this.originalInputId;
+    }
+
+    this._restoreOriginalAria();
+
+    this.syncToOriginal({ notify: false });
+
+    this.root = null;
+    this.list = null;
+    this.visible = null;
+    this.suggest = null;
+    this.status = null;
+    this.tokens = [];
   }
 }
 
