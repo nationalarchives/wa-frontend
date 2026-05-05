@@ -14,6 +14,7 @@ import Media from "./media.js";
 import SkipLink from "./components/skip-link.js";
 import AtoZArchive from "./components/a-z-archive.js";
 import KeywordDetector from "./components/keyword-detector.js";
+import FeaturedSearchKeywordToggle from "./components/featured-search-keyword-toggle.js";
 
 function initComponent(ComponentClass) {
   const items = document.querySelectorAll(ComponentClass.selector());
@@ -32,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initComponent(Header);
   initComponent(AtoZArchive);
   initComponent(KeywordDetector);
+  initComponent(FeaturedSearchKeywordToggle);
   initComponent(Media);
 
   // Initialise TNA Frontend components (includes tna-cookie-banner)

@@ -10,7 +10,8 @@
                       role="search"
                       aria-labelledby="featured-search-heading"
                       action="{{ url_for('wagtail.search') }}"
-                      method="get">
+                      method="get"
+                      {% if archive_type == 'web' %}data-featured-search-keyword-toggle{% endif %}>
                     <label for="featured-search-input" class="tna-visually-hidden">Enter search term</label>
                     {% if archive_type == 'web' %}
                     <fieldset class="featured-search__options">
@@ -32,7 +33,7 @@
                                id="featured-search-input"
                                name="q"
                                class="featured-search__input"
-                               data-search-keywords
+                               {% if archive_type != 'web' %}data-search-keywords{% endif %}
                                {% if help_text %}aria-describedby="featured-search-help"{% endif %} />
                         <input type="hidden" name="archive_type" value="{{ archive_type }}" />
                         <button type="submit" class="featured-search__button button button--primary">{{ button_text }}</button>
