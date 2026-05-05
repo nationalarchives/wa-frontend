@@ -434,12 +434,12 @@ class KeywordDetector {
     }
     this._destroyed = true;
 
+    this.commitFromVisible();
+
     if (this.announceTimeout) {
       clearTimeout(this.announceTimeout);
       this.announceTimeout = null;
     }
-
-    this.commitFromVisible();
 
     this.visible.removeEventListener("keydown", this._onVisibleKeydown);
     this.visible.removeEventListener("input", this._onVisibleInput);
