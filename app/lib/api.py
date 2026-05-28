@@ -47,7 +47,9 @@ class JSONAPIClient:
         }
         if default_headers:
             self.headers.update(default_headers)
-        self.params = {} if default_params is None else default_params
+        if default_params is None:
+            default_params = {}
+        self.params = dict(default_params)
 
     def add_parameter(self, key, value):
         self.params[key] = value

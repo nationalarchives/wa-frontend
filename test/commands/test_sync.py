@@ -1,6 +1,9 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
+from click.testing import CliRunner
+
+from app import create_app
 from app.commands import (
     _clear_cache,
     save_entries,
@@ -11,9 +14,6 @@ from app.commands import (
 from app.lib import archive_service, database
 from app.lib.cache import cache
 from app.lib.models import ArchiveRecord
-from click.testing import CliRunner
-
-from app import create_app
 
 VALID_ENTRY = {
     "profileName": "Example Site",
@@ -36,7 +36,7 @@ VALID_ENTRY = {
 
 
 def _make_validated(wam_id=1, profile_name="Example Site"):
-    from app.lib.schemas import ArchiveRecordSchema
+    from app.lib.schemas import ArchiveRecordSchema  # noqa: PLC0415
 
     return ArchiveRecordSchema(
         **{**VALID_ENTRY, "wamId": wam_id, "profileName": profile_name}

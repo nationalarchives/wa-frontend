@@ -1,7 +1,6 @@
 import hashlib
 import json
 
-from app.lib.util import DIGITS_CATEGORY, normalize_archive_letter
 from pydantic import (
     BaseModel,
     ConfigDict,
@@ -10,6 +9,8 @@ from pydantic import (
     PositiveInt,
     computed_field,
 )
+
+from app.lib.util import DIGITS_CATEGORY, normalize_archive_letter
 
 
 class ArchiveRecordSchema(BaseModel):

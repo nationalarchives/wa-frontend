@@ -1,10 +1,9 @@
 import unittest
 from unittest.mock import patch
 
+from app import create_app
 from app.lib.archive_service import _sanitize_fts_query
 from app.wagtail.pages.atoz_archive_page import render_atoz_archive_page
-
-from app import create_app
 
 PAGE_DATA = {
     "id": 1,
@@ -82,9 +81,9 @@ class AtozArchivePageSearchTestCase(unittest.TestCase):
                 "app.lib.archive_service.get_records_by_character",
                 return_value=CHARACTER_RESULTS,
             ),
+            self.app.test_request_context(f"/?{query_string}"),
         ):
-            with self.app.test_request_context(f"/?{query_string}"):
-                result = render_atoz_archive_page(PAGE_DATA)
+            result = render_atoz_archive_page(PAGE_DATA)
         # Normalise: success returns a Response; errors return (string, status)
         if isinstance(result, tuple):
             return result
@@ -108,7 +107,7 @@ class AtozArchivePageSearchTestCase(unittest.TestCase):
             patch(
                 "app.lib.archive_service.get_available_characters",
                 return_value=AVAILABLE_CHARACTERS,
-            ) as _mock_chars,  # noqa F841
+            ) as _mock_chars,
             patch(
                 "app.lib.archive_service.search_records",
                 return_value=SEARCH_RESULTS,
@@ -116,9 +115,9 @@ class AtozArchivePageSearchTestCase(unittest.TestCase):
             patch(
                 "app.lib.archive_service.get_records_by_character",
             ) as mock_by_char,
+            self.app.test_request_context("/?character=a&q=foo"),
         ):
-            with self.app.test_request_context("/?character=a&q=foo"):
-                render_atoz_archive_page(PAGE_DATA)
+            render_atoz_archive_page(PAGE_DATA)
 
         mock_search.assert_called_once_with("foo")
         mock_by_char.assert_not_called()
@@ -145,9 +144,9 @@ class AtozArchivePageSearchTestCase(unittest.TestCase):
                 "app.lib.archive_service.get_records_by_character",
                 return_value=CHARACTER_RESULTS,
             ),
+            self.app.test_request_context(f"/?{query_string}"),
         ):
-            with self.app.test_request_context(f"/?{query_string}"):
-                return render_atoz_archive_page(PAGE_DATA)
+            return render_atoz_archive_page(PAGE_DATA)
 
     def test_search_results_have_noindex_header(self):
         """Search results response includes X-Robots-Tag: noindex."""
@@ -166,14 +165,14 @@ class AtozArchivePageSearchTestCase(unittest.TestCase):
 
     def test_character_not_in_available_returns_404(self):
         """?character=x where x is not in available_characters returns 404."""
-        response, status = self._render("character=x")
+        _, status = self._render("character=x")
         self.assertEqual(status, 404)
 
     def test_all_available_characters_return_200(self):
         """Every character in available_characters returns a 200 listing."""
         for char in AVAILABLE_CHARACTERS:
             with self.subTest(char=char):
-                response, status = self._render(f"character={char}")
+                _, status = self._render(f"character={char}")
                 self.assertEqual(status, 200)
 
     def test_available_character_with_no_records_returns_500(self):
@@ -187,9 +186,9 @@ class AtozArchivePageSearchTestCase(unittest.TestCase):
                 "app.lib.archive_service.get_records_by_character",
                 return_value={"items": []},
             ),
+            self.app.test_request_context("/?character=a"),
         ):
-            with self.app.test_request_context("/?character=a"):
-                _, status = render_atoz_archive_page(PAGE_DATA)
+            _, status = render_atoz_archive_page(PAGE_DATA)
         self.assertEqual(status, 500)
 
 
@@ -242,7 +241,7 @@ class SanitizeFtsQueryTestCase(unittest.TestCase):
         self.assertEqual(_sanitize_fts_query(""), "")
 
     def test_query_truncated_to_max_length(self):
-        from app.lib.util import ARCHIVE_SEARCH_MAX_LENGTH
+        from app.lib.util import ARCHIVE_SEARCH_MAX_LENGTH  # noqa: PLC0415
 
         long_query = "a" * (ARCHIVE_SEARCH_MAX_LENGTH + 50)
         result = _sanitize_fts_query(long_query)

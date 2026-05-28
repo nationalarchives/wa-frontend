@@ -1,11 +1,14 @@
 from urllib.parse import unquote
 
-from app.lib.api import JSONAPIClient
-from app.lib.cache import cache
 from flask import current_app
 
+from app.lib.api import JSONAPIClient
+from app.lib.cache import cache
 
-def wagtail_request_handler(uri, params={}):
+
+def wagtail_request_handler(uri, params=None):
+    if params is None:
+        params = {}
     api_url = current_app.config.get("WAGTAIL_API_URL")
     api_key = current_app.config.get("WAGTAIL_API_KEY")
     api_unthrottled_header = current_app.config.get("API_UNTHROTTLED_HEADER")
@@ -35,7 +38,9 @@ def wagtail_request_handler(uri, params={}):
     return data
 
 
-def all_pages(params={}, batch=1, limit=None):
+def all_pages(params=None, batch=1, limit=None):
+    if params is None:
+        params = {}
     if not limit:
         limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
     offset = (batch - 1) * limit
@@ -44,7 +49,9 @@ def all_pages(params={}, batch=1, limit=None):
     return wagtail_request_handler(uri, params)
 
 
-def page_details(page_id, params={}):
+def page_details(page_id, params=None):
+    if params is None:
+        params = {}
     uri = f"pages/{page_id}/"
     params = params | {
         "include_aliases": "",
@@ -52,7 +59,9 @@ def page_details(page_id, params={}):
     return wagtail_request_handler(uri, params)
 
 
-def page_details_by_uri(page_uri, params={}):
+def page_details_by_uri(page_uri, params=None):
+    if params is None:
+        params = {}
     uri = "pages/find/"
     params = params | {
         "html_path": page_uri,
@@ -61,18 +70,24 @@ def page_details_by_uri(page_uri, params={}):
     return wagtail_request_handler(uri, params)
 
 
-def page_preview(content_type, token, params={}):
+def page_preview(content_type, token, params=None):
+    if params is None:
+        params = {}
     uri = "page_preview/1/"
     params = params | {"content_type": content_type, "token": token}
     return wagtail_request_handler(uri, params)
 
 
-def image(image_uuid, params={}):
+def image(image_uuid, params=None):
+    if params is None:
+        params = {}
     uri = f"images/{image_uuid}/"
     return wagtail_request_handler(uri, params)
 
 
-def redirect_by_uri(path, params={}):
+def redirect_by_uri(path, params=None):
+    if params is None:
+        params = {}
     uri = "redirects/find/"
     params = params | {
         "html_path": unquote(path),
@@ -80,7 +95,9 @@ def redirect_by_uri(path, params={}):
     return wagtail_request_handler(uri, params)
 
 
-def page_children(page_id, params={}, limit=None):
+def page_children(page_id, params=None, limit=None):
+    if params is None:
+        params = {}
     if not page_id:
         return {}
     uri = "pages/"
@@ -96,8 +113,10 @@ def pages_paginated(
     page,
     limit=None,
     initial_offset=0,
-    params={},
+    params=None,
 ):
+    if params is None:
+        params = {}
     if not limit:
         limit = current_app.config.get("WAGTAILAPI_LIMIT_MAX")
     offset = ((page - 1) * limit) + initial_offset
@@ -114,18 +133,17 @@ def page_children_paginated(
     page,
     limit=None,
     initial_offset=0,
-    params={},
+    params=None,
 ):
+    if params is None:
+        params = {}
     if not page_id:
         return {"items": [], "meta": {"total_count": 0}}
     return pages_paginated(
         page=page,
         limit=limit,
         initial_offset=initial_offset,
-        params=params
-        | {
-            "child_of": page_id,
-        },
+        params=params | {"child_of": page_id},
     )
 
 
