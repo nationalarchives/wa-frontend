@@ -1,12 +1,13 @@
 import re
 
+from flask import current_app
+from sqlalchemy import func, text
+from sqlalchemy.exc import OperationalError
+
 from app.lib import database
 from app.lib.cache import cache
 from app.lib.models import ArchiveRecord
 from app.lib.util import ARCHIVE_SEARCH_MAX_LENGTH
-from flask import current_app
-from sqlalchemy import func, text
-from sqlalchemy.exc import OperationalError
 
 
 @cache.cached(timeout=0, key_prefix="archive:characters")

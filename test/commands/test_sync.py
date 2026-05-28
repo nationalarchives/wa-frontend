@@ -1,6 +1,9 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
+from click.testing import CliRunner
+
+from app import create_app
 from app.commands import (
     _clear_cache,
     save_entries,
@@ -11,9 +14,6 @@ from app.commands import (
 from app.lib import archive_service, database
 from app.lib.cache import cache
 from app.lib.models import ArchiveRecord
-from click.testing import CliRunner
-
-from app import create_app
 
 VALID_ENTRY = {
     "profileName": "Example Site",

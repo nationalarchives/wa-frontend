@@ -1,5 +1,14 @@
 from urllib.parse import quote, quote_plus, unquote, urlparse
 
+from flask import (
+    current_app,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
+from pydash import objects
+
 from app.lib.api import ResourceForbidden, ResourceNotFound
 from app.wagtail import bp
 from app.wagtail.constants import (
@@ -10,14 +19,6 @@ from app.wagtail.constants import (
     SearchType,
 )
 from app.wagtail.render import render_content_page
-from flask import (
-    current_app,
-    redirect,
-    render_template,
-    request,
-    url_for,
-)
-from pydash import objects
 
 from .api import (
     image,

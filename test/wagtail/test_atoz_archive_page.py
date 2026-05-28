@@ -1,10 +1,9 @@
 import unittest
 from unittest.mock import patch
 
+from app import create_app
 from app.lib.archive_service import _sanitize_fts_query
 from app.wagtail.pages.atoz_archive_page import render_atoz_archive_page
-
-from app import create_app
 
 PAGE_DATA = {
     "id": 1,

@@ -1,6 +1,7 @@
-from app.lib.database import Base
 from sqlalchemy import Boolean, Integer, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
+
+from app.lib.database import Base
 
 
 class ArchiveRecord(Base):
