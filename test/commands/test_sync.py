@@ -36,7 +36,7 @@ VALID_ENTRY = {
 
 
 def _make_validated(wam_id=1, profile_name="Example Site"):
-    from app.lib.schemas import ArchiveRecordSchema
+    from app.lib.schemas import ArchiveRecordSchema  # noqa: PLC0415
 
     return ArchiveRecordSchema(
         **{**VALID_ENTRY, "wamId": wam_id, "profileName": profile_name}
