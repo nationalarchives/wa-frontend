@@ -1,0 +1,10 @@
+extend = "/home/app/ruff.toml"
+
+extend-exclude = [
+    "migrations/versions/",
+]
+
+[lint]
+ignore = [
+    "TRY400",
+]

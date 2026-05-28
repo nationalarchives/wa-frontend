@@ -1,15 +1,13 @@
 import os
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-
 from alembic import context
+from sqlalchemy import engine_from_config, pool
 
 # Import Flask app and models
 from app import create_app
-from app.lib.database import Base
 from app.lib import models  # noqa: F401 - Import to register models with Base
+from app.lib.database import Base
 
 # Get Alembic config object
 config = context.config

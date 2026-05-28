@@ -54,14 +54,15 @@ import os
 
 import click
 import requests
+from pydantic import ValidationError
+from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
+
 from app.lib import database
 from app.lib.archive_service import get_records_by_character
 from app.lib.cache import cache
 from app.lib.models import ArchiveRecord
 from app.lib.schemas import ArchiveRecordSchema
-from pydantic import ValidationError
-from sqlalchemy import text
-from sqlalchemy.exc import SQLAlchemyError
 
 logger = logging.getLogger(__name__)
 

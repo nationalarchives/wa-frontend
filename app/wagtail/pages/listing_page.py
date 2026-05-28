@@ -1,8 +1,9 @@
 import math
 
+from flask import current_app, render_template, request
+
 from app.lib.pagination import pagination_object
 from app.wagtail.api import page_children_paginated
-from flask import current_app, render_template, request
 
 
 def render_listing_page(page_data):
