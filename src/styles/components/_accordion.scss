@@ -48,8 +48,18 @@
         color: var(--theme-link-hover);
       }
 
+      #{$root}__toggle-text::before {
+        text-decoration: underline;
+      }
+
       #{$root}__icon {
         border-color: var(--theme-link-hover);
+      }
+    }
+
+    &:focus-visible {
+      #{$root}__toggle-text::before {
+        text-decoration: underline;
       }
     }
   }

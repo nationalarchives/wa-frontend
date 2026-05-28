@@ -20,6 +20,14 @@
 
   a {
     text-decoration: underline;
+    text-underline-offset: 0.15em;
+    text-decoration-thickness: from-font;
+  }
+
+  a:hover,
+  a:focus,
+  a:focus-visible {
+    text-decoration-thickness: 2px;
   }
 
   ul,

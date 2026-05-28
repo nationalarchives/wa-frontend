@@ -55,7 +55,9 @@ export function renderRecords(panel, records) {
     const item = document.createElement("li");
     item.className = CLASSES.listingItem;
 
-    const title = document.createElement("h2");
+    // In the enhanced UI, records are nested within an accordion whose summary uses an h3.
+    // Keep record titles as h4 so heading levels remain sequential.
+    const title = document.createElement("h4");
     title.className = CLASSES.listingItemTitle;
     title.textContent = record.profile_name || "";
     if (record.archive_link) {
