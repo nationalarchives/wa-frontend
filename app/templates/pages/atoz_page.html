@@ -32,13 +32,13 @@
                 data-az-search-form
                 data-az-base-url="{{ page_data.meta.url }}">
             <div class="tna-form__group featured-search featured-search--transparent">
-              <label for="search" class="tna-form__label featured-search__label">
+              <label for="az-search" class="tna-form__label featured-search__label">
                 Search the A-Z
               </label>
               <div class="featured-search__input-container">
                 <input
                   type="search"
-                  id="search"
+                  id="az-search"
                   name="q"
                   class="tna-search__input featured-search__input"
                   value="{{ search_query or '' }}"
@@ -47,7 +47,17 @@
                 <button type="submit" class="tna-search__button featured-search__button button button--primary">
                   Search
                 </button>
-                <a class="featured-search__clear" href="{{ page_data.meta.url }}" data-az-clear hidden>Clear</a>
+                {# Non-JS: link clears query by navigating back to base URL #}
+                <a class="featured-search__clear"
+                   href="{{ page_data.meta.url }}"
+                   data-az-clear-link
+                   {% if not search_query %}hidden{% endif %}>Clear</a>
+                {# Enhanced: button clears live-search state without navigation #}
+                <button class="featured-search__clear"
+                        type="button"
+                        data-az-clear
+                        aria-label="Clear search"
+                        hidden>Clear</button>
               </div>
             </div>
           </form>
@@ -97,10 +107,10 @@
                       data-ongoing="{{ 'true' if record.ongoing else 'false' }}">
                     {% if record.archive_link %}
                       <a class="listing-item__link" href="{{ record.archive_link }}">
-                        <h2 class="listing-item__title heading heading--four">{{ record.profile_name }}</h2>
+                        <h3 class="listing-item__title heading heading--four">{{ record.profile_name }}</h3>
                       </a>
                     {% else %}
-                      <h2 class="listing-item__title heading heading--four">{{ record.profile_name }}</h2>
+                      <h3 class="listing-item__title heading heading--four">{{ record.profile_name }}</h3>
                     {% endif %}
                     {% if record.record_url %}<p class="listing-item__url supporting">{{ record.record_url }}</p>{% endif %}
                     <p class="listing-item__date supporting">Captures from {{ record.first_capture_display or '' }} to{% if record.ongoing %} Ongoing{% else %} {{ record.latest_capture_display or '' }}{% endif %}</p>
