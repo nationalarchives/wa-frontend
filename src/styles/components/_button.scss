@@ -26,12 +26,17 @@
     color: var(--theme-button-text);
     font-weight: $weight-bold;
     background-color: var(--theme-button-background);
+    text-decoration: none;
 
     &:hover,
-    &:focus,
     &:visited {
       color: var(--theme-button-text);
       background-color: var(--theme-button-hover);
+    }
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
     }
   }
 }
