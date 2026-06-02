@@ -40,6 +40,9 @@ export default class AtoZArchive {
     this.clearControl = this.root
       ? this.root.querySelector("[data-az-clear]")
       : null;
+    this.clearLink = this.root
+      ? this.root.querySelector("[data-az-clear-link]")
+      : null;
     this.noResultsEl = node.querySelector("[data-az-no-results]") || null;
 
     this.letters = [];
@@ -412,7 +415,10 @@ export default class AtoZArchive {
 
     if (this.clearControl) {
       this.clearControl.addEventListener("click", (event) => {
-        event.preventDefault();
+        // Button in enhanced UI; no default navigation, but keep handler resilient.
+        if (event && typeof event.preventDefault === "function") {
+          event.preventDefault();
+        }
         if (searchInput) {
           searchInput.value = "";
         }
@@ -457,6 +463,11 @@ export default class AtoZArchive {
 
     this.bindAccordionEvents(detailsElements);
     this.bindSearchForm(detailsElements);
+
+    // Once enhanced UI is ready, hide the non-JS "Clear" link.
+    if (this.clearLink) {
+      this.clearLink.hidden = true;
+    }
 
     const initialQuery = this.initialSearchQuery;
     const selectedCharacter = this.selectedCharacter;
