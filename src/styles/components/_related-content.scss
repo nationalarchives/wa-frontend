@@ -26,14 +26,17 @@
   &__intro {
     margin-top: 0;
     margin-bottom: $grid-m;
+
     color: var(--theme-text-80);
   }
 
   &__list {
     margin: 0;
+
     display: grid;
     grid-template-columns: 1fr;
     gap: $grid-s;
+
     list-style: none;
 
     @include media-query(medium) {

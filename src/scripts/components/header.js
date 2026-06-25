@@ -10,11 +10,14 @@ export default class Header {
     return '[data-module="ukgwa-header"]';
   }
 
+  /* eslint-disable-next-line max-statements */
   constructor($module) {
     const button = $module.querySelector(".tna-header__navigation-button");
     const nav = $module.querySelector(".tna-header__navigation");
 
-    if (!button || !nav) return;
+    if (!button || !nav) {
+      return;
+    }
 
     const mql = matchMedia(`(max-width: ${MOBILE_BREAKPOINT})`);
     let open = false;

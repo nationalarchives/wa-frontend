@@ -47,6 +47,7 @@
 */
 @mixin native-vertical-scroll() {
   overflow: hidden scroll;
+
   -webkit-overflow-scrolling: touch;
 }
 

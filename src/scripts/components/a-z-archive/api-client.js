@@ -49,6 +49,7 @@ export default class ArchiveApiClient {
     return this.recordsByLetter.entries();
   }
 
+  /* eslint-disable-next-line require-await */
   async getRecordsForLetter(letter) {
     // Reuse cached records when available.
     if (this.recordsByLetter.has(letter)) {

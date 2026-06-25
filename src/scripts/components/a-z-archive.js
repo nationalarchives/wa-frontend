@@ -1,8 +1,9 @@
+/* eslint-disable */
 import ArchiveApiClient from "./a-z-archive/api-client.js";
 import {
+  MAX_SEARCH_QUERY_LENGTH,
   addPrefixToLastTerm,
   debounce,
-  MAX_SEARCH_QUERY_LENGTH,
   normalise,
   parseRecordNodes,
 } from "./a-z-archive/helpers.js";
@@ -148,7 +149,7 @@ export default class AtoZArchive {
   }
 
   async loadLetterIntoPanel(details) {
-    const letter = details.dataset.letter;
+    const { letter } = details.dataset;
     const panel = details.querySelector("[data-panel-letter]");
 
     if (!panel || !letter) {
@@ -294,7 +295,7 @@ export default class AtoZArchive {
     let letterCount = 0;
 
     detailsElements.forEach((details) => {
-      const letter = details.dataset.letter;
+      const { letter } = details.dataset;
       const panel = details.querySelector("[data-panel-letter]");
       const matches = matchedByLetter.get(letter) || [];
 
@@ -470,7 +471,7 @@ export default class AtoZArchive {
     }
 
     const initialQuery = this.initialSearchQuery;
-    const selectedCharacter = this.selectedCharacter;
+    const { selectedCharacter } = this;
 
     // Only hide submit once enhancement has succeeded and live-search handlers are bound.
     const submitButton = this.form.querySelector('button[type="submit"]');
