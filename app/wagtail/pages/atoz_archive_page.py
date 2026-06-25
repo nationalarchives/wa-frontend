@@ -1,12 +1,13 @@
 from enum import StrEnum
 
+from flask import current_app, make_response, render_template, request
+
 from app.lib import archive_service
 from app.lib.util import (
     ARCHIVE_SEARCH_MAX_LENGTH,
     DIGITS_CATEGORY,
     normalize_archive_letter,
 )
-from flask import current_app, make_response, render_template, request
 
 
 class DisplayMode(StrEnum):
@@ -76,7 +77,9 @@ def render_atoz_archive_page(page_data):
     display_character = (
         character
         if character == DIGITS_CATEGORY
-        else character.upper() if character else None
+        else character.upper()
+        if character
+        else None
     )
 
     response = make_response(

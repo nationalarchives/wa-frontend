@@ -1,6 +1,7 @@
+from flask import current_app, jsonify, request
+
 from app.api import bp
 from app.lib import archive_service
-from flask import current_app, jsonify, request
 
 
 @bp.route("/archive/characters", methods=["GET"])

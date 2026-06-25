@@ -1,9 +1,6 @@
 import math
 from datetime import datetime
 
-from app.lib import archive_service
-from app.sitemaps import bp
-from app.wagtail.api import all_pages
 from flask import (
     current_app,
     make_response,
@@ -11,6 +8,10 @@ from flask import (
     render_template,
     url_for,
 )
+
+from app.lib import archive_service
+from app.sitemaps import bp
+from app.wagtail.api import all_pages
 
 
 @bp.route("/sitemap.xml", strict_slashes=False)

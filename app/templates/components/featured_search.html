@@ -1,17 +1,19 @@
 {# Featured Search component #}
-{% macro featured_search(heading='Find archived government websites and documents', button_text='Search', help_text='', archive_type='web', modifier='') %}
+{% macro featured_search(heading='Find archived government websites and documents', button_text='Search', help_text='', archive_type='web', modifier='', id_suffix='') %}
+    {% set _id_base = 'featured-search' ~ ('-' ~ id_suffix if id_suffix else '') %}
     <section class="featured-search{% if modifier %} featured-search--{{ modifier }}{% endif %}"
-             aria-labelledby="featured-search-heading">
+             aria-labelledby="{{ _id_base }}-heading">
         <div class="featured-search__container tna-container">
             <div class="featured-search__content tna-column tna-column--full">
-                <h2 id="featured-search-heading"
+                <h2 id="{{ _id_base }}-heading"
                     class="featured-search__heading heading heading--two">{{ heading }}</h2>
                 <form class="featured-search__form"
                       role="search"
-                      aria-labelledby="featured-search-heading"
+                      aria-labelledby="{{ _id_base }}-heading"
                       action="{{ url_for('wagtail.search') }}"
-                      method="get">
-                    <label for="featured-search-input" class="tna-visually-hidden">Enter search term</label>
+                      method="get"
+                      {% if archive_type == 'web' %}data-featured-search-keyword-toggle{% endif %}>
+                    <label for="{{ _id_base }}-input" class="tna-visually-hidden">Enter search term</label>
                     {% if archive_type == 'web' %}
                     <fieldset class="featured-search__options">
                         <legend class="tna-visually-hidden">Search type</legend>
@@ -29,16 +31,16 @@
                     {% endif %}
                     <div class="featured-search__input-container">
                         <input type="search"
-                               id="featured-search-input"
+                               id="{{ _id_base }}-input"
                                name="q"
                                class="featured-search__input"
-                               data-search-keywords
-                               {% if help_text %}aria-describedby="featured-search-help"{% endif %} />
+                               {% if archive_type != 'web' %}data-search-keywords{% endif %}
+                               {% if help_text %}aria-describedby="{{ _id_base }}-help"{% endif %} />
                         <input type="hidden" name="archive_type" value="{{ archive_type }}" />
                         <button type="submit" class="featured-search__button button button--primary">{{ button_text }}</button>
                     </div>
                 </form>
-                {% if help_text %}<p id="featured-search-help" class="featured-search__help supporting">{{ help_text }}</p>{% endif %}
+                {% if help_text %}<p id="{{ _id_base }}-help" class="featured-search__help supporting">{{ help_text }}</p>{% endif %}
             </div>
         </div>
     </section>
