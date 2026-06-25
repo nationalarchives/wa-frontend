@@ -12,9 +12,11 @@
 html {
   font-family: $font-secondary;
   text-size-adjust: 100%;
+
+  scroll-behavior: smooth;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
 
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
@@ -63,6 +65,7 @@ textarea {
 a {
   color: var(--theme-link);
   text-decoration: none;
+
   transition: color $transition;
 
   &:hover {

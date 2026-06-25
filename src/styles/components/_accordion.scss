@@ -33,7 +33,9 @@
 
   &__summary {
     padding: $grid-s 0;
+
     display: block;
+
     transition: color 0.2s ease;
 
     // Remove default arrow in webkit browsers
@@ -67,9 +69,11 @@
   &__header {
     margin: 0;
     padding: 0;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     font-size: inherit;
     font-weight: $weight-bold;
   }
@@ -77,6 +81,7 @@
   &__title {
     margin: 0;
     padding: 0;
+
     color: var(--theme-text-default);
   }
 
@@ -84,9 +89,11 @@
     display: flex;
     align-items: center;
     gap: $grid-xxs;
+
     color: var(--theme-text-default);
     font-family: $font-secondary;
     font-weight: $weight-normal;
+
     transition: color 0.2s ease;
   }
 
@@ -96,6 +103,7 @@
 
     &::before {
       content: attr(data-show);
+
       font-size: map.get($large-font-sizes, supporting);
     }
   }
@@ -104,9 +112,12 @@
     width: 24px;
     height: 24px;
     padding: 2px;
+
     fill: currentColor;
+
     border: 1px solid currentColor;
     border-radius: 50%;
+
     transition:
       transform 0.2s ease,
       border-color 0.2s ease;
@@ -128,26 +139,32 @@
 
   &__list {
     opacity: 0;
+
     animation: accordion-content-in 0.2s ease-out forwards;
   }
 
   &__loading {
+    min-height: 3rem;
+    padding: $grid-s 0;
+
     display: flex;
     justify-content: center;
-    padding: $grid-s 0;
-    min-height: 3rem;
+
     transition: opacity 0.2s ease-out;
   }
 
   &__loading--out {
     opacity: 0;
+
     pointer-events: none;
   }
 
   &__spinner {
     width: 32px;
     height: 32px;
+
     color: var(--theme-text-default);
+
     animation: accordion-spinner 0.8s linear infinite;
   }
 }
@@ -167,8 +184,9 @@
 // Respect prefers-reduced-motion: no loader/content animations
 @media (prefers-reduced-motion: reduce) {
   .accordion__list {
-    animation: none;
     opacity: 1;
+
+    animation: none;
   }
 
   .accordion__loading {

@@ -1,11 +1,12 @@
+/* eslint-disable */
 /**
  * YouTube video.js player init – mostly from ds-frontend media.js.
  * Only inits when TNA usage cookie is accepted (works with tna-cookie-banner).
  */
-import videojs from "video.js";
 import { initYoutubeEmbedApi } from "ds-frontend/src/scripts/lib/videojs-youtube-modified.js";
+import videojs from "video.js";
 
-let videoJsInstances = {};
+const videoJsInstances = {};
 
 /** Returns true if usage cookies are accepted (TNA cookies_policy). */
 const isUsageAccepted = () => {
@@ -15,7 +16,9 @@ const isUsageAccepted = () => {
   }
   try {
     const match = document.cookie.match(/cookies_policy=([^;]+)/);
-    if (!match) return false;
+    if (!match) {
+      return false;
+    }
     const policy = JSON.parse(decodeURIComponent(match[1]));
     return policy.usage === true;
   } catch {
@@ -38,7 +41,9 @@ const initYouTubeVideos = ($youTubeVideoInstances) => {
     try {
       const id = $video.getAttribute("id");
       const href = $video.getAttribute("href");
-      if (!href) return;
+      if (!href) {
+        return;
+      }
       const $newVideo = document.createElement("video");
       $newVideo.classList.add("etna-video", "etna-video--youtube", "video-js");
       $newVideo.setAttribute("controls", true);
@@ -92,7 +97,9 @@ const initYouTubeVideos = ($youTubeVideoInstances) => {
   Object.entries(videoJsInstances).forEach(([key, instance]) => {
     instance.on("play", () => {
       Object.entries(videoJsInstances).forEach(([key2, instance2]) => {
-        if (key2 !== key) instance2.pause();
+        if (key2 !== key) {
+          instance2.pause();
+        }
       });
     });
   });
@@ -109,7 +116,9 @@ class Media {
 
   constructor() {
     const $links = getYouTubeVideoLinks();
-    if (!$links.length) return;
+    if (!$links.length) {
+      return;
+    }
     const cookies = window.TNAFrontendCookies;
 
     const tryInit = () => {

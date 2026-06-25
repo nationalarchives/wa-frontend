@@ -3,23 +3,28 @@
 .featured-search {
   $root: &;
   padding: $grid-m 0;
+
   background-color: var(--theme-primary);
 
   &--transparent {
-    background-color: transparent;
     padding-top: 0;
 
+    background-color: transparent;
+
     #{$root}__label {
+      margin-bottom: $grid-xs;
+
       display: inline-block;
+
       color: var(--theme-text-default);
       font-weight: $weight-bold;
-      margin-bottom: $grid-xs;
     }
 
     #{$root}__input {
       width: 100%;
-      border: 1px solid var(--theme-border);
       padding-left: $grid-xxs;
+
+      border: 1px solid var(--theme-border);
     }
 
     #{$root}__input-container {
@@ -40,25 +45,31 @@
 
   &__label {
     margin: 0 0 $grid-xxs;
-    color: var(--theme-text-invert);
+
     flex-basis: 100%;
+
+    color: var(--theme-text-invert);
   }
 
   &__options {
     margin-bottom: $grid-xxs;
     padding: 0;
+
     display: flex;
-    gap: $grid-m;
-    border: 0;
     flex-basis: 100%;
+    gap: $grid-m;
+
+    border: 0;
   }
 
   &__radio {
     display: flex;
     align-items: center;
+
     color: var(--theme-text-invert);
     font-family: $font-secondary;
     text-transform: capitalize;
+
     cursor: pointer;
 
     @include media-query(medium) {
@@ -77,22 +88,32 @@
       width: 18px;
       height: 18px;
       margin-right: $grid-xs;
+
       appearance: none;
+
       position: relative;
+
       background: transparent;
+
       border: 2px solid var(--theme-text-invert);
       border-radius: 50%;
+
       cursor: pointer;
 
       &:checked::after {
         content: "";
+
         width: 8px;
         height: 8px;
+
         position: absolute;
         top: 50%;
         left: 50%;
+
         background: var(--theme-text-invert);
+
         border-radius: 50%;
+
         transform: translate(-50%, -50%);
       }
 
@@ -104,8 +125,9 @@
 
   &__form {
     display: flex;
-    flex-flow: column wrap;
     gap: $grid-xs;
+
+    flex-flow: column wrap;
 
     @include media-query(medium) {
       flex-direction: row;
@@ -116,13 +138,17 @@
     min-width: 0;
     max-width: 80%; // allow for clear button
     padding: $grid-xs $grid-s;
-    font-family: $font-secondary;
+
     flex: 1 1 auto;
+
+    font-family: $font-secondary;
+
     border: 2px solid transparent;
 
     @include media-query(medium) {
-      flex-basis: 75%;
       max-width: 800px;
+
+      flex-basis: 75%;
     }
 
     &:focus {
@@ -132,8 +158,9 @@
   }
 
   &__input-container {
-    width: 100%;
     min-width: 0;
+    width: 100%;
+
     display: flex;
     flex-direction: row;
     gap: $grid-xs;
@@ -145,11 +172,13 @@
 
   &__help {
     margin: $grid-xs 0 0;
+
     color: var(--theme-text-invert);
   }
 
   &--secondary {
     margin-bottom: $grid-m;
+
     background-color: var(--theme-secondary);
 
     @include media-query(medium) {

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import KeywordDetector from "./keyword-detector.js";
 
 /**

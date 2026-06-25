@@ -16,8 +16,10 @@
 .u-layout {
   padding-right: $grid-s;
   padding-left: $grid-s;
+
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+
   column-gap: $grid-s;
 
   @include media-query(large) {
@@ -26,6 +28,7 @@
     margin-left: auto;
     padding-right: $grid-m;
     padding-left: $grid-m;
+
     column-gap: $grid-l;
   }
 }

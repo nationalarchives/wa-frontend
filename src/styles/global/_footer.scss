@@ -8,9 +8,9 @@
     margin-bottom: $grid-m;
 
     @include media-query(medium) {
-      padding-left: $grid-s;
-      padding-right: $grid-s;
       margin-bottom: 0;
+      padding-right: $grid-s;
+      padding-left: $grid-s;
     }
   }
 
@@ -33,8 +33,10 @@
   }
 
   .tna-footer__social-item-link {
-    border-bottom: 2px solid transparent;
     padding-bottom: 2px;
+
+    border-bottom: 2px solid transparent;
+
     transition:
       border-bottom-color $transition,
       opacity $transition;
@@ -42,8 +44,9 @@
     &:hover,
     &:focus,
     &:focus-visible {
-      opacity: 0.8;
       border-bottom-color: currentColor;
+
+      opacity: 0.8;
     }
   }
 }

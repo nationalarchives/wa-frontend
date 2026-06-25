@@ -7,10 +7,12 @@
 
   &__block {
     margin-bottom: $grid-s;
+
     grid-column: span 8;
 
     @include media-query(large) {
       margin-bottom: $grid-m;
+
       grid-column: 2 / span 6;
     }
 

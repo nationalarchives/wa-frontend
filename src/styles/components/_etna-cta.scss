@@ -2,9 +2,11 @@
 // Component based on TNA Frontend etna-cta.scss (https://github.com/nationalarchives/ds-frontend)
 
 .etna-cta {
-  border-left: 4px solid var(--theme-primary);
   padding: $grid-s $grid-m $grid-l;
+
   background-color: var(--theme-secondary);
+
+  border-left: 4px solid var(--theme-primary);
 
   @include media-query(large) {
     padding: $grid-m $grid-l $grid-m;
@@ -12,27 +14,31 @@
 
   &__body {
     p {
-      color: var(--theme-text-70);
-      margin-bottom: 0;
       margin-top: 0;
+      margin-bottom: 0;
+
+      color: var(--theme-text-70);
     }
   }
 
   &__title,
   strong {
     @include font-size(heading-two);
-    font-weight: $weight-medium;
-    font-family: $font-primary;
-    line-height: 1.2;
-    color: var(--theme-text-default);
     margin-bottom: $grid-xs;
+
     display: block;
+
+    color: var(--theme-text-default);
+    font-family: $font-primary;
+    font-weight: $weight-medium;
+    line-height: 1.2;
   }
 
   p {
-    color: var(--theme-text-70);
-    margin-bottom: 0;
     margin-top: 0;
+    margin-bottom: 0;
+
+    color: var(--theme-text-70);
   }
 
   .tna-button-group {
@@ -40,10 +46,12 @@
   }
 
   &--compact {
+    padding: $grid-m $grid-s;
+
+    background-color: var(--theme-secondary);
+
     border-top: 4px solid var(--theme-primary);
     border-left: 0;
-    padding: $grid-m $grid-s;
-    background-color: var(--theme-secondary);
 
     @include media-query(large) {
       padding: $grid-m $grid-s $grid-s;
@@ -52,10 +60,11 @@
     &__title {
       @include font-size(heading-two);
       margin: 0;
+
+      color: var(--theme-text-default);
       font-family: $font-primary;
       font-weight: $weight-medium;
       line-height: 1.2;
-      color: var(--theme-text-default);
     }
 
     &__body {

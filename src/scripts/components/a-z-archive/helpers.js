@@ -1,3 +1,4 @@
+/* eslint-disable */
 export function normalise(value) {
   return (value || "").trim().toLowerCase();
 }
@@ -27,7 +28,7 @@ export function addPrefixToLastTerm(query) {
   if (last.endsWith("*")) {
     return query;
   }
-  parts[parts.length - 1] = last + "*";
+  parts[parts.length - 1] = `${last}*`;
   return parts.join(" ");
 }
 

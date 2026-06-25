@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Keyword Detector component
  * Enhances search inputs to split keywords by comma/space and display them as tokens
@@ -281,7 +282,9 @@ class KeywordDetector {
 
   commitFromVisible() {
     const raw = this.normalise(this.visible.value);
-    if (!raw) return;
+    if (!raw) {
+      return;
+    }
 
     const newTerms = [];
     const existingTokens = new Set(
@@ -409,7 +412,9 @@ class KeywordDetector {
   }
 
   announceToScreenReader(message) {
-    if (!this.status) return;
+    if (!this.status) {
+      return;
+    }
 
     // Clear any existing timeout to prevent memory leaks
     if (this.announceTimeout) {

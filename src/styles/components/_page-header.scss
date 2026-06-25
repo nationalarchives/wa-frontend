@@ -2,7 +2,9 @@
 
 .page-header {
   margin-bottom: $grid-m;
+
   color: var(--theme-text-invert);
+
   background-color: var(--theme-primary);
 
   @include media-query(medium) {
@@ -27,6 +29,7 @@
   &__title {
     max-width: 800px;
     margin: 0;
+
     font-weight: $weight-bold;
   }
 
