@@ -3,7 +3,7 @@
  * YouTube video.js player init – mostly from ds-frontend media.js.
  * Only inits when TNA usage cookie is accepted (works with tna-cookie-banner).
  */
-import { initYoutubeEmbedApi } from "ds-frontend/src/scripts/lib/videojs-youtube-modified.js";
+import { initYoutubeEmbedApi } from "./components/videojs-youtube-modified";
 import videojs from "video.js";
 
 const videoJsInstances = {};
