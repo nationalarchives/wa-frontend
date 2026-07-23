@@ -72,21 +72,37 @@ export function renderRecords(panel, records) {
     }
 
     if (record.record_url) {
-      const urlEl = document.createElement("p");
-      urlEl.className = CLASSES.listingItemUrl;
-      urlEl.textContent = record.record_url;
-      item.appendChild(urlEl);
-    }
+  const urlEl = document.createElement("p");
+  urlEl.className = CLASSES.listingItemUrl;
+  urlEl.textContent = record.record_url;
+  item.appendChild(urlEl);
+}
 
-    const capturesText = `Captures from ${record.first_capture_display || ""} to${
-      record.ongoing ? " Ongoing" : ` ${record.latest_capture_display || ""}`
-    }`;
-    const dateEl = document.createElement("p");
-    dateEl.className = CLASSES.listingItemDate;
-    dateEl.textContent = capturesText;
-    item.appendChild(dateEl);
+// Check if we have at least one date or an ongoing status
+const hasStartDate = Boolean(record.first_capture_display);
+const hasEndDate = Boolean(record.latest_capture_display || record.ongoing);
 
-    list.appendChild(item);
+if (hasStartDate || hasEndDate) {
+  const endText = record.ongoing ? "Ongoing" : record.latest_capture_display;
+  let capturesText = "";
+
+  if (hasStartDate && hasEndDate) {
+    capturesText = `Captures from ${record.first_capture_display} to ${endText}`;
+  } else if (hasStartDate) {
+    capturesText = `Captures from ${record.first_capture_display}`;
+  } else if (record.ongoing) {
+    capturesText = "Captures Ongoing";
+  } else {
+    capturesText = `Captures to ${endText}`;
+  }
+
+  const dateEl = document.createElement("p");
+  dateEl.className = CLASSES.listingItemDate;
+  dateEl.textContent = capturesText;
+  item.appendChild(dateEl);
+}
+
+list.appendChild(item);
   });
 
   panel.appendChild(list);
