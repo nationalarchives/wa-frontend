@@ -72,52 +72,52 @@ export function renderRecords(panel, records) {
     }
 
     if (record.record_url) {
-  const urlEl = document.createElement("p");
-  urlEl.className = CLASSES.listingItemUrl;
-  urlEl.textContent = record.record_url;
-  item.appendChild(urlEl);
-}
-
-// Check domainType first: if Social Media, display nothing
-if (record.domainType !== "Social Media") {
-  const hasFirstCapture = Boolean(record.first_capture_display);
-  const hasLastCapture = Boolean(record.latest_capture_display);
-  const isOngoing = Boolean(record.ongoing);
-
-  let capturesText = "";
-
-  if (!hasFirstCapture) {
-    if (isOngoing) {
-      capturesText = "Ongoing";
-    } else {
-      capturesText = "No longer captured";
+      const urlEl = document.createElement("p");
+      urlEl.className = CLASSES.listingItemUrl;
+      urlEl.textContent = record.record_url;
+      item.appendChild(urlEl);
     }
-  } else {
-    // Has firstCapture
-    if (!hasLastCapture) {
-      if (isOngoing) {
-        capturesText = `Captured from ${record.first_capture_display} (ongoing)`;
+
+    // Check domainType first: if Social Media, display nothing
+    if (record.domainType !== "Social Media") {
+      const hasFirstCapture = Boolean(record.first_capture_display);
+      const hasLastCapture = Boolean(record.latest_capture_display);
+      const isOngoing = Boolean(record.ongoing);
+
+      let capturesText = "";
+
+      if (!hasFirstCapture) {
+        if (isOngoing) {
+          capturesText = "Ongoing";
+        } else {
+          capturesText = "No longer captured";
+        }
       } else {
-        capturesText = `Captured from ${record.first_capture_display}`;
+        // Has firstCapture
+        if (!hasLastCapture) {
+          if (isOngoing) {
+            capturesText = `Captured from ${record.first_capture_display} (ongoing)`;
+          } else {
+            capturesText = `Captured from ${record.first_capture_display}`;
+          }
+        } else {
+          // Has lastCapture
+          if (isOngoing) {
+            capturesText = `Captured from ${record.first_capture_display} to ${record.latest_capture_display} (ongoing)`;
+          } else {
+            capturesText = `Captured from ${record.first_capture_display} to ${record.latest_capture_display}`;
+          }
+        }
       }
-    } else {
-      // Has lastCapture
-      if (isOngoing) {
-        capturesText = `Captured from ${record.first_capture_display} to ${record.latest_capture_display} (ongoing)`;
-      } else {
-        capturesText = `Captured from ${record.first_capture_display} to ${record.latest_capture_display}`;
-      }
+
+      // Create and append element
+      const dateEl = document.createElement("p");
+      dateEl.className = CLASSES.listingItemDate;
+      dateEl.textContent = capturesText;
+      item.appendChild(dateEl);
     }
-  }
 
-  // Create and append element
-  const dateEl = document.createElement("p");
-  dateEl.className = CLASSES.listingItemDate;
-  dateEl.textContent = capturesText;
-  item.appendChild(dateEl);
-}
-
-list.appendChild(item);
+    list.appendChild(item);
   });
 
   panel.appendChild(list);
