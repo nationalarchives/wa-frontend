@@ -78,24 +78,39 @@ export function renderRecords(panel, records) {
   item.appendChild(urlEl);
 }
 
-// Check if we have at least one date or an ongoing status
-const hasStartDate = Boolean(record.first_capture_display);
-const hasEndDate = Boolean(record.latest_capture_display || record.ongoing);
+// Check domainType first: if Social Media, display nothing
+if (record.domainType !== "Social Media") {
+  const hasFirstCapture = Boolean(record.first_capture_display);
+  const hasLastCapture = Boolean(record.latest_capture_display);
+  const isOngoing = Boolean(record.ongoing);
 
-if (hasStartDate || hasEndDate) {
-  const endText = record.ongoing ? "Ongoing" : record.latest_capture_display;
   let capturesText = "";
 
-  if (hasStartDate && hasEndDate) {
-    capturesText = `Captures from ${record.first_capture_display} to ${endText}`;
-  } else if (hasStartDate) {
-    capturesText = `Captures from ${record.first_capture_display}`;
-  } else if (record.ongoing) {
-    capturesText = "Captures Ongoing";
+  if (!hasFirstCapture) {
+    if (isOngoing) {
+      capturesText = "Ongoing";
+    } else {
+      capturesText = "No longer captured";
+    }
   } else {
-    capturesText = `Captures to ${endText}`;
+    // Has firstCapture
+    if (!hasLastCapture) {
+      if (isOngoing) {
+        capturesText = `Captured from ${record.first_capture_display} (ongoing)`;
+      } else {
+        capturesText = `Captured from ${record.first_capture_display}`;
+      }
+    } else {
+      // Has lastCapture
+      if (isOngoing) {
+        capturesText = `Captured from ${record.first_capture_display} to ${record.latest_capture_display} (ongoing)`;
+      } else {
+        capturesText = `Captured from ${record.first_capture_display} to ${record.latest_capture_display}`;
+      }
+    }
   }
 
+  // Create and append element
   const dateEl = document.createElement("p");
   dateEl.className = CLASSES.listingItemDate;
   dateEl.textContent = capturesText;
