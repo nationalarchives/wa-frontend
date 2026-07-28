@@ -88,7 +88,7 @@ export function renderRecords(panel, records) {
 
       if (!hasFirstCapture) {
         if (isOngoing) {
-          capturesText = "Ongoing";
+          capturesText = "Capture ongoing";
         } else {
           capturesText = "No longer captured";
         }
