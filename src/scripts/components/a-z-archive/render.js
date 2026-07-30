@@ -78,13 +78,44 @@ export function renderRecords(panel, records) {
       item.appendChild(urlEl);
     }
 
-    const capturesText = `Captures from ${record.first_capture_display || ""} to${
-      record.ongoing ? " Ongoing" : ` ${record.latest_capture_display || ""}`
-    }`;
-    const dateEl = document.createElement("p");
-    dateEl.className = CLASSES.listingItemDate;
-    dateEl.textContent = capturesText;
-    item.appendChild(dateEl);
+    // Check domainType first: if Social Media, display nothing
+    if (record.domainType !== "Social Media") {
+      const hasFirstCapture = Boolean(record.first_capture_display);
+      const hasLastCapture = Boolean(record.latest_capture_display);
+      const isOngoing = Boolean(record.ongoing);
+
+      let capturesText = "";
+
+      if (!hasFirstCapture) {
+        if (isOngoing) {
+          capturesText = "Capture ongoing";
+        } else {
+          capturesText = "No longer captured";
+        }
+      } else {
+        // Has firstCapture
+        if (!hasLastCapture) {
+          if (isOngoing) {
+            capturesText = `Captured from ${record.first_capture_display} (ongoing)`;
+          } else {
+            capturesText = `Captured from ${record.first_capture_display}`;
+          }
+        } else {
+          // Has lastCapture
+          if (isOngoing) {
+            capturesText = `Captured from ${record.first_capture_display} to ${record.latest_capture_display} (ongoing)`;
+          } else {
+            capturesText = `Captured from ${record.first_capture_display} to ${record.latest_capture_display}`;
+          }
+        }
+      }
+
+      // Create and append element
+      const dateEl = document.createElement("p");
+      dateEl.className = CLASSES.listingItemDate;
+      dateEl.textContent = capturesText;
+      item.appendChild(dateEl);
+    }
 
     list.appendChild(item);
   });
