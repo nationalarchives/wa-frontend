@@ -109,7 +109,6 @@ export function renderRecords(panel, records) {
           }
         }
       }
-      
 
       // Create and append element
       const dateEl = document.createElement("p");
