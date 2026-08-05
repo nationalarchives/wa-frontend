@@ -79,7 +79,7 @@ export function renderRecords(panel, records) {
     }
 
     // Check domainType first: if Social Media, display nothing
-    if (record.domainType !== "Social Media") {
+    if (record.domain_type !== "Social Media") {
       const hasFirstCapture = Boolean(record.first_capture_display);
       const hasLastCapture = Boolean(record.latest_capture_display);
       const isOngoing = Boolean(record.ongoing);
@@ -95,17 +95,15 @@ export function renderRecords(panel, records) {
       } else {
         // Has firstCapture
         if (!hasLastCapture) {
+          capturesText = `Captured from ${record.first_capture_display}`;
           if (isOngoing) {
-            capturesText = `Captured from ${record.first_capture_display} (ongoing)`;
-          } else {
-            capturesText = `Captured from ${record.first_capture_display}`;
+            capturesText += " (ongoing)";
           }
         } else {
           // Has lastCapture
+          capturesText = `Captured from ${record.first_capture_display} to ${record.latest_capture_display}`;
           if (isOngoing) {
-            capturesText = `Captured from ${record.first_capture_display} to ${record.latest_capture_display} (ongoing)`;
-          } else {
-            capturesText = `Captured from ${record.first_capture_display} to ${record.latest_capture_display}`;
+            capturesText += " (ongoing)";
           }
         }
       }

@@ -101,6 +101,7 @@
                       data-profile-name="{{ record.profile_name }}"
                       data-description="{{ record.description or '' }}"
                       data-record-url="{{ record.record_url or '' }}"
+                      data-domain-type="{{ record.domain_type or '' }}"
                       data-archive-link="{{ record.archive_link or '' }}"
                       data-first-capture="{{ record.first_capture_display or '' }}"
                       data-latest-capture="{{ record.latest_capture_display or '' }}"
@@ -113,7 +114,32 @@
                       <h3 class="listing-item__title heading heading--four">{{ record.profile_name }}</h3>
                     {% endif %}
                     {% if record.record_url %}<p class="listing-item__url supporting">{{ record.record_url }}</p>{% endif %}
-                    <p class="listing-item__date supporting">Captures from {{ record.first_capture_display or '' }} to{% if record.ongoing %} Ongoing{% else %} {{ record.latest_capture_display or '' }}{% endif %}</p>
+
+                    {% set capture_text = '' %}
+                    {% if record.domain_type != 'Social Media' %}
+                      {% if not record.first_capture_display %}
+                        {% if record.ongoing %}
+                          {% set capture_text = 'Capture ongoing' %}
+                        {% else %}
+                          {% set capture_text = 'No longer captured' %}
+                        {% endif %}
+                      {% else %}
+                        {% if not record.latest_capture_display %}
+                          {% set capture_text = 'Captured from ' ~ record.first_capture_display %}
+                          {% if record.ongoing %}
+                            {% set capture_text = capture_text ~ ' (ongoing)' %}
+                          {% endif %}
+                        {% else %}
+                          {% set capture_text = 'Captured from ' ~ record.first_capture_display ~ ' to ' ~ record.latest_capture_display %}
+                          {% if record.ongoing %}
+                            {% set capture_text = capture_text ~ ' (ongoing)' %}
+                          {% endif %}
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                    {% if capture_text %}
+                      <p class="listing-item__date supporting">{{ capture_text }}</p>
+                    {% endif %}
                   </li>
                 {%- endfor %}
               </ul>

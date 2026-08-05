@@ -49,6 +49,7 @@ export function parseRecordNodes(nodes) {
       description: node.dataset.description || "",
       record_url: node.dataset.recordUrl || "",
       archive_link: node.dataset.archiveLink || "",
+      domain_type: node.dataset.domainType || "",
       first_capture_display: node.dataset.firstCapture || "",
       latest_capture_display: node.dataset.latestCapture || "",
       ongoing: node.dataset.ongoing === "true",
