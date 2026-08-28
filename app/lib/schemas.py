@@ -37,16 +37,17 @@ class ArchiveRecordSchema(BaseModel):
     @property
     def sort_name(self) -> str:
         """
-        Compute normalized name for sorting by removing leading 'the ' (case-insensitive).
+        Compute normalized name for sorting by removing leading 'the '
+        (case-insensitive) and lowercasing, so sorting isn't affected by SQLite's
+        case-sensitive collation.
         """
         if not self.profile_name:
             return ""
 
-        name = self.profile_name.strip()
-        name_lower = name.lower()
+        name = self.profile_name.strip().lower()
 
-        # Strip leading "THE "
-        if name_lower.startswith("the "):
+        # Strip leading "the "
+        if name.startswith("the "):
             name = name[4:].strip()
 
         return name
