@@ -86,13 +86,10 @@
           media="all and (-ms-high-contrast: none), (-ms-high-contrast: active)">
 {% endblock stylesheets %}
 {% block cookies %}
-    {% if 'cookie_preferences_set' not in request.cookies or not request.cookies.get('cookie_preferences_set') %}
         {{ tnaCookieBanner({
                 'serviceName': 'The National Archives',
-                'cookiesUrl': url_for('main.cookies') ,
-        'cookiesDomain': app_config.COOKIE_DOMAIN
+                'cookiesUrl': 'https://www.nationalarchives.gov.uk/cookies/'
         }) | indent(6) }}
-    {% endif %}
 {% endblock cookies %}
 {% block header %}
     {% include "components/skip_link.html" %}

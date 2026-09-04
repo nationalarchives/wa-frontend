@@ -17,11 +17,11 @@ def wagtail_request_handler(uri, params=None):
 
     if not api_url:
         current_app.logger.critical("WAGTAIL_API_URL not set")
-        raise Exception("WAGTAIL_API_URL not set")
+        raise ValueError("WAGTAIL_API_URL not set")
 
     if not api_key:
         current_app.logger.critical("WAGTAIL_API_KEY not set")
-        raise Exception("WAGTAIL_API_KEY not set")
+        raise ValueError("WAGTAIL_API_KEY not set")
 
     default_headers["Authorization"] = f"Token {api_key}"
     if api_unthrottled_header:
@@ -162,6 +162,6 @@ def navigation_settings():
     """
     try:
         return wagtail_request_handler("globals/navigation/")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         current_app.logger.error(f"Failed to get navigation settings: {e}")
         return {}

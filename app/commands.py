@@ -456,7 +456,7 @@ def _clear_cache(dry_run: bool):
             cache.delete("archive:characters")
             cache.delete_memoized(get_records_by_character)
             click.echo("Caches cleared")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to clear archive caches: %s", str(e))
             click.secho(f"Failed to clear caches: {e}")
 
@@ -473,6 +473,6 @@ def _rebuild_fts_index(dry_run: bool):
             )
             database.db_session.commit()
             click.echo("Search index rebuilt")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to rebuild FTS5 index: %s", str(e))
             click.secho(f"Failed to rebuild search index: {e}")

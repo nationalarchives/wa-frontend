@@ -6,15 +6,6 @@
   {% if page_data and page_data.meta %}{{ page_data.meta.search_description or page_data.meta.teaser_text or '' }}{% endif %}
 {% endblock %}
 {% block meta_tags %}
-    {% if config.GOOGLE_TAG_MANAGER_ID %}
-        {# Google Tag Manager #}
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                                                      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','{{ config.GOOGLE_TAG_MANAGER_ID|e }}');
-        </script>
-    {% endif %}
     {# Favicons #}
     <link rel="shortcut icon"
           sizes="16x16 32x32 48x48"
@@ -70,14 +61,6 @@
     {% endif %}
 {% endblock meta_tags %}
 {% block body_top %}
-    {% if config.GOOGLE_TAG_MANAGER_ID %}
-        {# Google Tag Manager (noscript) #}
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ config.GOOGLE_TAG_MANAGER_ID|urlencode }}"
-        height="0"
-        width="0"
-        style="display:none;
-               visibility:hidden"></iframe></noscript>
-    {% endif %}
 {% endblock body_top %}
 {% block header %}
     {% include "components/skip_link.html" %}

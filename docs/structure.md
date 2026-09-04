@@ -32,7 +32,6 @@ This contains reusable functionality that can be used throughout the site. Notab
 - `app/lib/schemas.py` - Pydantic schemas for validating the archive JSON feed
 - `app/lib/talisman.py` - the reusable Talisman module for configuring security throughout the site
 - `app/lib/template_filters.py` - filters that can be used in Jinja2 templates
-- `app/lib/util.py` - replicates the `strtobool` function removed from Python 3.11
 
 ### `app/main`
 

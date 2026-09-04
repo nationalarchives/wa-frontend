@@ -5,7 +5,7 @@ from jinja2 import ChoiceLoader, PackageLoader
 
 from app.lib.cache import cache
 from app.lib.context_processor import (
-    cookie_preference,
+    cookie_preferences,
     get_social_media_data,
     now_iso_8601,
 )
@@ -114,13 +114,13 @@ def create_app(config_class):
         header_nav = build_header_navigation(nav_settings)
         footer_nav = build_footer_navigation(nav_settings)
 
-        return dict(
-            social_media=get_social_media_data,
-            cookie_preference=cookie_preference,
-            now_iso_8601=now_iso_8601,
-            header_navigation=header_nav,
-            footer_navigation=footer_nav,
-            app_config={
+        return {
+            "social_media": get_social_media_data,
+            "cookie_preferences": cookie_preferences,
+            "now_iso_8601": now_iso_8601,
+            "header_navigation": header_nav,
+            "footer_navigation": footer_nav,
+            "app_config": {
                 "ENVIRONMENT_NAME": app.config.get("ENVIRONMENT_NAME"),
                 "CONTAINER_IMAGE": app.config.get("CONTAINER_IMAGE"),
                 "BUILD_VERSION": app.config.get("BUILD_VERSION"),
@@ -128,17 +128,15 @@ def create_app(config_class):
                 "COOKIE_DOMAIN": app.config.get("COOKIE_DOMAIN"),
                 "GA4_ID": app.config.get("GA4_ID"),
             },
-            feature={},
-        )
+            "feature": {},
+        }
 
     from .api import bp as api_bp
     from .healthcheck import bp as healthcheck_bp
-    from .main import bp as site_bp
     from .sitemaps import bp as sitemaps_bp
     from .wagtail import bp as wagtail_bp
 
     app.register_blueprint(api_bp)
-    app.register_blueprint(site_bp)
     app.register_blueprint(healthcheck_bp, url_prefix="/healthcheck")
     app.register_blueprint(sitemaps_bp)
     app.register_blueprint(wagtail_bp)

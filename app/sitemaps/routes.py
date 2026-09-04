@@ -1,5 +1,5 @@
 import math
-from datetime import datetime
+from datetime import datetime, timezone
 
 from flask import (
     current_app,
@@ -49,7 +49,7 @@ def sitemaps():
 
 @bp.route("/sitemaps/sitemap_<int:sitemap_page>.xml", strict_slashes=False)
 def sitemap_dynamic(sitemap_page):
-    dynamic_urls = list()
+    dynamic_urls = []
     items_per_sitemap = current_app.config.get("ITEMS_PER_SITEMAP")
     wagtail_pages = all_pages(
         batch=sitemap_page,
@@ -64,7 +64,7 @@ def sitemap_dynamic(sitemap_page):
         try:
             lastmodified_date = datetime.strptime(
                 page["last_published_at"], "%Y-%m-%dT%H:%M:%S.%fZ"
-            )
+            ).replace(tzinfo=timezone.utc)
             lastmodified_date = lastmodified_date.strftime("%Y-%m-%d")
         except KeyError:
             lastmodified_date = None
@@ -93,7 +93,7 @@ def sitemap_dynamic(sitemap_page):
                             "lastmod": None,
                         }
                     )
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             current_app.logger.error(f"Failed to add A-to-Z URLs to sitemap: {e}")
 
     xml_sitemap = render_template(

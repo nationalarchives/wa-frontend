@@ -36,7 +36,7 @@ def render_atoz_archive_page(page_data):
 
     try:
         available_characters = archive_service.get_available_characters()
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         current_app.logger.error(f"Failed to get available characters: {e}")
         return render_template("errors/server.html"), 500
 
@@ -48,7 +48,7 @@ def render_atoz_archive_page(page_data):
         try:
             result = archive_service.search_records(search_query)
             records = result.get("items", [])
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             current_app.logger.error(
                 f"Failed to get archive records on page {page_data['id']}: {e}"
             )
@@ -63,7 +63,7 @@ def render_atoz_archive_page(page_data):
         try:
             result = archive_service.get_records_by_character(character)
             records = result.get("items", [])
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             current_app.logger.error(
                 f"Failed to get archive records on page {page_data['id']}: {e}"
             )

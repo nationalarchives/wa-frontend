@@ -41,14 +41,14 @@ def preview_page():
         return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
         return render_template("errors/403.html"), 403
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         current_app.logger.error(f"Failed to get page preview data: {e}")
         return render_template("errors/api.html"), 502
     try:
         return render_content_page(
             page_data | {"page_preview": True, "id": objects.get(page_data, "id", 0)}
         )
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         current_app.logger.error(f"Failed to render page preview: {e}")
         return render_template("errors/api.html"), 502
 
@@ -71,7 +71,7 @@ def preview_protected_page(page_id):
         return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
         return render_template("errors/403.html"), 403
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         current_app.logger.error(f"Failed to render page preview: {e}")
         return render_template("errors/api.html"), 502
 
@@ -115,7 +115,7 @@ def page_permalink(page_id):
         return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
         return render_template("errors/403.html"), 403
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         current_app.logger.error(f"Failed to get page details: {e}")
         return render_template("errors/api.html"), 502
 
@@ -155,7 +155,7 @@ def page(path):
     except ResourceForbidden:
         # In the unlikely case that the API returns a 403, show a forbidden error page
         return render_template("errors/403.html"), 403
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         # If any other error occurs, log it and return a generic API error page
         # with a 502 status code
         current_app.logger.error(f"Failed to render page: {e}")
@@ -179,9 +179,10 @@ def page(path):
 
     # We can redirect to an alias page to its canonical page if
     # REDIRECT_WAGTAIL_ALIAS_PAGES is set to True
-    if rediect_url := objects.get(page_data, "meta.alias_of.url"):
-        if current_app.config.get("REDIRECT_WAGTAIL_ALIAS_PAGES"):
-            return redirect(rediect_url, code=302)
+    if rediect_url := objects.get(
+        page_data, "meta.alias_of.url"
+    ) and current_app.config.get("REDIRECT_WAGTAIL_ALIAS_PAGES"):
+        return redirect(rediect_url, code=302)
 
     # If the page has a URL that is different from the requested path, redirect to it
     # which covers internal redirects added in Wagtail
@@ -223,7 +224,7 @@ def try_external_redirect(path):
         redirect_data = redirect_by_uri(path)
     except ResourceNotFound:
         return render_template("errors/page-not-found.html"), 404
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         current_app.logger.error(f"Failed to get redirect: {e}")
         return render_template("errors/api.html"), 502
 
@@ -250,7 +251,7 @@ def image_page(image_uuid):
         return render_template("errors/page-not-found.html"), 404
     except ResourceForbidden:
         return render_template("errors/403.html"), 403
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         current_app.logger.error(f"Failed to get video: {e}")
         return render_template("errors/api.html"), 502
     return render_template("media/image.html", image_data=image_data)

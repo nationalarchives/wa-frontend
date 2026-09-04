@@ -241,7 +241,7 @@ class SanitizeFtsQueryTestCase(unittest.TestCase):
         self.assertEqual(_sanitize_fts_query(""), "")
 
     def test_query_truncated_to_max_length(self):
-        from app.lib.util import ARCHIVE_SEARCH_MAX_LENGTH  # noqa: PLC0415
+        from app.lib.util import ARCHIVE_SEARCH_MAX_LENGTH
 
         long_query = "a" * (ARCHIVE_SEARCH_MAX_LENGTH + 50)
         result = _sanitize_fts_query(long_query)
