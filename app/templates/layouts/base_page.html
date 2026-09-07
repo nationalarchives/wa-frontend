@@ -1,4 +1,4 @@
-{% extends "layouts/base.html" %}
+{% extends "base.html" %}
 {% block title %}
   {% if page_data %}{{ page_data.meta.seo_title if page_data.meta and page_data.meta.seo_title else page_data.title or '' }}{% endif %}
 {% endblock %}
