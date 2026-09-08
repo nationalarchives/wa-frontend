@@ -3,8 +3,8 @@
 {% macro wagtailYouTubeVideo(block_value, id, usage_accepted=none) %}
   {%- if usage_accepted is not none %}
     {%- set _usage = usage_accepted -%}
-  {%- elif cookie_preference is defined %}
-    {%- set _usage = cookie_preference('usage') == true -%}
+  {%- elif cookie_preferences is defined %}
+    {%- set _usage = cookie_preferences('usage') == true -%}
   {%- else %}
     {%- set _usage = false -%}
   {%- endif %}

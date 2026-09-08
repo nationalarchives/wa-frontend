@@ -1,8 +1,9 @@
 import math
 
 from flask import current_app, render_template, request
+from tna_utilities.url import QueryStringTransformer
 
-from app.lib.pagination import pagination_object
+from app.lib.pagination import pagination
 from app.wagtail.api import page_children_paginated
 
 
@@ -27,22 +28,22 @@ def render_listing_page(page_data):
             f"API error getting children for page {page_data['id']}"
         )
         return render_template("errors/api.html"), 502
-    except Exception:
+    except Exception:  # noqa: BLE001
         current_app.logger.error(
             f"Exception getting children for page {page_data['id']}"
         )
         return render_template("errors/server.html"), 500
     pages = math.ceil(children_data["meta"]["total_count"] / children_per_page)
-    try:
-        pagination = pagination_object(page, pages, request.args)
-    except AssertionError:
-        # The requested page is out of range, 404
-        return render_template("errors/page-not-found.html"), 404
+    if page > pages > 0:
+        return render_template("errors/page_not_found.html"), 404
+
+    qs = QueryStringTransformer(list(request.args.lists()), tolerant=True)
+
     return render_template(
         "pages/listing.html",
         page_data=page_data,
         children=children_data["items"],
-        pagination=pagination,
+        pagination=pagination(qs, pages, page),
         page=page,
         pages=pages,
     )

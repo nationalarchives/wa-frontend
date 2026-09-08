@@ -1,3 +1,4 @@
+{% from "partials/logo/macro.html" import tnaLogo %}
 {% from "components/icon.html" import icon %}
 {% from "components/navigation.html" import primary_nav, secondary_nav %}
 <header class="header tna-header" data-module="ukgwa-header">
@@ -6,7 +7,7 @@
             <a href="/"
                class="header__logo tna-header__logo tna-header__logo--link"
                aria-label="UK Government Web Archive - Go to homepage">
-                <span class="tna-logo tna-logo--adornable">{{ icon("logo", viewbox="0 0 160 160") }}</span>
+                {{ tnaLogo() }}
                 <span class="tna-header__logo-strapline header__strapline">UK Government Web Archive</span>
             </a>
         </div>

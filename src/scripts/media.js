@@ -5,26 +5,11 @@
  */
 import { initYoutubeEmbedApi } from "./components/videojs-youtube-modified";
 import videojs from "video.js";
+import Cookies from "@nationalarchives/cookies";
 
 const videoJsInstances = {};
 
-/** Returns true if usage cookies are accepted (TNA cookies_policy). */
-const isUsageAccepted = () => {
-  const cookies = window.TNAFrontendCookies;
-  if (cookies && typeof cookies.isPolicyAccepted === "function") {
-    return cookies.isPolicyAccepted("usage") === true;
-  }
-  try {
-    const match = document.cookie.match(/cookies_policy=([^;]+)/);
-    if (!match) {
-      return false;
-    }
-    const policy = JSON.parse(decodeURIComponent(match[1]));
-    return policy.usage === true;
-  } catch {
-    return false;
-  }
-};
+const cookies = new Cookies();
 
 const getYouTubeVideoLinks = () =>
   document.querySelectorAll("a.etna-video--youtube[id]");
@@ -119,29 +104,29 @@ class Media {
     if (!$links.length) {
       return;
     }
-    const cookies = window.TNAFrontendCookies;
 
     const tryInit = () => {
-      if (!isUsageAccepted()) {
-        // Leave links pointing to YouTube and remove the JS-only copy from the fallback message.
-        updateYoutubeVideoMessages($links);
-        return;
-      }
+      // Leave links pointing to YouTube and remove the JS-only copy from the fallback message.
+      updateYoutubeVideoMessages($links);
+      return;
       initYoutubeEmbedApi(() => initYouTubeVideos($links));
     };
 
-    tryInit();
-
-    if (cookies && typeof cookies.once === "function") {
-      cookies.once("changePolicy", (policies) => {
-        if (policies.usage === true) {
-          const $linksNow = getYouTubeVideoLinks();
-          if ($linksNow.length) {
-            initYoutubeEmbedApi(() => initYouTubeVideos($linksNow));
-          }
-        }
-      });
+    if (!cookies.preference("marketing")) {
+      tryInit();
     }
+
+    cookies.once("changePreference", (data) => {
+      if (
+        Object.prototype.hasOwnProperty.call(data, "marketing") &&
+        data.marketing !== true
+      ) {
+        const $linksNow = getYouTubeVideoLinks();
+        if ($linksNow.length) {
+          initYoutubeEmbedApi(() => initYouTubeVideos($linksNow));
+        }
+      }
+    });
   }
 }
 

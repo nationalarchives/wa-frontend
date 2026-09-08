@@ -21,13 +21,9 @@ class APIError(Exception):
 class BadRequest(Exception):
     """Raised when the API returns a 400 status code."""
 
-    pass
-
 
 class ResourceForbidden(Exception):
     """Raised when the API returns a 403 status code."""
-
-    pass
 
 
 class ResourceNotFound(Exception):

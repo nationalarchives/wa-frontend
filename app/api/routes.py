@@ -27,7 +27,7 @@ def archive_characters():
             ),
             200,
         )
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         current_app.logger.error(f"Error fetching available characters: {e}")
         return (
             jsonify(
@@ -88,7 +88,7 @@ def archive_records():
     try:
         result = archive_service.get_records_by_character(character=character)
         return jsonify(result), 200
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         current_app.logger.error(
             f"Error fetching records for character '{character}': {e}"
         )
@@ -132,7 +132,7 @@ def archive_stats():
             ),
             200,
         )
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         current_app.logger.error(f"Error fetching archive stats: {e}")
         return (
             jsonify(

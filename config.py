@@ -1,7 +1,7 @@
 import json
 import os
 
-from app.lib.util import strtobool
+from tna_utilities import strtobool
 
 
 class Features:

@@ -2,12 +2,13 @@
 window.VIDEOJS_NO_AUTOMATIC_YOUTUBE_INIT = true;
 window.VIDEOJS_NO_DYNAMIC_STYLE = true;
 
-import {
-  Cookies,
-  initAll,
-} from "@nationalarchives/frontend/nationalarchives/all.mjs";
+import { initAll } from "@nationalarchives/frontend/nationalarchives/all.mjs";
+import { GA4 } from "@nationalarchives/frontend/nationalarchives/analytics.mjs";
 
-import "../styles/main.scss";
+const ga4Id = document.documentElement.getAttribute("data-ga4id");
+if (ga4Id) {
+  new GA4({ id: ga4Id });
+}
 
 import AtoZArchive from "./components/a-z-archive.js";
 import FeaturedSearchKeywordToggle from "./components/featured-search-keyword-toggle.js";
@@ -22,12 +23,6 @@ const initComponent = (ComponentClass) => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Cookie domain setup (required for tna-cookie-banner and YouTube usage gating)
-  const cookiesDomain = document.documentElement.getAttribute(
-    "data-tna-cookies-domain",
-  );
-  new Cookies({ defaultDomain: cookiesDomain });
-
   // Init custom components
   initComponent(SkipLink);
   initComponent(Header);
