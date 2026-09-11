@@ -60,11 +60,8 @@
         {% endif %}
     {% endif %}
 {% endblock meta_tags %}
-{% block body_top %}
-{% endblock body_top %}
 {% block header %}
-    {% include "components/skip_link.html" %}
-    {% include "components/header.html" %}
+    {{ super() }}
     {% include "components/alert_banner.html" %}
 {% endblock header %}
 {% block footer %}
