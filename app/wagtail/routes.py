@@ -279,9 +279,9 @@ def search():
     if not query:
         # If no query provided, redirect to the appropriate base search URL
         if archive_type == ArchiveType.SOCIAL.value:
-            redirect_url = f"{SOCIAL_SEARCH_BASE}/"
+            redirect_url = f"{SOCIAL_SEARCH_BASE}/result"
         else:
-            redirect_url = f"{WEB_KEYWORD_SEARCH_BASE}/"
+            redirect_url = f"{WEB_KEYWORD_SEARCH_BASE}/result"
         return redirect(redirect_url, code=302)
 
     # URL encode the query for safe inclusion in URL
