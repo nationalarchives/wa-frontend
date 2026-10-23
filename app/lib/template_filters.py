@@ -23,7 +23,7 @@ def tna_html(s):
 
 def humanise_date(value: str | datetime) -> str:
     if isinstance(value, str):
-        value = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        value = datetime.fromisoformat(value)
     if isinstance(value, datetime):
         return value.strftime("%-d %B '%y")
     return ""

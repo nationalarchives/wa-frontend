@@ -1,5 +1,5 @@
 import math
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from flask import (
     current_app,
@@ -64,7 +64,7 @@ def sitemap_dynamic(sitemap_page):
         try:
             lastmodified_date = datetime.strptime(
                 page["last_published_at"], "%Y-%m-%dT%H:%M:%S.%fZ"
-            ).replace(tzinfo=timezone.utc)
+            ).replace(tzinfo=UTC)
             lastmodified_date = lastmodified_date.strftime("%Y-%m-%d")
         except KeyError:
             lastmodified_date = None
