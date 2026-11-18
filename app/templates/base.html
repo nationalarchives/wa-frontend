@@ -5,7 +5,7 @@
 {%- set theme = 'light' -%}
 {%- set themeAccent = themeAccent if themeAccent else 'pink' -%}
 {%- set htmlAttributes = {
-'data-ga4id': app_config.GA4_ID or '',
+'data-ga4id': '',
 'data-tna-cookies-domain': app_config.COOKIE_DOMAIN or ''
 } -%}
 {% block headIcons %}
@@ -64,6 +64,16 @@
           content="{{ app_config.TNA_FRONTEND_VERSION }}">
     <meta name="tna.settings.theme" content="{{ theme }}">
     <meta name="robots" content="noindex, nofollow, noarchive, noai">
+    <script>
+        window['ga-disable-G-4CWPYN3EFR'] = {{ 'false' if cookie_preferences('usage') == true else 'true' }};
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4CWPYN3EFR"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-4CWPYN3EFR');
+    </script>
 {% endblock head %}
 {% block stylesheets %}
     <link rel="preconnect" href="https://use.typekit.net">
